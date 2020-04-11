@@ -206,9 +206,12 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `U_IDX_MAIL` (`mail`) USING BTREE,
   ADD KEY `FK_ID_ROLE` (`id_role`);
 
+  --
+-- Indexes for table `configuration`
 --
--- AUTO_INCREMENT for dumped tables
---
+ALTER TABLE `configuration`
+  ADD PRIMARY KEY (`id_conf`),
+  ADD UNIQUE KEY `U_IDX_KEY` (`key_conf`) USING BTREE;
 
 --
 -- AUTO_INCREMENT for table `Booking`
@@ -245,11 +248,6 @@ ALTER TABLE `user`
 --
 ALTER TABLE `configuration`
   MODIFY `id_conf` int(11) NOT NULL AUTO_INCREMENT;
-  ADD UNIQUE KEY `U_IDX_VALUE` (`value_conf`) USING BTREE,
-
---
--- Constraints for dumped tables
---
 
 --
 -- Constraints for table `Booking`
