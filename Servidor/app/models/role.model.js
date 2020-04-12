@@ -26,7 +26,7 @@ Role.getAll = (result) => {
       return;
     }
 
-    console.log("customers: ", res);
+    console.log("roles: ", res);
     result(null, res);
   });
 };
@@ -80,6 +80,29 @@ Role.removeAll = (result) => {
     console.log(`deleted ${res.affectedRows} role`);
     result(null, res);
   });
+};
+
+Role.updateById = (idRole, role, result) => {
+  sql.query(
+    "UPDATE role SET name_role = ? WHERE id_role = ?",
+    [role.name, idRole],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        // not found Customer with the id
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log("updated role: ", { idRole, ...role });
+      result(null, { idRole, ...role });
+    }
+  );
 };
 
 module.exports = Role;

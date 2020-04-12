@@ -5,10 +5,10 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
 var roleRouter = require("./app/routes/role");
+var permissionRouter = require("./app/routes/permission");
+//var occupationRouter = require("./app/routes/occupation");
 
 var app = express();
-
-
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -17,6 +17,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/roles", roleRouter);
+app.use("/permissions", permissionRouter);
+//app.use("/occupations", occupationRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

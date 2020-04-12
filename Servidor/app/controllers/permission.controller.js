@@ -1,4 +1,4 @@
-const Role = require("../models/role.model");
+const Permission = require("../models/permission.model");
 
 exports.create = (req, res) => {
   // Validate request
@@ -9,16 +9,16 @@ exports.create = (req, res) => {
     });
   }
 
-  // Create a Role
-  const role = new Role({
-    name: req.body.name,
+  // Create a Permission
+  const permission = new Permission({
+    type: req.body.type,
   });
 
   // Save Customer in the database
-  Role.create(role, (err, data) => {
+  Permission.create(permission, (err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the Role.",
+        message: err.message || "Some error occurred while creating the Permission.",
       });
     else res.send(data);
   });
@@ -26,25 +26,25 @@ exports.create = (req, res) => {
 
 // Retrieve all Roles from the database.
 exports.findAll = (req, res) => {
-  Role.getAll((err, data) => {
+  Permission.getAll((err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving roles.",
+        message: err.message || "Some error occurred while retrieving permissions.",
       });
     else res.send(data);
   });
 };
 
-exports.getRole = (req, res) => {
-  Role.getRole(req.params.idRole, (err, data) => {
+exports.getPermission = (req, res) => {
+  Permission.getPermission(req.params.idPermission, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Role with id ${req.params.idRole}.`,
+          message: `Not found Permission with id ${req.params.idPermission}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving Role with id " + req.params.idRole,
+          message: "Error retrieving Permission with id " + req.params.idPermission,
         });
       }
     } else res.send(data);
@@ -52,26 +52,26 @@ exports.getRole = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Role.remove(req.params.idRole, (err, data) => {
+  Permission.remove(req.params.idPermission, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Role with id ${req.params.idRole}.`,
+          message: `Not found Permission with id ${req.params.idPermission}.`,
         });
       } else {
         res.status(500).send({
-          message: "Could not delete Role with id " + req.params.idRole,
+          message: "Could not delete Permission with id " + req.params.idPermission,
         });
       }
-    } else res.send({ message: `Role was deleted successfully!` });
+    } else res.send({ message: `Permission was deleted successfully!` });
   });
 };
 
 exports.deleteAll = (req, res) => {
-  Role.removeAll((err, data) => {
+  Permission.removeAll((err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while removing all roles.",
+        message: err.message || "Some error occurred while removing all permissions.",
       });
     else res.send({ message: `All Roles were deleted successfully!` });
   });
@@ -85,23 +85,23 @@ exports.update = (req, res) => {
     });
   }
 
-  // Create a Role
-  const role = new Role({
-    name: req.body.name,
+  // Create a Permission
+  const permission = new Permission({
+    type: req.body.type,
   });
-  
-  Role.updateById(
-    req.params.idRole,
-    role,
+
+  Permission.updateById(
+    req.params.idPermission,
+    permission,
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found Role with id ${req.params.idRole}.`
+            message: `Not found Permission with id ${req.params.idPermission}.`
           });
         } else {
           res.status(500).send({
-            message: "Error updating Role with id " + req.params.idRole
+            message: "Error updating Permission with id " + req.params.idPermission
           });
         }
       } else res.send(data);
