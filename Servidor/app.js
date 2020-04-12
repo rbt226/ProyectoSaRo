@@ -9,6 +9,7 @@ var permissionRouter = require("./app/routes/permission");
 var occupationRouter = require("./app/routes/occupation");
 var configRouter = require("./app/routes/configuration");
 var userRouter = require("./app/routes/user");
+var clientRouter = require("./app/routes/client");
 
 var app = express();
 
@@ -23,6 +24,7 @@ app.use("/permissions", permissionRouter);
 app.use("/occupations", occupationRouter);
 app.use("/configurations", configRouter);
 app.use("/users", userRouter);
+app.use("/clients", clientRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
