@@ -90,7 +90,7 @@ exports.update = (req, res) => {
     });
   }
 
-  // Create a Permission
+  // Create a Configuration
   const configuration = new Configuration({
     key: req.body.key,
     value: req.body.value,
@@ -101,11 +101,11 @@ exports.update = (req, res) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Permission with id ${req.params.id}.`,
+          message: `Not found Configuration with id ${req.params.id}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error updating Permission with id " + req.params.id,
+          message: "Error updating Configuration with id " + req.params.id,
         });
       }
     } else res.send(data);

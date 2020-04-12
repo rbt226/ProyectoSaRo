@@ -2,7 +2,7 @@ const sql = require("../../db.js");
 
 // Constructor
 const Configuration = function (config) {
-  this.key_conf = config.key;  
+  this.key_conf = config.key;
   this.value_conf = config.value;
   this.active_conf = config.active;
 };
@@ -28,7 +28,7 @@ Configuration.getAll = (result) => {
       return;
     }
 
-    console.log("customers: ", res);
+    console.log("configurations: ", res);
     result(null, res);
   });
 };
@@ -82,6 +82,29 @@ Configuration.removeAll = (result) => {
     console.log(`deleted ${res.affectedRows} config`);
     result(null, res);
   });
+};
+
+Configuration.updateById = (id, config, result) => {
+  sql.query(
+    "UPDATE configuration SET key_conf = ?, value_conf = ?, active_conf = ?  WHERE id_conf = ?",
+    [config.key_conf, config.value_conf, config.active_conf, id],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        // not found Configuration with the id
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log("updated configuration: ", { id, ...config });
+      result(null, { id, ...config });
+    }
+  );
 };
 
 module.exports = Configuration;
