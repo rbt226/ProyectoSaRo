@@ -8,12 +8,7 @@ exports.create = (req, res) => {
     });
   }
 
-  // Create a config
-  const configuration = new Configuration({
-    key: req.body.key,
-    value: req.body.value,
-    active: req.body.active,
-  });
+  const configuration = createConfiguration(req);
 
   // Save Configuration in the database
   Configuration.create(configuration, (err, data) => {
@@ -90,12 +85,7 @@ exports.update = (req, res) => {
     });
   }
 
-  // Create a Configuration
-  const configuration = new Configuration({
-    key: req.body.key,
-    value: req.body.value,
-    active: req.body.active,
-  });
+  const configuration = createConfiguration(req);
 
   Configuration.updateById(req.params.id, configuration, (err, data) => {
     if (err) {
@@ -109,5 +99,14 @@ exports.update = (req, res) => {
         });
       }
     } else res.send(data);
+  });
+};
+
+// Create a Configuration
+createConfiguration = (req) => {
+  return new Configuration({
+    key: req.body.key,
+    value: req.body.value,
+    active: req.body.active,
   });
 };

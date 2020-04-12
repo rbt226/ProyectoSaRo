@@ -8,10 +8,7 @@ exports.create = (req, res) => {
     });
   }
 
-  // Create a Role
-  const role = new Role({
-    name: req.body.name,
-  });
+  const role = createRole(req);
 
   // Save Role in the database
   Role.create(role, (err, data) => {
@@ -84,10 +81,7 @@ exports.update = (req, res) => {
     });
   }
 
-  // Create a Role
-  const role = new Role({
-    name: req.body.name,
-  });
+  const role = createRole(req);
 
   Role.updateById(req.params.id, role, (err, data) => {
     if (err) {
@@ -101,5 +95,12 @@ exports.update = (req, res) => {
         });
       }
     } else res.send(data);
+  });
+};
+
+// Create a Role
+createRole = (req) => {
+  return new Role({
+    name: req.body.name,
   });
 };

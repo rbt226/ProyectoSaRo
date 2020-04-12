@@ -8,16 +8,7 @@ exports.create = (req, res) => {
     });
   }
 
-  // Create a user
-  const user = new User({
-    mail: req.body.mail,
-    userName: req.body.userName,
-    mobilePhone: req.body.mobilePhone,
-    password: req.body.password,
-    image: req.body.image,
-    active: req.body.active,
-    idRole: req.body.idRole,
-  });
+  const user = createUser(req);
 
   // Save User in the database
   User.create(user, (err, data) => {
@@ -90,16 +81,7 @@ exports.update = (req, res) => {
     });
   }
 
-  // Update a user
-  const user = new User({
-    mail: req.body.mail,
-    userName: req.body.userName,
-    mobilePhone: req.body.mobilePhone,
-    password: req.body.password,
-    image: req.body.image,
-    active: req.body.active,
-    idRole: req.body.idRole,
-  });
+  const user = createUser(req);
 
   User.updateById(req.params.id, user, (err, data) => {
     if (err) {
@@ -113,5 +95,18 @@ exports.update = (req, res) => {
         });
       }
     } else res.send(data);
+  });
+};
+
+// Create a user
+createUser = (req) => {
+  return new User({
+    mail: req.body.mail,
+    userName: req.body.userName,
+    mobilePhone: req.body.mobilePhone,
+    password: req.body.password,
+    image: req.body.image,
+    active: req.body.active,
+    idRole: req.body.idRole,
   });
 };
