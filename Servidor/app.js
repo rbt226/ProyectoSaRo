@@ -6,7 +6,7 @@ var logger = require("morgan");
 
 var roleRouter = require("./app/routes/role");
 var permissionRouter = require("./app/routes/permission");
-//var occupationRouter = require("./app/routes/occupation");
+var occupationRouter = require("./app/routes/occupation");
 var configRouter = require("./app/routes/configuration");
 var userRouter = require("./app/routes/user");
 
@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/roles", roleRouter);
 app.use("/permissions", permissionRouter);
-//app.use("/occupations", occupationRouter);
+app.use("/occupations", occupationRouter);
 app.use("/configurations", configRouter);
 app.use("/users", userRouter);
 
