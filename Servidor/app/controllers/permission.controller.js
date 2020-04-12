@@ -14,7 +14,7 @@ exports.create = (req, res) => {
     type: req.body.type,
   });
 
-  // Save Customer in the database
+  // Save Permission in the database
   Permission.create(permission, (err, data) => {
     if (err)
       res.status(500).send({
@@ -36,15 +36,15 @@ exports.findAll = (req, res) => {
 };
 
 exports.getPermission = (req, res) => {
-  Permission.getPermission(req.params.idPermission, (err, data) => {
+  Permission.getPermission(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Permission with id ${req.params.idPermission}.`,
+          message: `Not found Permission with id ${req.params.id}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving Permission with id " + req.params.idPermission,
+          message: "Error retrieving Permission with id " + req.params.id,
         });
       }
     } else res.send(data);
@@ -52,15 +52,15 @@ exports.getPermission = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Permission.remove(req.params.idPermission, (err, data) => {
+  Permission.remove(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Permission with id ${req.params.idPermission}.`,
+          message: `Not found Permission with id ${req.params.id}.`,
         });
       } else {
         res.status(500).send({
-          message: "Could not delete Permission with id " + req.params.idPermission,
+          message: "Could not delete Permission with id " + req.params.id,
         });
       }
     } else res.send({ message: `Permission was deleted successfully!` });
@@ -91,17 +91,17 @@ exports.update = (req, res) => {
   });
 
   Permission.updateById(
-    req.params.idPermission,
+    req.params.id,
     permission,
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found Permission with id ${req.params.idPermission}.`
+            message: `Not found Permission with id ${req.params.id}.`
           });
         } else {
           res.status(500).send({
-            message: "Error updating Permission with id " + req.params.idPermission
+            message: "Error updating Permission with id " + req.params.id
           });
         }
       } else res.send(data);

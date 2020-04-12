@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/roles", roleRouter);
 app.use("/permissions", permissionRouter);
 //app.use("/occupations", occupationRouter);
-app.use("/configuration", configRouter);
+app.use("/configurations", configRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

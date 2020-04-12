@@ -3,22 +3,22 @@ var router = express.Router();
 
 var config = require("../controllers/configuration.controller");
 
-/* GET -  obtain a specifig config with idConfig  */
+/* POST - Update the config with the specific id */
+router.post("/:id", config.update);
 
-router.get("/:id", config.getConfig);
-
-/* GET - obtain all the configs. */
-router.get("/", config.findAll);
-
-
-/* POST -  create a config */
-router.post("/", config.create);
-
-/* DELETE delete a specific config with idConfig*/
+/* DELETE - Delete the configuration with the specific id */
 router.delete("/:id", config.delete);
 
-/* DELETE delete all config */
-router.delete("/", config.deleteAll);
+/* GET - Obtain the configuration with the specific id */
+router.get("/:id", config.getConfig);
 
+/* GET - Obtain all configurations. */
+router.get("/", config.findAll);
+
+/* POST - Create a configuration */
+router.post("/", config.create);
+ 
+/* DELETE - Delete all configurations */
+router.delete("/", config.deleteAll);
 
 module.exports = router; // esto exporta el modulo

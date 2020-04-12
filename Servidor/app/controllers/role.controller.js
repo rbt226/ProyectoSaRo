@@ -13,7 +13,7 @@ exports.create = (req, res) => {
     name: req.body.name,
   });
 
-  // Save Customer in the database
+  // Save Role in the database
   Role.create(role, (err, data) => {
     if (err)
       res.status(500).send({
@@ -35,15 +35,15 @@ exports.findAll = (req, res) => {
 };
 
 exports.getRole = (req, res) => {
-  Role.getRole(req.params.idRole, (err, data) => {
+  Role.getRole(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Role with id ${req.params.idRole}.`,
+          message: `Not found Role with id ${req.params.id}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving Role with id " + req.params.idRole,
+          message: "Error retrieving Role with id " + req.params.id,
         });
       }
     } else res.send(data);
@@ -51,15 +51,15 @@ exports.getRole = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  Role.remove(req.params.idRole, (err, data) => {
+  Role.remove(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Role with id ${req.params.idRole}.`,
+          message: `Not found Role with id ${req.params.id}.`,
         });
       } else {
         res.status(500).send({
-          message: "Could not delete Role with id " + req.params.idRole,
+          message: "Could not delete Role with id " + req.params.id,
         });
       }
     } else res.send({ message: `Role was deleted successfully!` });
@@ -90,17 +90,17 @@ exports.update = (req, res) => {
   });
   
   Role.updateById(
-    req.params.idRole,
+    req.params.id,
     role,
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found Role with id ${req.params.idRole}.`
+            message: `Not found Role with id ${req.params.id}.`
           });
         } else {
           res.status(500).send({
-            message: "Error updating Role with id " + req.params.idRole
+            message: "Error updating Role with id " + req.params.id
           });
         }
       } else res.send(data);

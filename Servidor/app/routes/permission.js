@@ -3,22 +3,22 @@ var router = express.Router();
 
 var permission = require("../controllers/permission.controller");
 
-// PUT Update a permission with Idpermission
-router.post("/:idPermission", permission.update);
+/* POST - Update the permission with the specific id */
+router.post("/:id", permission.update);
 
-router.delete("/:idPermission", permission.delete);
+/* DELETE - Delete the permission with the specific id */
+router.delete("/:id", permission.delete);
 
-router.get("/:idPermission", permission.getPermission);
+/* GET - Obtain the permission with the specific id */
+router.get("/:id", permission.getPermission);
 
-/* GET all permissions. */
+/* GET - Obtain all permissions. */
 router.get("/", permission.findAll);
 
-/* POST create a permission */
+/* POST - Create a permission */
 router.post("/", permission.create);
 
+/* DELETE - Delete all permissions */
 router.delete("/", permission.deleteAll);
-
-
-
 
 module.exports = router; // esto exporta el modulo

@@ -2,7 +2,7 @@ const sql = require("../../db.js");
 
 // constructor
 const Permission = function (permission) {
-  this.type = permission.type;
+  this.type_permission = permission.type;
 };
 
 Permission.create = (newPermission, result) => {
@@ -31,42 +31,49 @@ Permission.getAll = (result) => {
   });
 };
 
-Permission.getPermission = (idPermission, result) => {
-  sql.query(`SELECT * FROM permission WHERE id_permission = ${idPermission}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+Permission.getPermission = (id, result) => {
+  sql.query(
+    `SELECT * FROM permission WHERE id_permission = ${id}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
 
-    if (res.length) {
-      console.log("found permission: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
+      if (res.length) {
+        console.log("found permission: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
 
-    // not found Permission with the id
-    result({ kind: "not_found" }, null);
-  });
+      // not found Permission with the id
+      result({ kind: "not_found" }, null);
+    }
+  );
 };
 
 Permission.remove = (id, result) => {
-  sql.query("DELETE FROM permission WHERE id_permission = ?", id, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
+  sql.query(
+    "DELETE FROM permission WHERE id_permission = ?",
+    id,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
 
-    if (res.affectedRows == 0) {
-      // not found Permission with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
+      if (res.affectedRows == 0) {
+        // not found Permission with the id
+        result({ kind: "not_found" }, null);
+        return;
+      }
 
-    console.log("deleted permission with id: ", id);
-    result(null, res);
-  });
+      console.log("deleted permission with id: ", id);
+      result(null, res);
+    }
+  );
 };
 
 Permission.removeAll = (result) => {
@@ -82,10 +89,10 @@ Permission.removeAll = (result) => {
   });
 };
 
-Permission.updateById = (idPermission, permission, result) => {
+Permission.updateById = (id, permission, result) => {
   sql.query(
     "UPDATE permission SET type_permission = ? WHERE id_permission = ?",
-    [permission.type, idPermission],
+    [permission.type_permission, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -94,13 +101,13 @@ Permission.updateById = (idPermission, permission, result) => {
       }
 
       if (res.affectedRows == 0) {
-        // not found Customer with the id
+        // not found Permission with the id
         result({ kind: "not_found" }, null);
         return;
       }
 
-      console.log("updated permission: ", { idPermission, ...permission });
-      result(null, { idPermission, ...permission });
+      console.log("updated permission: ", { id, ...permission });
+      result(null, { id, ...permission });
     }
   );
 };
