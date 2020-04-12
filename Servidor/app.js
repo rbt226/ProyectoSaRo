@@ -7,6 +7,7 @@ var logger = require("morgan");
 var roleRouter = require("./app/routes/role");
 var permissionRouter = require("./app/routes/permission");
 //var occupationRouter = require("./app/routes/occupation");
+var configRouter = require("./app/routes/configuration");
 
 var app = express();
 
@@ -19,6 +20,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/roles", roleRouter);
 app.use("/permissions", permissionRouter);
 //app.use("/occupations", occupationRouter);
+app.use("/configuration", configRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -33,7 +35,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.json({ error: err })
+  res.json({ error: err });
 });
 
 module.exports = app;
