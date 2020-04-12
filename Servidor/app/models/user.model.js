@@ -29,7 +29,7 @@ User.getAll = (result) => {
   sql.query("SELECT * FROM user", (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
 
@@ -61,7 +61,7 @@ User.remove = (id, result) => {
   sql.query("DELETE FROM user WHERE id_user= ?", id, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
 
@@ -80,7 +80,7 @@ User.removeAll = (result) => {
   sql.query("DELETE FROM user", (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
 
@@ -94,7 +94,7 @@ User.updateById = (id, user, result) => {
   sql.query(query, [id], (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
 

@@ -25,7 +25,7 @@ Configuration.getAll = (result) => {
   sql.query("SELECT * FROM configuration", (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
 
@@ -57,7 +57,7 @@ Configuration.remove = (id, result) => {
   sql.query("DELETE FROM configuration WHERE id_conf= ?", id, (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
 
@@ -76,7 +76,7 @@ Configuration.removeAll = (result) => {
   sql.query("DELETE FROM configuration", (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
 
@@ -90,7 +90,7 @@ Configuration.updateById = (id, config, result) => {
   sql.query(query, [id], (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
     if (res.affectedRows == 0) {

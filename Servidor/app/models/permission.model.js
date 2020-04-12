@@ -23,7 +23,7 @@ Permission.getAll = (result) => {
   sql.query("SELECT * FROM permission", (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
 
@@ -61,7 +61,7 @@ Permission.remove = (id, result) => {
     (err, res) => {
       if (err) {
         console.log("error: ", err);
-        result(null, err);
+        result(err, null);
         return;
       }
 
@@ -81,7 +81,7 @@ Permission.removeAll = (result) => {
   sql.query("DELETE FROM permission", (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
 
@@ -95,7 +95,7 @@ Permission.updateById = (id, permission, result) => {
   sql.query(query, [id], (err, res) => {
     if (err) {
       console.log("error: ", err);
-      result(null, err);
+      result(err, null);
       return;
     }
 
