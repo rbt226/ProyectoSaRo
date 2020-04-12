@@ -11,6 +11,7 @@ var configRouter = require("./app/routes/configuration");
 var userRouter = require("./app/routes/user");
 var clientRouter = require("./app/routes/client");
 var bookinRouter = require("./app/routes/booking");
+var roomRouter = require("./app/routes/room");
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use("/configurations", configRouter);
 app.use("/users", userRouter);
 app.use("/clients", clientRouter);
 app.use("/bookings", bookinRouter);
+app.use("/rooms", roomRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
