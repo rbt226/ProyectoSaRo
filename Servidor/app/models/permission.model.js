@@ -1,4 +1,5 @@
-const sql = require("../../db.js");
+const sql = require("../common/db.js");
+const utils = require("../common/utils");
 
 // constructor
 const Permission = function (permission) {
@@ -90,26 +91,23 @@ Permission.removeAll = (result) => {
 };
 
 Permission.updateById = (id, permission, result) => {
-  sql.query(
-    "UPDATE permission SET type_permission = ? WHERE id_permission = ?",
-    [permission.type_permission, id],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
-
-      if (res.affectedRows == 0) {
-        // not found Permission with the id
-        result({ kind: "not_found" }, null);
-        return;
-      }
-
-      console.log("updated permission: ", { id, ...permission });
-      result(null, { id, ...permission });
+  var query = utils.updateElement(permission, "permission", "id_permission"); // element, tableName, idTable
+  sql.query(query, [id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
     }
-  );
+
+    if (res.affectedRows == 0) {
+      // not found Permission with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log("updated permission: ", { id, ...permission });
+    result(null, { id, ...permission });
+  });
 };
 
 module.exports = Permission;

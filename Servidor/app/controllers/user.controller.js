@@ -10,18 +10,20 @@ exports.create = (req, res) => {
 
   // Create a user
   const user = new User({
-    key: req.body.key,
-    value: req.body.value,
+    mail: req.body.mail,
+    userName: req.body.userName,
+    mobilePhone: req.body.mobilePhone,
+    password: req.body.password,
+    image: req.body.image,
     active: req.body.active,
+    idRole: req.body.idRole,
   });
 
   // Save User in the database
   User.create(user, (err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message ||
-          "Some error occurred while creating the user.",
+        message: err.message || "Some error occurred while creating the user.",
       });
     else res.send(data);
   });
@@ -74,9 +76,7 @@ exports.deleteAll = (req, res) => {
   User.removeAll((err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message ||
-          "Some error occurred while removing all users.",
+        message: err.message || "Some error occurred while removing all users.",
       });
     else res.send({ message: `All users were deleted successfully!` });
   });
@@ -90,11 +90,15 @@ exports.update = (req, res) => {
     });
   }
 
-  // Create a Permission
+  // Update a user
   const user = new User({
-    key: req.body.key,
-    value: req.body.value,
+    mail: req.body.mail,
+    userName: req.body.userName,
+    mobilePhone: req.body.mobilePhone,
+    password: req.body.password,
+    image: req.body.image,
     active: req.body.active,
+    idRole: req.body.idRole,
   });
 
   User.updateById(req.params.id, user, (err, data) => {

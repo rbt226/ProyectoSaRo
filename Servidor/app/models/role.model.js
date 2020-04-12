@@ -1,4 +1,5 @@
-const sql = require("../../db.js");
+const sql = require("../common/db.js");
+const utils = require("../common/utils");
 
 // constructor
 const Role = function (role) {
@@ -31,8 +32,8 @@ Role.getAll = (result) => {
   });
 };
 
-Role.getRole = (idRole, result) => {
-  sql.query(`SELECT * FROM role WHERE id_role = ${idRole}`, (err, res) => {
+Role.getRole = (id, result) => {
+  sql.query(`SELECT * FROM role WHERE id_role = ${id}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -82,27 +83,24 @@ Role.removeAll = (result) => {
   });
 };
 
-Role.updateById = (idRole, role, result) => {
-  sql.query(
-    "UPDATE role SET name_role = ? WHERE id_role = ?",
-    [role.name, idRole],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
-
-      if (res.affectedRows == 0) {
-        // not found Customer with the id
-        result({ kind: "not_found" }, null);
-        return;
-      }
-
-      console.log("updated role: ", { idRole, ...role });
-      result(null, { idRole, ...role });
+Role.updateById = (id, role, result) => {
+  var query = utils.updateElement(role, "role", "id_role"); // element, tableName, idTable
+  sql.query(query, [id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
     }
-  );
+
+    if (res.affectedRows == 0) {
+      // not found Customer with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log("updated role: ", { id, ...role });
+    result(null, { id, ...role });
+  });
 };
 
 module.exports = Role;

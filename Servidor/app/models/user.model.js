@@ -1,4 +1,5 @@
-const sql = require("../../db.js");
+const sql = require("../common/db.js");
+const utils = require("../common/utils");
 
 // Constructor
 const User = function (user) {
@@ -89,26 +90,23 @@ User.removeAll = (result) => {
 };
 
 User.updateById = (id, user, result) => {
-  sql.query(
-    "UPDATE user SET key_conf = ?, value_conf = ?, active_conf = ?  WHERE id_user = ?",
-    [user.key_conf, user.value_conf, user.active_conf, id],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
-
-      if (res.affectedRows == 0) {
-        // not found User with the id
-        result({ kind: "not_found" }, null);
-        return;
-      }
-
-      console.log("updated user: ", { id, ...user });
-      result(null, { id, ...user });
+  var query = utils.updateElement(user, "user", "id_user"); // element, tableName, idTable
+  sql.query(query, [id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
     }
-  );
+
+    if (res.affectedRows == 0) {
+      // not found User with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log("updated user: ", { id, ...user });
+    result(null, { id, ...user });
+  });
 };
 
 module.exports = User;

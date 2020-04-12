@@ -1,4 +1,5 @@
-const sql = require("../../db.js");
+const sql = require("../common/db.js");
+const utils = require("../common/utils");
 
 // Constructor
 const Configuration = function (config) {
@@ -85,26 +86,22 @@ Configuration.removeAll = (result) => {
 };
 
 Configuration.updateById = (id, config, result) => {
-  sql.query(
-    "UPDATE configuration SET key_conf = ?, value_conf = ?, active_conf = ?  WHERE id_conf = ?",
-    [config.key_conf, config.value_conf, config.active_conf, id],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
-
-      if (res.affectedRows == 0) {
-        // not found Configuration with the id
-        result({ kind: "not_found" }, null);
-        return;
-      }
-
-      console.log("updated configuration: ", { id, ...config });
-      result(null, { id, ...config });
+  var query = utils.updateElement(config, "configuration", "id_conf"); // element, tableName, idTable
+  sql.query(query, [id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
     }
-  );
+    if (res.affectedRows == 0) {
+      // not found Configuration with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log("updated configuration: ", { id, ...config });
+    result(null, { id, ...config });
+  });
 };
 
 module.exports = Configuration;
