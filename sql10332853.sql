@@ -48,7 +48,7 @@ CREATE TABLE `client` (
   `id_user` int(11) NOT NULL,
   `name_client` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `last_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `document` int(11) NOT NULL,
+  `document` int(20) NOT NULL,
   `id_occupation` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -60,8 +60,8 @@ CREATE TABLE `client` (
 
 CREATE TABLE `configuration` (
   `id_conf` int(11) NOT NULL,
-  `key_conf` varchar(25) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `value_conf` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `key_conf` varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `value_conf` varchar(250) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `active_conf` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -136,7 +136,7 @@ CREATE TABLE `user` (
   `id_user` int(11) NOT NULL,
   `mail` varchar(100) COLLATE utf8_bin NOT NULL,
   `user_name` varchar(50) COLLATE utf8_bin NOT NULL,
-  `mobile_phone` smallint(6) DEFAULT NULL,
+  `mobile_phone` bigint(20) DEFAULT NULL,
   `password` varchar(50) COLLATE utf8_bin NOT NULL,
   `image_user` varchar(300) COLLATE utf8_bin NOT NULL DEFAULT '"link"',
   `active_user` tinyint(1) NOT NULL DEFAULT '1',
@@ -169,6 +169,8 @@ ALTER TABLE `client`
 --
 ALTER TABLE `occupation`
   ADD PRIMARY KEY (`id_occupation`);
+  ADD UNIQUE KEY `U_IDX_TYPE` (`type_occupation`) USING BTREE,
+
 
 --
 -- Indexes for table `permission`
@@ -248,6 +250,11 @@ ALTER TABLE `user`
 --
 ALTER TABLE `configuration`
   MODIFY `id_conf` int(11) NOT NULL AUTO_INCREMENT;
+
+-- AUTO_INCREMENT for table `Occupation`
+--
+ALTER TABLE `occupation`
+  MODIFY `id_occupation` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for table `Booking`
