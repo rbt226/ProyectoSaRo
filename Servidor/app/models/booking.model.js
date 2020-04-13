@@ -1,5 +1,6 @@
 const sql = require("../common/db.js");
 const utils = require("../common/utils");
+const dateFormat = require("dateformat");
 
 // Constructor
 const Booking = function (booking) {
@@ -104,6 +105,27 @@ Booking.updateById = (id, booking, result) => {
 
     console.log("updated booking: ", { id, ...booking });
     result(null, { id, ...booking });
+  });
+};
+
+Booking.getBookingsByDate = (date, result) => {
+  date += "T00:00:00.000Z";
+  console.log("getBookingsByDate en el model " + date);
+  sql.query("SELECT * FROM booking WHERE date = ?", date, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found booking: ", res[0]);
+      result(null, res[0]);
+      return;
+    }
+
+    // not found Booking with the id
+    result({ kind: "not_found" }, null);
   });
 };
 

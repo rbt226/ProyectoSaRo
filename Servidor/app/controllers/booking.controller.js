@@ -26,7 +26,8 @@ exports.findAll = (req, res) => {
   Booking.getAll((err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving bookings.",
+        message:
+          err.message || "Some error occurred while retrieving bookings.",
       });
     else res.send(data);
   });
@@ -97,6 +98,19 @@ exports.update = (req, res) => {
         });
       }
     } else res.send(data);
+  });
+};
+
+exports.getBookingsByDate = (req, res) => {
+
+  const date = req.body.date;
+  console.log("viene en el body " + date);
+  Booking.getBookingsByDate(date, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving by date.",
+      });
+    else res.send(data);
   });
 };
 
