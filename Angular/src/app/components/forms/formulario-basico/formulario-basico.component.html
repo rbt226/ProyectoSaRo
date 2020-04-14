@@ -1,0 +1,15 @@
+<form #formulario="ngForm" (ngSubmit) = "onSubmit(formulario)" novalidate>
+  <!-- noValidate : elimina las validaciones de HTML para que no ocurran conflictos -->
+  <label> UserName</label>
+  <input name="userName" type="text" required ngModel #user="ngModel"/> 
+  <br />
+  <label>Mail </label>
+  <input name="email" type="email" required ngModel #email="ngModel" />
+  <input type="submit" [disabled] ="!formulario.valid"/>
+</form>
+
+<br>
+
+{{formulario.value | json}}
+<br>
+{{formulario.valid}}

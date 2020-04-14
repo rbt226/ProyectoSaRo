@@ -1,0 +1,13 @@
+<form [formGroup]="formulario" (ngSubmit)="onSubmit(formulario)" novalidate>
+  <!-- noValidate : elimina las validaciones de HTML para que no ocurran conflictos -->
+  <label> UserName</label>
+  <input formControlName="userName" />
+  <div *ngIf="formulario.get('userName').hasError('required')">Por favor indique un userName</div>
+  <br />
+  <label>Mail </label>
+  <input formControlName="email" />
+  <!-- Se le sacan todas las propiedades  -->
+  <input type="submit" [disabled]="!formulario.valid" />
+</form>
+
+<br />
