@@ -1,4 +1,4 @@
-const Permission = require("../models/permission.model");
+const Permission = require("../dao/permission.dao");
 
 exports.create = (req, res) => {
   // Validate request

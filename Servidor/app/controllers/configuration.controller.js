@@ -1,4 +1,4 @@
-const Configuration = require("../models/configuration.model");
+const Configuration = require("../dao/configuration.dao");
 
 exports.create = (req, res) => {
   // Validate request

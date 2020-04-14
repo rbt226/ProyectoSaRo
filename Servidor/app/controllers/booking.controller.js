@@ -1,4 +1,4 @@
-const Booking = require("../models/booking.model");
+const Booking = require("../dao/booking.dao");
 
 exports.create = (req, res) => {
   // Validate request
@@ -102,7 +102,6 @@ exports.update = (req, res) => {
 };
 
 exports.getBookingsByDate = (req, res) => {
-
   const date = req.body.date;
   console.log("viene en el body " + date);
   Booking.getBookingsByDate(date, (err, data) => {

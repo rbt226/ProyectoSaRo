@@ -1,4 +1,4 @@
-const Room = require("../models/room.model");
+const Room = require("../dao/room.dao");
 
 exports.create = (req, res) => {
   // Validate request
@@ -14,8 +14,7 @@ exports.create = (req, res) => {
   Room.create(room, (err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the room.",
+        message: err.message || "Some error occurred while creating the room.",
       });
     else res.send(data);
   });
@@ -68,8 +67,7 @@ exports.deleteAll = (req, res) => {
   Room.removeAll((err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all rooms.",
+        message: err.message || "Some error occurred while removing all rooms.",
       });
     else res.send({ message: `All rooms were deleted successfully!` });
   });

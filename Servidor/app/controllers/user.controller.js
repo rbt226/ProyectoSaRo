@@ -1,4 +1,54 @@
-const User = require("../models/user.model");
+const User = require("../dao/user.dao");
+var jwt = require("jsonwebtoken");
+
+exports.signIn = (req, res) => {
+  console.log("akfbkjsb " + JSON.stringify(req.body));
+
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+
+  const userName = req.body.userName;
+  const password = req.body.password;
+  console.log("signIn controller " + userName + " " + password);
+  // Save User in the database
+  User.signIn(userName, password, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err || "Some error occurred while login.",
+      });
+    else {
+      const token = jwt.sign({ _id: data.id_user }, "secretKey");
+      res.send({ token, data });
+    }
+  });
+};
+exports.signUp = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+
+  const user = createUser(req);
+
+  // Save User in the database
+  User.create(user, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Some error occurred while creating the user.",
+      });
+    else {
+      const token = jwt.sign({ _id: data.id }, "secretKey");
+      res.json({ token });
+      res.send(data);
+    }
+  });
+};
 
 exports.create = (req, res) => {
   // Validate request
@@ -31,8 +81,8 @@ exports.findAll = (req, res) => {
   });
 };
 
-exports.getUser = (req, res) => {
-  User.getUser(req.params.id, (err, data) => {
+exports.getUserById = (req, res) => {
+  User.getUserById(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -47,8 +97,8 @@ exports.getUser = (req, res) => {
   });
 };
 
-exports.delete = (req, res) => {
-  User.remove(req.params.id, (err, data) => {
+exports.deleteById = (req, res) => {
+  User.deleteById(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -64,10 +114,12 @@ exports.delete = (req, res) => {
 };
 
 exports.deleteAll = (req, res) => {
-  User.removeAll((err, data) => {
+  console.log("entre aca 1?");
+
+  User.deleteAll((err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while removing all users.",
+        message: err || "Some error occurred while removing all users.",
       });
     else res.send({ message: `All users were deleted successfully!` });
   });

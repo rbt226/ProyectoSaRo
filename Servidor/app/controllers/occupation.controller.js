@@ -1,4 +1,4 @@
-const Occupation = require("../models/occupation.model");
+const Occupation = require("../dao/occupation.dao");
 
 exports.create = (req, res) => {
   // Validate request
@@ -9,12 +9,13 @@ exports.create = (req, res) => {
     });
   }
   const occupation = createOccupation(req);
-  
+
   // Save occupation in the database
   Occupation.create(occupation, (err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the Occupation.",
+        message:
+          err.message || "Some error occurred while creating the Occupation.",
       });
     else res.send(data);
   });
@@ -25,7 +26,8 @@ exports.findAll = (req, res) => {
   Occupation.getAll((err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving occupations.",
+        message:
+          err.message || "Some error occurred while retrieving occupations.",
       });
     else res.send(data);
   });
@@ -67,7 +69,8 @@ exports.deleteAll = (req, res) => {
   Occupation.removeAll((err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while removing all occupations.",
+        message:
+          err.message || "Some error occurred while removing all occupations.",
       });
     else res.send({ message: `All Occupations were deleted successfully!` });
   });
@@ -77,35 +80,31 @@ exports.update = (req, res) => {
   // Validate Request
   if (!req.body) {
     res.status(400).send({
-      message: "Content can not be empty!"
+      message: "Content can not be empty!",
     });
   }
   const occupation = createOccupation(req);
 
-  Occupation.updateById(
-    req.params.id,
-    occupation,
-    (err, data) => {
-      if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Not found Occupation with id ${req.params.id}.`
-          });
-        } else {
-          res.status(500).send({
-            message: "Error updating Occupation with id " + req.params.id
-          });
-        }
-      } else res.send(data);
-    }
-  );
+  Occupation.updateById(req.params.id, occupation, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Occupation with id ${req.params.id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error updating Occupation with id " + req.params.id,
+        });
+      }
+    } else res.send(data);
+  });
 };
 
 // Create a Occupation
-function createOccupation(req){
-  return  new Occupation({
+function createOccupation(req) {
+  return new Occupation({
     type: req.body.type,
     active: req.body.active,
-    image: req.body.image
+    image: req.body.image,
   });
 }

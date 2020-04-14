@@ -1,4 +1,4 @@
-const Client = require("../models/client.model");
+const Client = require("../dao/client.dao");
 
 exports.create = (req, res) => {
   // Validate request

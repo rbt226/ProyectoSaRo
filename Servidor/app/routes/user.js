@@ -1,16 +1,23 @@
 var express = require("express");
 var router = express.Router();
+var utils = require("../common/utils");
 
 var user = require("../controllers/user.controller");
+
+/* POST - Sign In*/
+router.post("/signIn", user.signIn);
+
+/* POST - Sign Up*/
+router.post("/signUp", user.signUp);
 
 /* POST - Update the user with the specific id */
 router.post("/:id", user.update);
 
 /* DELETE - Delete the user with the specific id */
-router.delete("/:id", user.delete);
+router.delete("/:id", user.deleteById);
 
 /* GET - Obtain the user with the specific id */
-router.get("/:id", user.getUser);
+router.get("/:id", user.getUserById);
 
 /* GET - Obtain all users. */
 router.get("/", user.findAll);
