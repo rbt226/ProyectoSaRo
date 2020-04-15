@@ -15,8 +15,7 @@ exports.create = (req, res) => {
   Permission.create(permission, (err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Permission.",
+        message: err || "Some error occurred while creating the Permission.",
       });
     else res.send(data);
   });
@@ -27,8 +26,7 @@ exports.findAll = (req, res) => {
   Permission.getAll((err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving permissions.",
+        message: err || "Some error occurred while retrieving permissions.",
       });
     else res.send(data);
   });
@@ -70,8 +68,7 @@ exports.deleteAll = (req, res) => {
   Permission.removeAll((err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all permissions.",
+        message: err || "Some error occurred while removing all permissions.",
       });
     else res.send({ message: `All Roles were deleted successfully!` });
   });

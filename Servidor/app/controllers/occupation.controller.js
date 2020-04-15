@@ -14,8 +14,7 @@ exports.create = (req, res) => {
   Occupation.create(occupation, (err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Occupation.",
+        message: err || "Some error occurred while creating the Occupation.",
       });
     else res.send(data);
   });
@@ -26,8 +25,7 @@ exports.findAll = (req, res) => {
   Occupation.getAll((err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving occupations.",
+        message: err || "Some error occurred while retrieving occupations.",
       });
     else res.send(data);
   });
@@ -69,8 +67,7 @@ exports.deleteAll = (req, res) => {
   Occupation.removeAll((err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all occupations.",
+        message: err || "Some error occurred while removing all occupations.",
       });
     else res.send({ message: `All Occupations were deleted successfully!` });
   });

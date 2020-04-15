@@ -14,8 +14,7 @@ exports.create = (req, res) => {
   Booking.create(booking, (err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the booking.",
+        message: err || "Some error occurred while creating the booking.",
       });
     else res.send(data);
   });
@@ -26,8 +25,7 @@ exports.findAll = (req, res) => {
   Booking.getAll((err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving bookings.",
+        message: err || "Some error occurred while retrieving bookings.",
       });
     else res.send(data);
   });
@@ -69,8 +67,7 @@ exports.deleteAll = (req, res) => {
   Booking.removeAll((err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all bookings.",
+        message: err || "Some error occurred while removing all bookings.",
       });
     else res.send({ message: `All bookings were deleted successfully!` });
   });
@@ -107,7 +104,7 @@ exports.getBookingsByDate = (req, res) => {
   Booking.getBookingsByDate(date, (err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving by date.",
+        message: err || "Some error occurred while retrieving by date.",
       });
     else res.send(data);
   });

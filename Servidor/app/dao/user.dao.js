@@ -1,19 +1,7 @@
-const sql = require("../common/db.js");
-const utils = require("../common/utils");
-const user = require("../models/user.model");
-// Constructor
-const User = function (user) {
-  this.mail = user.mail;
-  this.user_name = user.userName;
-  this.mobile_phone = user.mobilePhone;
-  this.password = user.password;
-  this.image_user = user.image;
-  this.active_user = user.active;
-  this.id_role = user.idRole;
-};
+const userModel = require("../models/user.model");
 
-User.signIn = (userName, password, result) => {
-  user
+exports.signIn = (userName, password, result) => {
+  userModel
     .findOne({ where: { user_name: userName } })
     .then((us) => {
       if (us && us.password === password) {
@@ -28,21 +16,22 @@ User.signIn = (userName, password, result) => {
     });
 };
 
-User.create = (newUser, result) => {
-  sql.query("INSERT INTO user SET ?", newUser, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
+exports.create = (req, result) => {
+  const userCreate = createUserModel(req);
+  userModel
+    .create(userCreate)
+    .then((newUser) => {
+      result(null, newUser);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
       return;
-    }
-
-    console.log("created user: ", { id: res.insertId, ...newUser });
-    result(null, { id: res.insertId, ...newUser });
-  });
+    });
 };
 
-User.getAll = (result) => {
-  user
+exports.getAll = (result) => {
+  userModel
     .findAll()
     .then((users) => {
       console.log("users: ", users);
@@ -54,15 +43,15 @@ User.getAll = (result) => {
     });
 };
 
-User.getUserById = (id, result) => {
-  user
+exports.getUserById = (id, result) => {
+  userModel
     .findOne({ where: { id_user: id } })
-    .then((user) => {
-      if (!user) {
+    .then((userModel) => {
+      if (!userModel) {
         return result({ kind: "not_found" }, null);
       }
-      console.log("user: ", user);
-      result(null, user);
+      console.log("user: ", userModel);
+      result(null, userModel);
     })
     .catch((error) => {
       console.log("error: ", error);
@@ -70,26 +59,27 @@ User.getUserById = (id, result) => {
     });
 };
 
-User.deleteById = (id, result) => {
-  user
+exports.deleteById = (id, result) => {
+  userModel
     .destroy({ where: { id_user: id } })
-    .then((user) => {
-      if (!user) {
+    .then((userModel) => {
+      if (!userModel) {
         return result({ kind: "not_found" }, null);
       }
-      result(null, user);
+      console.log("deleted user with userId" + id);
+
+      result(null, userModel);
     })
     .catch((error) => {
       console.log("error: ", error);
       result(error, null);
     });
 };
-User.deleteAll = (result) => {
-  console.log("entre aca?");
-  user
+exports.deleteAll = (result) => {
+  userModel
     .destroy({ where: {} })
     .then((users) => {
-      console.log(`deleted ${t his.arguments} users`);
+      console.log(`deleted ${users} users`);
       result(null, users);
     })
     .catch((error) => {
@@ -98,37 +88,32 @@ User.deleteAll = (result) => {
     });
 };
 
-// User.removeAll = (result) => {
-//   sql.query("DELETE FROM user", (err, res) => {
-//     if (err) {
-//       console.log("error: ", err);
-//       result(err, null);
-//       return;
-//     }
+exports.updateById = (id, req, result) => {
+  const userUpdate = createUserModel(req);
 
-//     console.log(`deleted ${res.affectedRows} user`);
-//     result(null, res);
-//   });
-// };
-
-User.updateById = (id, user, result) => {
-  var query = utils.updateElement(user, "user", "id_user"); // element, tableName, idTable
-  sql.query(query, [id], (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.affectedRows == 0) {
-      // not found User with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("updated user: ", { id, ...user });
-    result(null, { id, ...user });
-  });
+  userModel
+    .update(userUpdate, { where: { id_user: id } })
+    .then((us) => {
+      if (us[0] == 0) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("updated user: ", us);
+      result(null, null);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-module.exports = User;
+createUserModel = (req) => {
+  return {
+    mail: req.body.mail,
+    user_name: req.body.userName,
+    mobile_phone: req.body.mobilePhone,
+    password: req.body.password,
+    image_user: req.body.image,
+    active_user: req.body.active,
+    id_role: req.body.idRole,
+  };
+};

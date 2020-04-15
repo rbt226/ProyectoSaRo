@@ -10,8 +10,8 @@ User.init(
     // attributes
     id_user: {
         type: Sequelize.STRING,
-        allowNull: false,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true,
       },
     mail: {
       type: Sequelize.STRING,

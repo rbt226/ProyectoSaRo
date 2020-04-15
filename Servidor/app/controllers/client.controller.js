@@ -14,8 +14,7 @@ exports.create = (req, res) => {
   Client.create(client, (err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the client.",
+        message: err || "Some error occurred while creating the client.",
       });
     else res.send(data);
   });
@@ -26,7 +25,7 @@ exports.findAll = (req, res) => {
   Client.getAll((err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving clients.",
+        message: err || "Some error occurred while retrieving clients.",
       });
     else res.send(data);
   });
@@ -68,8 +67,7 @@ exports.deleteAll = (req, res) => {
   Client.removeAll((err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all clients.",
+        message: err || "Some error occurred while removing all clients.",
       });
     else res.send({ message: `All clients were deleted successfully!` });
   });

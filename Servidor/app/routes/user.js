@@ -10,6 +10,9 @@ router.post("/signIn", user.signIn);
 /* POST - Sign Up*/
 router.post("/signUp", user.signUp);
 
+/* POST - Create a user */
+router.post("/create", user.create);
+
 /* POST - Update the user with the specific id */
 router.post("/:id", user.update);
 
@@ -21,9 +24,6 @@ router.get("/:id", user.getUserById);
 
 /* GET - Obtain all users. */
 router.get("/", user.findAll);
-
-/* POST - Create a user */
-router.post("/", user.create);
 
 /* DELETE - Delete all users */
 router.delete("/", user.deleteAll);

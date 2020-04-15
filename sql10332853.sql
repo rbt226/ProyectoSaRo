@@ -192,6 +192,8 @@ ALTER TABLE `permission_role`
 --
 ALTER TABLE `role`
   ADD PRIMARY KEY (`id_role`);
+  ADD UNIQUE KEY `ID_ROLE` (`name_role`);
+
 
 --
 -- Indexes for table `Room`

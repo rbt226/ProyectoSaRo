@@ -14,9 +14,7 @@ exports.create = (req, res) => {
   Configuration.create(configuration, (err, data) => {
     if (err)
       res.status(500).send({
-        message:
-          err.message ||
-          "Some error occurred while creating the configuration.",
+        message: err || "Some error occurred while creating the configuration.",
       });
     else res.send(data);
   });
@@ -27,7 +25,7 @@ exports.findAll = (req, res) => {
   Configuration.getAll((err, data) => {
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving configs.",
+        message: err || "Some error occurred while retrieving configs.",
       });
     else res.send(data);
   });
@@ -70,8 +68,7 @@ exports.deleteAll = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message ||
-          "Some error occurred while removing all configurations.",
+          err || "Some error occurred while removing all configurations.",
       });
     else res.send({ message: `All configurations were deleted successfully!` });
   });

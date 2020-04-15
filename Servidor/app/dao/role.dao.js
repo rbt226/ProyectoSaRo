@@ -1,106 +1,105 @@
-const sql = require("../common/db.js");
-const utils = require("../common/utils");
+const roleModel = require("../models/role.model");
 
-// constructor
-const Role = function (role) {
-  this.name_role = role.name;
+exports.create = (req, result) => {
+  const roleCreate = createRoleModel(req);
+  roleModel
+    .create(roleCreate)
+    .then((newRole) => {
+      result(null, newRole);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+      return;
+    });
 };
 
-Role.create = (newRole, result) => {
-  sql.query("INSERT INTO role SET ?", newRole, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created role: ", { id: res.insertId, ...newRole });
-    result(null, { id: res.insertId, ...newRole });
-  });
+exports.getAll = (result) => {
+  roleModel
+    .findAll()
+    .then((roles) => {
+      console.log("roles: ", roles);
+      result(null, roles);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Role.getAll = (result) => {
-  sql.query("SELECT * FROM role", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("roles: ", res);
-    result(null, res);
-  });
+exports.getRoleById = (id, result) => {
+  roleModel
+    .findOne({ where: { id_role: id } })
+    .then((role) => {
+      if (!role) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("role: ", role);
+      result(null, role);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Role.getRole = (id, result) => {
-  sql.query(`SELECT * FROM role WHERE id_role = ${id}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+exports.deleteById = (id, result) => {
+  roleModel
+    .destroy({ where: { id_role: id } })
+    .then((roleModel) => {
+      if (!roleModel) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("deleted role with roleId" + id);
 
-    if (res.length) {
-      console.log("found role: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-
-    // not found Role with the id
-    result({ kind: "not_found" }, null);
-  });
+      result(null, roleModel);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
+};
+exports.deleteAll = (result) => {
+  roleModel
+    .destroy({ where: {} })
+    .then((roles) => {
+      console.log(`deleted ${roles} roles`);
+      result(null, roles);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Role.remove = (id, result) => {
-  sql.query("DELETE FROM role WHERE id_role = ?", id, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+exports.updateById = (id, req, result) => {
+  const roleUpdate = createRoleModel(req);
 
-    if (res.affectedRows == 0) {
-      // not found Role with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("deleted role with id: ", id);
-    result(null, res);
-  });
+  roleModel
+    .update(roleUpdate, { where: { id_role: id } })
+    .then(() => {
+      roleModel
+        .findByPk(id)
+        .then((role) => {
+          if (!role) {
+            return result({ kind: "not_found" }, null);
+          }
+          console.log("Roles updated: ", role);
+          result(null, role);
+        })
+        .catch((error) => {
+          console.log("error: ", error);
+          result(error, null);
+        });
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Role.removeAll = (result) => {
-  sql.query("DELETE FROM role", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log(`deleted ${res.affectedRows} role`);
-    result(null, res);
-  });
+createRoleModel = (req) => {
+  return {
+    name_role: req.body.name,
+  };
 };
-
-Role.updateById = (id, role, result) => {
-  var query = utils.updateElement(role, "role", "id_role"); // element, tableName, idTable
-  sql.query(query, [id], (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.affectedRows == 0) {
-      // not found Customer with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("updated role: ", { id, ...role });
-    result(null, { id, ...role });
-  });
-};
-
-module.exports = Role;

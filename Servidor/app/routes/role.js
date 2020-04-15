@@ -4,16 +4,16 @@ var router = express.Router();
 var role = require("../controllers/role.controller");
 
 /* POST - Update the Role with the specific id */
-router.post("/:id", role.update);
+router.post("/:id", role.updateById);
 
 /* DELETE - Delete the role with the specific id */
-router.delete("/:id", role.delete);
+router.delete("/:id", role.deleteById);
 
 /* GET - Obtain the role with the specific id */
-router.get("/:id", role.getRole);
+router.get("/:id", role.getRoleById);
 
 /* GET - Obtain all roles. */
-router.get("/", role.findAll);
+router.get("/", role.getAll);
 
 /* POST - Create a Role */
 router.post("/", role.create);
