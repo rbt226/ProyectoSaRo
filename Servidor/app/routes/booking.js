@@ -9,12 +9,11 @@ router.post("/byDate", booking.getBookingsByDate);
 /* POST - Get a Booking By Date */
 router.post("/byRoom", booking.getBookingsByRoom);
 
-/* GET - Obtain the booking with the specific id */
-router.get("/:id", booking.getBookingById);
-
 /* POST - Get a Booking By User */
 router.post("/byUser", booking.getBookingsByUser);
 
+/* GET - Obtain the booking with the specific id */
+router.get("/:id", booking.getBookingById);
 
 /* POST - Update the Booking with the specific id */
 router.post("/:id", booking.updateById);
