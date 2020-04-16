@@ -2,28 +2,35 @@ const Sequelize = require("sequelize");
 const db = require("../common/db.js");
 
 const Model = Sequelize.Model;
-class Role extends Model {}
+class Configuration extends Model {}
 
 // allowNull defaults to true
-
-Role.init(
+Configuration.init(
   {
     // attributes
-    id_role: {
+    id_conf: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    name_role: {
+    key_conf: {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    value_conf: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    active_conf: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+    }
   },
 
   {
     sequelize: db,
-    modelName: "role",
+    modelName: "configuration",
     // options
   }
 );
-module.exports = Role;
+module.exports = Configuration;

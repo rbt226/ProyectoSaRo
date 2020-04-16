@@ -9,7 +9,7 @@ User.init(
   {
     // attributes
     id_user: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },

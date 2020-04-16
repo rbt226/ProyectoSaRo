@@ -1,107 +1,107 @@
-const sql = require("../common/db.js");
-const utils = require("../common/utils");
+const configurationModel = require("../models/configuration.model");
 
-// Constructor
-const Configuration = function (config) {
-  this.key_conf = config.key;
-  this.value_conf = config.value;
-  this.active_conf = config.active;
+exports.create = (req, result) => {  
+  const configurationCreate = createConfigurationModel(req);
+  configurationModel
+    .create(configurationCreate)
+    .then((newConfiguration) => {
+      result(null, newConfiguration);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+      return;
+    });
 };
 
-Configuration.create = (newConfig, result) => {
-  sql.query("INSERT INTO configuration SET ?", newConfig, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created configuration: ", { id: res.insertId, ...newConfig });
-    result(null, { id: res.insertId, ...newConfig });
-  });
+exports.getAll = (result) => {
+  configurationModel
+    .findAll()
+    .then((configurations) => {
+      console.log("configurations: ", configurations);
+      result(null, configurations);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Configuration.getAll = (result) => {
-  sql.query("SELECT * FROM configuration", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("configurations: ", res);
-    result(null, res);
-  });
+exports.getConfigurationById = (id, result) => {
+  configurationModel
+    .findOne({ where: { id_conf: id } })
+    .then((configuration) => {
+      if (!configuration) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("configuration: ", configuration);
+      result(null, configuration);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Configuration.getConfig = (id, result) => {
-  sql.query(`SELECT * FROM configuration WHERE id_conf = ${id}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+exports.deleteById = (id, result) => {
+  configurationModel
+    .destroy({ where: { id_conf: id } })
+    .then((configurationModel) => {
+      if (!configurationModel) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("deleted configuration with configurationId" + id);
 
-    if (res.length) {
-      console.log("found config: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-
-    // not found Configuration with the id
-    result({ kind: "not_found" }, null);
-  });
+      result(null, configurationModel);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
+};
+exports.deleteAll = (result) => {
+  configurationModel
+    .destroy({ where: {} })
+    .then((configurations) => {
+      console.log(`deleted ${configurations} configurations`);
+      result(null, configurations);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Configuration.remove = (id, result) => {
-  sql.query("DELETE FROM configuration WHERE id_conf= ?", id, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+exports.updateById = (id, req, result) => {
+  const configurationUpdate = createConfigurationModel(req);
 
-    if (res.affectedRows == 0) {
-      // not found Configuration with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("deleted config with id: ", id);
-    result(null, res);
-  });
+  configurationModel
+    .update(configurationUpdate, { where: { id_conf: id } })
+    .then(() => {
+      configurationModel
+        .findByPk(id)
+        .then((configuration) => {
+          if (!configuration) {
+            return result({ kind: "not_found" }, null);
+          }
+          console.log("Configurations updated: ", configuration);
+          result(null, configuration);
+        })
+        .catch((error) => {
+          console.log("error: ", error);
+          result(error, null);
+        });
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Configuration.removeAll = (result) => {
-  sql.query("DELETE FROM configuration", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log(`deleted ${res.affectedRows} config`);
-    result(null, res);
-  });
+createConfigurationModel = (req) => {
+  return {
+    key_conf: req.body.key,
+    value_conf: req.body.value,
+    active_conf: req.body.active,    
+  };
 };
-
-Configuration.updateById = (id, config, result) => {
-  var query = utils.updateElement(config, "configuration", "id_conf"); // element, tableName, idTable
-  sql.query(query, [id], (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-    if (res.affectedRows == 0) {
-      // not found Configuration with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("updated configuration: ", { id, ...config });
-    result(null, { id, ...config });
-  });
-};
-
-module.exports = Configuration;

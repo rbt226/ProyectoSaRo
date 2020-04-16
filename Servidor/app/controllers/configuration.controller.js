@@ -1,4 +1,4 @@
-const Configuration = require("../dao/configuration.dao");
+const configurationDao = require("../dao/configuration.dao");
 
 exports.create = (req, res) => {
   // Validate request
@@ -8,83 +8,29 @@ exports.create = (req, res) => {
     });
   }
 
-  const configuration = createConfiguration(req);
-
   // Save Configuration in the database
-  Configuration.create(configuration, (err, data) => {
+  configurationDao.create(req, (err, data) => {
     if (err)
       res.status(500).send({
-        message: err || "Some error occurred while creating the configuration.",
+        message: err || "Some error occurred while creating the Configuration.",
       });
     else res.send(data);
   });
 };
 
-// Retrieve all configs from the database.
-exports.findAll = (req, res) => {
-  Configuration.getAll((err, data) => {
+// Retrieve all Configurations from the database.
+exports.getAll = (req, res) => {
+  configurationDao.getAll((err, data) => {
     if (err)
       res.status(500).send({
-        message: err || "Some error occurred while retrieving configs.",
+        message: err || "Some error occurred while retrieving configurations.",
       });
     else res.send(data);
   });
 };
 
-exports.getConfig = (req, res) => {
-  Configuration.getConfig(req.params.id, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found configuration with id ${req.params.id}.`,
-        });
-      } else {
-        res.status(500).send({
-          message: "Error retrieving configuration with id " + req.params.id,
-        });
-      }
-    } else res.send(data);
-  });
-};
-
-exports.delete = (req, res) => {
-  Configuration.remove(req.params.id, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found configuration with id ${req.params.id}.`,
-        });
-      } else {
-        res.status(500).send({
-          message: "Could not delete configuration with id " + req.params.id,
-        });
-      }
-    } else res.send({ message: `configuration was deleted successfully!` });
-  });
-};
-
-exports.deleteAll = (req, res) => {
-  Configuration.removeAll((err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err || "Some error occurred while removing all configurations.",
-      });
-    else res.send({ message: `All configurations were deleted successfully!` });
-  });
-};
-
-exports.update = (req, res) => {
-  // Validate Request
-  if (!req.body) {
-    res.status(400).send({
-      message: "Content can not be empty!",
-    });
-  }
-
-  const configuration = createConfiguration(req);
-
-  Configuration.updateById(req.params.id, configuration, (err, data) => {
+exports.getConfigurationById = (req, res) => {
+  configurationDao.getConfigurationById(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -92,18 +38,58 @@ exports.update = (req, res) => {
         });
       } else {
         res.status(500).send({
-          message: "Error updating Configuration with id " + req.params.id,
+          message: "Error retrieving Configuration with id " + req.params.id,
         });
       }
     } else res.send(data);
   });
 };
 
-// Create a Configuration
-createConfiguration = (req) => {
-  return new Configuration({
-    key: req.body.key,
-    value: req.body.value,
-    active: req.body.active,
+exports.deleteById = (req, res) => {
+  configurationDao.deleteById(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Configuration with id ${req.params.id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete Configuration with id " + req.params.id,
+        });
+      }
+    } else res.send({ message: `Configuration was deleted successfully!` });
+  });
+};
+
+exports.deleteAll = (req, res) => {
+  configurationDao.deleteAll((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err || "Some error occurred while removing all configurations.",
+      });
+    else res.send({ message: `All Configurations were deleted successfully! - ${data}` });
+  });
+};
+
+exports.updateById = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+  const id = req.params.id;
+  configurationDao.updateById(id, req, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Configuration with id ${id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error updating Configuration with id " + id,
+        });
+      }
+    } else res.send({ message: `Configuration was updated successfully!` });
   });
 };
