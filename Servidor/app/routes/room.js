@@ -3,6 +3,9 @@ var router = express.Router();
 
 var room = require("../controllers/room.controller");
 
+/* GET - Obtain the rooms with the specific date, start and end hours*/
+router.post("/byDates", room.getRoomsAvailableByDates);
+
 /* POST - Update the Room with the specific id */
 router.post("/:id", room.updateById);
 

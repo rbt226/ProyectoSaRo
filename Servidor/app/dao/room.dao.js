@@ -1,4 +1,6 @@
 const roomModel = require("../models/room.model");
+const db = require("../common/db.js");
+const { QueryTypes } = require('sequelize');
 
 exports.create = (req, result) => {
   const roomCreate = createRoomModel(req);
@@ -30,6 +32,30 @@ exports.getAll = (result) => {
 exports.getRoomById = (id, result) => {
   roomModel
     .findOne({ where: { id_room: id } })
+    .then((room) => {
+      if (!room) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("room: ", room);
+      result(null, room);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
+};
+
+
+exports.getRoomsAvailableByDates = (date, start, end, result) => {
+
+  date += "T00:00:00.000Z"; 
+
+  query = `SELECT id_room FROM room WHERE id_room NOT IN ( 
+    SELECT id_room FROM booking AS b 
+    WHERE (${start} >= b.start AND ${start} < b.end) OR (${end} > b.start AND ${end} <= b.end)
+    AND b.date = '${date}')`;
+   
+    db.query(query, { type: db.QueryTypes.SELECT})
     .then((room) => {
       if (!room) {
         return result({ kind: "not_found" }, null);
@@ -97,6 +123,8 @@ exports.updateById = (id, req, result) => {
       result(error, null);
     });
 };
+
+
 
 createRoomModel = (req) => {
   return {

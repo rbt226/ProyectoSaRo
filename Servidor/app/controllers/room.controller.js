@@ -45,6 +45,25 @@ exports.getRoomById = (req, res) => {
   });
 };
 
+exports.getRoomsAvailableByDates = (req, res) => {
+  
+  const date = req.body.date;
+  roomDao.getRoomsAvailableByDates(date, req.body.start, req.body.end, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Rooms for date ${date}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Rooms for date " + date,
+        });
+      }
+    } else res.send(data);
+  });
+};
+
+
 exports.deleteById = (req, res) => {
   roomDao.deleteById(req.params.id, (err, data) => {
     if (err) {

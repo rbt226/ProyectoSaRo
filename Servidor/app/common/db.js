@@ -12,21 +12,6 @@ const sequelize = new Sequelize(config.database, config.user, config.password, {
   },
 });
 
-// var mysql = require("mysql");
-
-// //get config db file
-// var connection = mysql.createConnection(config);
-
-// connection.connect(function (err) {
-//   if (err) {
-//     console.error("Error connecting: " + err.stack);
-//     throw err;
-//   }
-//   console.log(
-//     "Successfully connected to the database with the id : " +
-//       connection.threadId
-//   );
-// });
 sequelize
   .authenticate()
   .then(() => {
