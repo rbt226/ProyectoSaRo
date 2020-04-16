@@ -1,109 +1,108 @@
-const sql = require("../common/db.js");
-const utils = require("../common/utils");
+const roomModel = require("../models/room.model");
 
-// Constructor
-const Room = function (room) {
-  this.name_room = room.name;
-  this.active_room = room.active;
-  this.image_room = room.image;
-  this.description = room.description;
+exports.create = (req, result) => {
+  const roomCreate = createRoomModel(req);
+  roomModel
+    .create(roomCreate)
+    .then((newRoom) => {
+      result(null, newRoom);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+      return;
+    });
 };
 
-Room.create = (newRoom, result) => {
-  sql.query("INSERT INTO room SET ?", newRoom, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created room: ", { id: res.insertId, ...newRoom });
-    result(null, { id: res.insertId, ...newRoom });
-  });
+exports.getAll = (result) => {
+  roomModel
+    .findAll()
+    .then((rooms) => {
+      console.log("rooms: ", rooms);
+      result(null, rooms);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Room.getAll = (result) => {
-  sql.query("SELECT * FROM room", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("rooms: ", res);
-    result(null, res);
-  });
+exports.getRoomById = (id, result) => {
+  roomModel
+    .findOne({ where: { id_room: id } })
+    .then((room) => {
+      if (!room) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("room: ", room);
+      result(null, room);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Room.getRoom = (id, result) => {
-  sql.query(`SELECT * FROM room WHERE id_room = ${id}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+exports.deleteById = (id, result) => {
+  roomModel
+    .destroy({ where: { id_room: id } })
+    .then((roomModel) => {
+      if (!roomModel) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("deleted room with roomId" + id);
 
-    if (res.length) {
-      console.log("found room: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-
-    // not found Room with the id
-    result({ kind: "not_found" }, null);
-  });
+      result(null, roomModel);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
+};
+exports.deleteAll = (result) => {
+  roomModel
+    .destroy({ where: {} })
+    .then((rooms) => {
+      console.log(`deleted ${rooms} rooms`);
+      result(null, rooms);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Room.remove = (id, result) => {
-  sql.query("DELETE FROM room WHERE id_room= ?", id, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+exports.updateById = (id, req, result) => {
+  const roomUpdate = createRoomModel(req);
 
-    if (res.affectedRows == 0) {
-      // not found Room with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("deleted room with id: ", id);
-    result(null, res);
-  });
+  roomModel
+    .update(roomUpdate, { where: { id_room: id } })
+    .then(() => {
+      roomModel
+        .findByPk(id)
+        .then((room) => {
+          if (!room) {
+            return result({ kind: "not_found" }, null);
+          }
+          console.log("Rooms updated: ", room);
+          result(null, room);
+        })
+        .catch((error) => {
+          console.log("error: ", error);
+          result(error, null);
+        });
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Room.removeAll = (result) => {
-  sql.query("DELETE FROM room", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log(`deleted ${res.affectedRows} room`);
-    result(null, res);
-  });
+createRoomModel = (req) => {
+  return {
+    name_room: req.body.name,
+    active_room: req.body.active,
+    image_room: req.body.image,
+    description: req.body.description,
+  };
 };
-
-Room.updateById = (id, room, result) => {
-  var query = utils.updateElement(room, "room", "id_room"); // element, tableName, idTable
-  sql.query(query, [id], (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.affectedRows == 0) {
-      // not found Room with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("updated room: ", { id, ...room });
-    result(null, { id, ...room });
-  });
-};
-
-module.exports = Room;

@@ -33,8 +33,8 @@ CREATE TABLE `booking` (
   `id_user` int(11) NOT NULL,
   `id_room` int(11) NOT NULL,
   `date` date NOT NULL,
-  `start` decimal(2,1) NOT NULL,
-  `end` decimal(2,1) NOT NULL
+  `start` decimal(3,1) NOT NULL,
+  `end` decimal(3,1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -177,6 +177,8 @@ ALTER TABLE `occupation`
 --
 ALTER TABLE `permission`
   ADD PRIMARY KEY (`id_permission`);
+  ADD UNIQUE KEY `U_IDX_PERMISSION` (`type_permission`);
+
 
 --
 -- Indexes for table `permission_role`
@@ -192,14 +194,16 @@ ALTER TABLE `permission_role`
 --
 ALTER TABLE `role`
   ADD PRIMARY KEY (`id_role`);
-  ADD UNIQUE KEY `ID_ROLE` (`name_role`);
+  ADD UNIQUE KEY `U_IDX_ROLE` (`name_role`);
 
 
 --
 -- Indexes for table `Room`
 --
 ALTER TABLE `room`
-  ADD UNIQUE KEY `ID_ROOM` (`id_room`);
+  ADD PRIMARY KEY (`id_role`);
+  ADD UNIQUE KEY `U_IDX_ROOM` (`name_room`);
+
 
 --
 -- Indexes for table `user`

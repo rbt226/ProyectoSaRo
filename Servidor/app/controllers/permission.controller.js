@@ -1,18 +1,15 @@
-const Permission = require("../dao/permission.dao");
+const permissionDao = require("../dao/permission.dao");
 
 exports.create = (req, res) => {
   // Validate request
-  debugger;
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!",
     });
   }
 
-  const permission = createPermission(req);
-
   // Save Permission in the database
-  Permission.create(permission, (err, data) => {
+  permissionDao.create(req, (err, data) => {
     if (err)
       res.status(500).send({
         message: err || "Some error occurred while creating the Permission.",
@@ -21,9 +18,9 @@ exports.create = (req, res) => {
   });
 };
 
-// Retrieve all Roles from the database.
-exports.findAll = (req, res) => {
-  Permission.getAll((err, data) => {
+// Retrieve all Permissions from the database.
+exports.getAll = (req, res) => {
+  permissionDao.getAll((err, data) => {
     if (err)
       res.status(500).send({
         message: err || "Some error occurred while retrieving permissions.",
@@ -32,8 +29,8 @@ exports.findAll = (req, res) => {
   });
 };
 
-exports.getPermission = (req, res) => {
-  Permission.getPermission(req.params.id, (err, data) => {
+exports.getPermissionById = (req, res) => {
+  permissionDao.getPermissionById(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -48,8 +45,8 @@ exports.getPermission = (req, res) => {
   });
 };
 
-exports.delete = (req, res) => {
-  Permission.remove(req.params.id, (err, data) => {
+exports.deleteById = (req, res) => {
+  permissionDao.deleteById(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -65,43 +62,34 @@ exports.delete = (req, res) => {
 };
 
 exports.deleteAll = (req, res) => {
-  Permission.removeAll((err, data) => {
+  permissionDao.deleteAll((err, data) => {
     if (err)
       res.status(500).send({
         message: err || "Some error occurred while removing all permissions.",
       });
-    else res.send({ message: `All Roles were deleted successfully!` });
+    else res.send({ message: `All Permissions were deleted successfully! - ${data}` });
   });
 };
 
-exports.update = (req, res) => {
+exports.updateById = (req, res) => {
   // Validate Request
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!",
     });
   }
-
-  const permission = createPermission(req);
-
-  Permission.updateById(req.params.id, permission, (err, data) => {
+  const id = req.params.id;
+  permissionDao.updateById(id, req, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Permission with id ${req.params.id}.`,
+          message: `Not found Permission with id ${id}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error updating Permission with id " + req.params.id,
+          message: "Error updating Permission with id " + id,
         });
       }
-    } else res.send(data);
-  });
-};
-
-// Create a Permission
-createPermission = (req) => {
-  return new Permission({
-    type: req.body.type,
+    } else res.send({ message: `Permission was updated successfully!` });
   });
 };

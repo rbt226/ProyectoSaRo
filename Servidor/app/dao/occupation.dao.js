@@ -1,110 +1,107 @@
+const occupationModel = require("../models/occupation.model");
 
-const sql = require("../common/db.js");
-const utils = require("../common/utils");
-
-// Constructor
-const Occupation = function (occupation) {
-  this.type_occupation = occupation.type;
-  this.active_occupation = occupation.active;
-  this.image_occupation = occupation.image;
+exports.create = (req, result) => {
+  const occupationCreate = createOccupationModel(req);
+  occupationModel
+    .create(occupationCreate)
+    .then((newOccupation) => {
+      result(null, newOccupation);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+      return;
+    });
 };
 
-Occupation.create = (newOccupation, result) => {
-  sql.query("INSERT INTO occupation SET ?", newOccupation, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created occupation: ", { id: res.insertId, ...newOccupation });
-    result(null, { id: res.insertId, ...newOccupation });
-  });
+exports.getAll = (result) => {
+  occupationModel
+    .findAll()
+    .then((occupations) => {
+      console.log("occupations: ", occupations);
+      result(null, occupations);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Occupation.getAll = (result) => {
-  sql.query("SELECT * FROM occupation", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("occupations: ", res);
-    result(null, res);
-  });
+exports.getOccupationById = (id, result) => {
+  occupationModel
+    .findOne({ where: { id_occupation: id } })
+    .then((occupation) => {
+      if (!occupation) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("occupation: ", occupation);
+      result(null, occupation);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Occupation.getOccupation = (id, result) => {
-  sql.query(`SELECT * FROM occupation WHERE id_occupation = ${id}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+exports.deleteById = (id, result) => {
+  occupationModel
+    .destroy({ where: { id_occupation: id } })
+    .then((occupationModel) => {
+      if (!occupationModel) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("deleted occupation with occupationId" + id);
 
-    if (res.length) {
-      console.log("found occupation: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-
-    // not found Occupation with the id
-    result({ kind: "not_found" }, null);
-  });
+      result(null, occupationModel);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
+};
+exports.deleteAll = (result) => {
+  occupationModel
+    .destroy({ where: {} })
+    .then((occupations) => {
+      console.log(`deleted ${occupations} occupations`);
+      result(null, occupations);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Occupation.remove = (id, result) => {
-  sql.query("DELETE FROM occupation WHERE id_occupation= ?", id, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+exports.updateById = (id, req, result) => {
+  const occupationUpdate = createOccupationModel(req);
 
-    if (res.affectedRows == 0) {
-      // not found Occupation with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("deleted occupation with id: ", id);
-    result(null, res);
-  });
+  occupationModel
+    .update(occupationUpdate, { where: { id_occupation: id } })
+    .then(() => {
+      occupationModel
+        .findByPk(id)
+        .then((occupation) => {
+          if (!occupation) {
+            return result({ kind: "not_found" }, null);
+          }
+          console.log("Occupations updated: ", occupation);
+          result(null, occupation);
+        })
+        .catch((error) => {
+          console.log("error: ", error);
+          result(error, null);
+        });
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Occupation.removeAll = (result) => {
-  sql.query("DELETE FROM occupation", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log(`deleted ${res.affectedRows} occupation`);
-    result(null, res);
-  });
+createOccupationModel = (req) => {
+  return {
+    type_occupation: req.body.type,
+    active_occupation: req.body.active,
+    image_occupation: req.body.image,
+  };
 };
-
-Occupation.updateById = (id, occupation, result) => {
-  console.log("model ", occupation);
-  var query = utils.updateElement(occupation, "occupation", "id_occupation"); // element, tableName, idTable
-  sql.query(query, [id], (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.affectedRows == 0) {
-      // not found Occupation with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("updated occupation: ", { id, ...occupation });
-    result(null, { id, ...occupation });
-  });
-};
-
-module.exports = Occupation;

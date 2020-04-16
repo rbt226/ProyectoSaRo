@@ -3,22 +3,23 @@ var router = express.Router();
 
 var client = require("../controllers/client.controller");
 
-/* POST - Update the client with the specific id */
-router.post("/:id", client.update);
+/* POST - Update the Client with the specific id */
+router.post("/:id", client.updateById);
 
 /* DELETE - Delete the client with the specific id */
-router.delete("/:id", client.delete);
+router.delete("/:id", client.deleteById);
 
 /* GET - Obtain the client with the specific id */
-router.get("/:id", client.getClient);
+router.get("/:id", client.getClientById);
 
 /* GET - Obtain all clients. */
-router.get("/", client.findAll);
+router.get("/", client.getAll);
 
-/* POST - Create a client */
+/* POST - Create a Client */
 router.post("/", client.create);
 
 /* DELETE - Delete all clients */
 router.delete("/", client.deleteAll);
+
 
 module.exports = router; // esto exporta el modulo

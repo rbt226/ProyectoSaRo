@@ -1,17 +1,15 @@
-const Occupation = require("../dao/occupation.dao");
+const occupationDao = require("../dao/occupation.dao");
 
 exports.create = (req, res) => {
   // Validate request
-  debugger;
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!",
     });
   }
-  const occupation = createOccupation(req);
 
-  // Save occupation in the database
-  Occupation.create(occupation, (err, data) => {
+  // Save Occupation in the database
+  occupationDao.create(req, (err, data) => {
     if (err)
       res.status(500).send({
         message: err || "Some error occurred while creating the Occupation.",
@@ -21,8 +19,8 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Occupations from the database.
-exports.findAll = (req, res) => {
-  Occupation.getAll((err, data) => {
+exports.getAll = (req, res) => {
+  occupationDao.getAll((err, data) => {
     if (err)
       res.status(500).send({
         message: err || "Some error occurred while retrieving occupations.",
@@ -31,8 +29,8 @@ exports.findAll = (req, res) => {
   });
 };
 
-exports.getOccupation = (req, res) => {
-  Occupation.getOccupation(req.params.id, (err, data) => {
+exports.getOccupationById = (req, res) => {
+  occupationDao.getOccupationById(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -47,8 +45,8 @@ exports.getOccupation = (req, res) => {
   });
 };
 
-exports.delete = (req, res) => {
-  Occupation.remove(req.params.id, (err, data) => {
+exports.deleteById = (req, res) => {
+  occupationDao.deleteById(req.params.id, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -64,44 +62,37 @@ exports.delete = (req, res) => {
 };
 
 exports.deleteAll = (req, res) => {
-  Occupation.removeAll((err, data) => {
+  occupationDao.deleteAll((err, data) => {
     if (err)
       res.status(500).send({
         message: err || "Some error occurred while removing all occupations.",
       });
-    else res.send({ message: `All Occupations were deleted successfully!` });
+    else
+      res.send({
+        message: `All Occupations were deleted successfully! - ${data}`,
+      });
   });
 };
 
-exports.update = (req, res) => {
+exports.updateById = (req, res) => {
   // Validate Request
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!",
     });
   }
-  const occupation = createOccupation(req);
-
-  Occupation.updateById(req.params.id, occupation, (err, data) => {
+  const id = req.params.id;
+  occupationDao.updateById(id, req, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Occupation with id ${req.params.id}.`,
+          message: `Not found Occupation with id ${id}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error updating Occupation with id " + req.params.id,
+          message: "Error updating Occupation with id " + id,
         });
       }
-    } else res.send(data);
+    } else res.send({ message: `Occupation was updated successfully!` });
   });
 };
-
-// Create a Occupation
-function createOccupation(req) {
-  return new Occupation({
-    type: req.body.type,
-    active: req.body.active,
-    image: req.body.image,
-  });
-}

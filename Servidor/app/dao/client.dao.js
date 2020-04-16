@@ -1,110 +1,109 @@
-const sql = require("../common/db.js");
-const utils = require("../common/utils");
+const clientModel = require("../models/client.model");
 
-// Constructor
-const Client = function (client) {
-  this.id_user = client.idUser;
-  this.name_client = client.name;
-  this.last_name = client.lastName;
-  this.document = client.document;
-  this.id_occupation = client.idOccupation;
+exports.create = (req, result) => {
+  const clientCreate = createClientModel(req);
+  clientModel
+    .create(clientCreate)
+    .then((newClient) => {
+      result(null, newClient);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+      return;
+    });
 };
 
-Client.create = (newClient, result) => {
-  sql.query("INSERT INTO client SET ?", newClient, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created client: ", { id: res.insertId, ...newClient });
-    result(null, { id: res.insertId, ...newClient });
-  });
+exports.getAll = (result) => {
+  clientModel
+    .findAll()
+    .then((clients) => {
+      console.log("clients: ", clients);
+      result(null, clients);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Client.getAll = (result) => {
-  sql.query("SELECT * FROM client", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("clients: ", res);
-    result(null, res);
-  });
+exports.getClientById = (id, result) => {
+  clientModel
+    .findOne({ where: { id_client: id } })
+    .then((client) => {
+      if (!client) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("client: ", client);
+      result(null, client);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Client.getClient = (id, result) => {
-  sql.query(`SELECT * FROM client WHERE id_client = ${id}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+exports.deleteById = (id, result) => {
+  clientModel
+    .destroy({ where: { id_client: id } })
+    .then((clientModel) => {
+      if (!clientModel) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("deleted client with clientId" + id);
 
-    if (res.length) {
-      console.log("found client: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-
-    // not found Client with the id
-    result({ kind: "not_found" }, null);
-  });
+      result(null, clientModel);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
+};
+exports.deleteAll = (result) => {
+  clientModel
+    .destroy({ where: {} })
+    .then((clients) => {
+      console.log(`deleted ${clients} clients`);
+      result(null, clients);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Client.remove = (id, result) => {
-  sql.query("DELETE FROM client WHERE id_client= ?", id, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+exports.updateById = (id, req, result) => {
+  const clientUpdate = createClientModel(req);
 
-    if (res.affectedRows == 0) {
-      // not found Client with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("deleted client with id: ", id);
-    result(null, res);
-  });
+  clientModel
+    .update(clientUpdate, { where: { id_client: id } })
+    .then(() => {
+      clientModel
+        .findByPk(id)
+        .then((client) => {
+          if (!client) {
+            return result({ kind: "not_found" }, null);
+          }
+          console.log("Clients updated: ", client);
+          result(null, client);
+        })
+        .catch((error) => {
+          console.log("error: ", error);
+          result(error, null);
+        });
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Client.removeAll = (result) => {
-  sql.query("DELETE FROM client", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log(`deleted ${res.affectedRows} client`);
-    result(null, res);
-  });
+createClientModel = (req) => {
+  return {
+    id_user: req.body.idUser,
+    name_client: req.body.name,
+    last_name: req.body.lastName,
+    document: req.body.document,
+    id_occupation: req.body.idOccupation,
+  };
 };
-
-Client.updateById = (id, client, result) => {
-  var query = utils.updateElement(client, "client", "id_client"); // element, tableName, idTable
-  sql.query(query, [id], (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.affectedRows == 0) {
-      // not found Client with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("updated client: ", { id, ...client });
-    result(null, { id, ...client });
-  });
-};
-
-module.exports = Client;

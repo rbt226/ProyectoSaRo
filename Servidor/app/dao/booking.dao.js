@@ -1,132 +1,126 @@
-const sql = require("../common/db.js");
-const utils = require("../common/utils");
-const dateFormat = require("dateformat");
+const bookingModel = require("../models/booking.model");
 
-// Constructor
-const Booking = function (booking) {
-  this.id_user = booking.idUser;
-  this.id_room = booking.idRoom;
-  this.date = booking.date;
-  this.start = booking.start;
-  this.end = booking.end;
+exports.create = (req, result) => {
+  const bookingCreate = createBookingModel(req);
+  bookingModel
+    .create(bookingCreate)
+    .then((newBooking) => {
+      result(null, newBooking);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+      return;
+    });
 };
 
-Booking.create = (newBooking, result) => {
-  sql.query("INSERT INTO booking SET ?", newBooking, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("created booking: ", { id: res.insertId, ...newBooking });
-    result(null, { id: res.insertId, ...newBooking });
-  });
+exports.getAll = (result) => {
+  bookingModel
+    .findAll()
+    .then((bookings) => {
+      console.log("bookings: ", bookings);
+      result(null, bookings);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Booking.getAll = (result) => {
-  sql.query("SELECT * FROM booking", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("bookings: ", res);
-    result(null, res);
-  });
+exports.getBookingById = (id, result) => {
+  bookingModel
+    .findOne({ where: { id_booking: id } })
+    .then((booking) => {
+      if (!booking) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("booking: ", booking);
+      result(null, booking);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-Booking.getBooking = (id, result) => {
-  sql.query(`SELECT * FROM booking WHERE id_booking = ${id}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.length) {
-      console.log("found booking: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-
-    // not found Booking with the id
-    result({ kind: "not_found" }, null);
-  });
-};
-
-Booking.remove = (id, result) => {
-  sql.query("DELETE FROM booking WHERE id_booking= ?", id, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.affectedRows == 0) {
-      // not found Booking with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("deleted booking with id: ", id);
-    result(null, res);
-  });
-};
-
-Booking.removeAll = (result) => {
-  sql.query("DELETE FROM booking", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log(`deleted ${res.affectedRows} booking`);
-    result(null, res);
-  });
-};
-
-Booking.updateById = (id, booking, result) => {
-  var query = utils.updateElement(booking, "booking", "id_booking"); // element, tableName, idTable
-  sql.query(query, [id], (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.affectedRows == 0) {
-      // not found Booking with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("updated booking: ", { id, ...booking });
-    result(null, { id, ...booking });
-  });
-};
-
-Booking.getBookingsByDate = (date, result) => {
+exports.getBookingByDate = (date, result) => {
   date += "T00:00:00.000Z";
-  console.log("getBookingsByDate en el model " + date);
-  sql.query("SELECT * FROM booking WHERE date = ?", date, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.length) {
-      console.log("found booking: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-
-    // not found Booking with the id
-    result({ kind: "not_found" }, null);
-  });
+  bookingModel
+    .findAll({ where: { date: date } })
+    .then((booking) => {
+      if (!booking) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("booking: ", booking);
+      result(null, booking);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
 };
 
-module.exports = Booking;
+exports.deleteById = (id, result) => {
+  bookingModel
+    .destroy({ where: { id_booking: id } })
+    .then((bookingModel) => {
+      if (!bookingModel) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("deleted booking with bookingId" + id);
+
+      result(null, bookingModel);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
+};
+exports.deleteAll = (result) => {
+  bookingModel
+    .destroy({ where: {} })
+    .then((bookings) => {
+      console.log(`deleted ${bookings} bookings`);
+      result(null, bookings);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
+};
+
+exports.updateById = (id, req, result) => {
+  const bookingUpdate = createBookingModel(req);
+
+  bookingModel
+    .update(bookingUpdate, { where: { id_booking: id } })
+    .then(() => {
+      bookingModel
+        .findByPk(id)
+        .then((booking) => {
+          if (!booking) {
+            return result({ kind: "not_found" }, null);
+          }
+          console.log("Bookings updated: ", booking);
+          result(null, booking);
+        })
+        .catch((error) => {
+          console.log("error: ", error);
+          result(error, null);
+        });
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
+};
+
+createBookingModel = (req) => {
+  return {
+    id_user: req.body.idUser,
+    id_room: req.body.idRoom,
+    date: req.body.date,
+    start: req.body.start,
+    end: req.body.end,
+  };
+};
