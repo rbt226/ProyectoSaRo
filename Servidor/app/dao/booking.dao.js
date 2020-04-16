@@ -60,6 +60,22 @@ exports.getBookingByDate = (date, result) => {
     });
 };
 
+exports.getBookingsByUser = (idUser, result) => {
+  bookingModel
+    .findAll({ where: { id_user: idUser } })
+    .then((bookings) => {
+      if (bookings.length === 0) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("bookings: ", bookings);
+      result(null, bookings);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
+};
+
 exports.deleteById = (id, result) => {
   bookingModel
     .destroy({ where: { id_booking: id } })

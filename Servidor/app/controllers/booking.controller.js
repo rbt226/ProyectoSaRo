@@ -61,6 +61,23 @@ exports.getBookingByDate = (req, res) => {
   });
 };
 
+exports.getBookingsByUser = (req, res) => {
+  const idUser = req.body.idUser;
+  bookingDao.getBookingsByUser(idUser, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Booking for the user  ${idUser}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Booking for the user  " + idUser,
+        });
+      }
+    } else res.send(data);
+  });
+};
+
 exports.deleteById = (req, res) => {
   bookingDao.deleteById(req.params.id, (err, data) => {
     if (err) {

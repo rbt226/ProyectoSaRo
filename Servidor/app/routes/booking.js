@@ -6,6 +6,10 @@ var booking = require("../controllers/booking.controller");
 /* POST - Get a Booking By Date */
 router.post("/byDate", booking.getBookingByDate);
 
+/* POST - Get a Booking By User */
+router.post("/byUser", booking.getBookingsByUser);
+
+
 /* POST - Update the Booking with the specific id */
 router.post("/:id", booking.updateById);
 
