@@ -45,16 +45,34 @@ exports.getBookingById = (req, res) => {
   });
 };
 
-exports.getBookingByDate = (req, res) => {
-  bookingDao.getBookingByDate(req.body.date, (err, data) => {
+exports.getBookingsByDate = (req, res) => {
+  const date = req.body.date;
+  bookingDao.getBookingsByDate(date, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Booking for the date  ${req.body.date}.`,
+          message: `Not found Bookings for the date  ${date}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving Booking for the date  " + req.body.date,
+          message: "Error retrieving Bookings for the date  " + rdate,
+        });
+      }
+    } else res.send(data);
+  });
+};
+
+exports.getBookingsByRoom = (req, res) => {
+  const idRoom = req.body.idRoom;
+  bookingDao.getBookingsByRoom(idRoom, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Bookings for the room  ${idRoom}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Bookings the room  " + idRoom,
         });
       }
     } else res.send(data);

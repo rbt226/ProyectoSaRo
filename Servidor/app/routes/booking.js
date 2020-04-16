@@ -4,7 +4,13 @@ var router = express.Router();
 var booking = require("../controllers/booking.controller");
 
 /* POST - Get a Booking By Date */
-router.post("/byDate", booking.getBookingByDate);
+router.post("/byDate", booking.getBookingsByDate);
+
+/* POST - Get a Booking By Date */
+router.post("/byRoom", booking.getBookingsByRoom);
+
+/* GET - Obtain the booking with the specific id */
+router.get("/:id", booking.getBookingById);
 
 /* POST - Get a Booking By User */
 router.post("/byUser", booking.getBookingsByUser);
@@ -15,9 +21,6 @@ router.post("/:id", booking.updateById);
 
 /* DELETE - Delete the booking with the specific id */
 router.delete("/:id", booking.deleteById);
-
-/* GET - Obtain the booking with the specific id */
-router.get("/:id", booking.getBookingById);
 
 /* GET - Obtain all bookings. */
 router.get("/", booking.getAll);

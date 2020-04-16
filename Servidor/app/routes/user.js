@@ -23,7 +23,7 @@ router.delete("/:id", user.deleteById);
 router.get("/:id", user.getUserById);
 
 /* GET - Obtain all users. */
-router.get("/", user.findAll);
+router.get("/", user.getAll);
 
 /* DELETE - Delete all users */
 router.delete("/", user.deleteAll);

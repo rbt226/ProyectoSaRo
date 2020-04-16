@@ -31,7 +31,7 @@ exports.getBookingById = (id, result) => {
   bookingModel
     .findOne({ where: { id_booking: id } })
     .then((booking) => {
-      if (!booking) {
+      if (bookings.length === 0) {
         return result({ kind: "not_found" }, null);
       }
       console.log("booking: ", booking);
@@ -43,16 +43,32 @@ exports.getBookingById = (id, result) => {
     });
 };
 
-exports.getBookingByDate = (date, result) => {
+exports.getBookingsByDate = (date, result) => {
   date += "T00:00:00.000Z";
   bookingModel
     .findAll({ where: { date: date } })
-    .then((booking) => {
-      if (!booking) {
+    .then((bookings) => {
+      if (bookings.length === 0) {
         return result({ kind: "not_found" }, null);
       }
-      console.log("booking: ", booking);
-      result(null, booking);
+      console.log("bookings: ", bookings);
+      result(null, bookings);
+    })
+    .catch((error) => {
+      console.log("error: ", error);
+      result(error, null);
+    });
+};
+
+exports.getBookingsByRoom = (idRoom, result) => {
+  bookingModel
+    .findAll({ where: { id_room: idRoom } })
+    .then((bookings) => {
+      if (bookings.length === 0) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("bookings: ", bookings);
+      result(null, bookings);
     })
     .catch((error) => {
       console.log("error: ", error);
