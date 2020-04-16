@@ -11,7 +11,7 @@ router.post("/signIn", user.signIn);
 router.post("/signUp", user.signUp);
 
 /* POST - Create a user */
-router.post("/create", user.create);
+router.post("/create", utils.verifyToken, user.create);
 
 /* POST - Update the user with the specific id */
 router.post("/:id", user.update);
