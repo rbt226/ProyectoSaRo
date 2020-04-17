@@ -1,0 +1,11 @@
+<h1>Room Detail</h1>
+<ng-container *ngIf="room">
+  <div class="card mb-3">
+    <img src="assets/room.jpg" class="card-img-top" alt="..." />
+    <div class="card-body">
+      <h5 class="card-title">{{ room.name_room }}</h5>
+      <p class="card-text">{{ room.description }}</p>
+    </div>
+  </div>
+</ng-container>
+<ngx-spinner bdColor = '#333' size = "large" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"></ngx-spinner>

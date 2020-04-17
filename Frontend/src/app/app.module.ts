@@ -11,6 +11,16 @@ import { NavbarComponent } from './components/common/navbar/navbar.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { DetailRoomComponent } from './components/room/detail-room/detail-room.component';
+import { RoomComponent } from './components/room/room.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FileUploadModule } from 'ng2-file-upload';
+import {
+  CloudinaryModule,
+  CloudinaryConfiguration,
+} from '@cloudinary/angular-5.x';
+import { Cloudinary } from 'cloudinary-core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,12 +29,20 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     ListUsersComponent,
     ListRoomsComponent,
     NavbarComponent,
+    DetailRoomComponent,
+    RoomComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule,
+    FileUploadModule,
+    CloudinaryModule.forRoot({ Cloudinary }, {
+      cloud_name: 'djbmfd9y6',
+    } as CloudinaryConfiguration),
   ],
   providers: [
     {

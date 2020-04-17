@@ -12,4 +12,9 @@ export class RoomService {
   getRooms() {
     return this.http.get<any>(this.URL + '/rooms');
   }
+
+  getRoomById(idRoom) {
+    console.log('id Room ', idRoom);
+    return this.http.get<any>(this.URL + '/rooms/' + idRoom);
+  }
 }
