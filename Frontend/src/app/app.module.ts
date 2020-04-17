@@ -21,6 +21,9 @@ import {
   CloudinaryConfiguration,
 } from '@cloudinary/angular-5.x';
 import { Cloudinary } from 'cloudinary-core';
+import { WelcomeAreaComponent } from './components/welcome-area/welcome-area.component';
+import { FooterComponent} from './components/common/footer/footer.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +34,8 @@ import { Cloudinary } from 'cloudinary-core';
     NavbarComponent,
     DetailRoomComponent,
     RoomComponent,
+    WelcomeAreaComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

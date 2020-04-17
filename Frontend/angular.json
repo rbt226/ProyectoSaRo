@@ -28,9 +28,16 @@
               "src/assets"
             ],
             "styles": [
+              "src/style.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "src/js/jquery.min.js",
+              "src/js/popper.min.js",
+              "src/js/bootstrap.min.js",
+              "src/js/roberto.bundle.js",
+              "src/js/default-assets/active.js"
+            ]
           },
           "configurations": {
             "production": {

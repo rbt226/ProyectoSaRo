@@ -1,0 +1,14 @@
+.icon_phone.clear{
+    padding-right: 5px;
+    color: #1cc3b2;
+}
+.footer-area {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+  }
+.vertical-align {
+      vertical-align: middle;
+}
