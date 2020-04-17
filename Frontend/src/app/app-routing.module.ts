@@ -4,6 +4,7 @@ import { ListUsersComponent } from './components/user/list-users/list-users.comp
 import { ListRoomsComponent } from './components/room/list-rooms/list-rooms.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/rooms', pathMatch: 'full' },
@@ -15,6 +16,7 @@ const routes: Routes = [
   {
     path: 'users',
     component: ListUsersComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'signUp',

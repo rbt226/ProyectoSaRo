@@ -1,15 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { RoomService } from 'src/app/services/room.service';
 
 @Component({
   selector: 'app-list-rooms',
   templateUrl: './list-rooms.component.html',
-  styleUrls: ['./list-rooms.component.scss']
+  styleUrls: ['./list-rooms.component.scss'],
 })
 export class ListRoomsComponent implements OnInit {
+  rooms = [];
+  constructor(private roomService: RoomService) {}
 
-  constructor() { }
-
-  ngOnInit(): void {
+  ngOnInit() {
+    this.roomService.getRooms().subscribe(
+      (res) => {
+        this.rooms = res;
+        console.log('res rooms', res);
+      },
+      (err) => {
+        console.log('Error', err);
+      }
+    );
   }
-
 }

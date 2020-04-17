@@ -26,16 +26,28 @@
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/signIn" routerLinkActive="active"
-            >Sign In</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/signUp" routerLinkActive="active"
-            >Sign Up</a
-          >
-        </li>
+        <ng-container *ngIf="!authService.loggedIn(); else logOut">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/signIn" routerLinkActive="active"
+              >Sign In</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/signUp" routerLinkActive="active"
+              >Sign Up</a
+            >
+          </li>
+        </ng-container>
+        <ng-template #logOut>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              style="cursor: pointer"
+              (click)="authService.logout()"
+              >Logout</a
+            >
+          </li>
+        </ng-template>
       </ul>
     </div>
   </nav>

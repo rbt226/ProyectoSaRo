@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RoomService {
+  private URL = 'http://localhost:3300';
 
-  constructor() { }
+  constructor(private http: HttpClient) {}
+
+  getRooms() {
+    return this.http.get<any>(this.URL + '/rooms');
+  }
 }

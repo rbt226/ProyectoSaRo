@@ -1,1 +1,5 @@
-<p>list-rooms works!</p>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let room of rooms">
+    {{ room.id_room }} - {{ room.name_room }} : {{ room.description }}
+  </li>
+</ul>
