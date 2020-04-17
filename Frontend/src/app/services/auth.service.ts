@@ -25,6 +25,10 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
+  decode() {
+    return null;
+  }
+
   logout() {
     localStorage.removeItem('token');
     console.log('llegue?');

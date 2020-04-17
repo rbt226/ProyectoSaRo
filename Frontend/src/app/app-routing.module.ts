@@ -4,7 +4,8 @@ import { ListUsersComponent } from './components/user/list-users/list-users.comp
 import { ListRoomsComponent } from './components/room/list-rooms/list-rooms.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/rooms', pathMatch: 'full' },
@@ -16,7 +17,8 @@ const routes: Routes = [
   {
     path: 'users',
     component: ListUsersComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'Admin' },
   },
   {
     path: 'signUp',
