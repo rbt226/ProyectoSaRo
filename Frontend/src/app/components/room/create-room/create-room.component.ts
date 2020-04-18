@@ -7,6 +7,7 @@ import {
 import { Cloudinary } from '@cloudinary/angular-5.x';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RoomService } from 'src/app/services/room.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-room',
@@ -15,7 +16,7 @@ import { RoomService } from 'src/app/services/room.service';
 })
 export class CreateRoomComponent implements OnInit {
   uploader: FileUploader;
-  response: string;
+  response: any;
   formCreateRoom: FormGroup;
 
   public hasBaseDropZoneOver = false;
@@ -27,7 +28,8 @@ export class CreateRoomComponent implements OnInit {
   constructor(
     private roomService: RoomService,
     private formBuilder: FormBuilder,
-    private cloudinary: Cloudinary
+    private cloudinary: Cloudinary,
+    private route: Router
   ) {
     this.title = '';
   }
@@ -42,17 +44,6 @@ export class CreateRoomComponent implements OnInit {
       isHTML5: true,
       // Calculate progress independently for each uploaded file
       removeAfterUpload: true,
-      formatDataFunctionIsAsync: true,
-      formatDataFunction: async (item) => {
-        return new Promise((resolve, reject) => {
-          resolve({
-            name: item._file.name,
-            length: item._file.size,
-            contentType: item._file.type,
-            date: new Date(),
-          });
-        });
-      },
       // XHR request headers
       headers: [
         {
@@ -96,41 +87,55 @@ export class CreateRoomComponent implements OnInit {
       response: string,
       status: number,
       headers: ParsedResponseHeaders
-    ) => {
-      console.log('on compleyr ', JSON.stringify(response));
+    ) =>
       upsertResponse({
         file: item.file,
         status,
         data: JSON.parse(response),
       });
-    };
+
+    this.response = '';
+
+    this.uploader.response.subscribe((res) => (this.response = res));
 
     this.formCreateRoom = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
+      image: [''],
     });
   }
 
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
-  public fileOverAnother(e: any): void {
-    this.hasAnotherDropZoneOver = e;
-  }
 
   create(data) {
     console.log(data);
-    this.uploader.uploadAll();
+    data.image = this.response.id;
+    for (const fileItem of this.uploader.queue) {
+      this.uploader.uploadItem(fileItem);
+      this.uploader.onCompleteItem = (
+        item: any,
+        response: any,
+        status: any,
+        headers: any
+      ) => {
+        const publicId = JSON.parse(response).public_id;
+        data.image = publicId;
 
-    // Update model on completion of uploading a file
-    // this.autService.signUp(data).subscribe(
-    //   (res) => {
-    //     localStorage.setItem('token', res.token);
-    //     console.log('resss', res.token);
-    //   },
-    //   (err) => {
-    //     console.log('Error', err);
-    //   }
-    // );
+
+        this.roomService.createRoom(data).subscribe(
+          (res) => {
+            console.log('resss', res);
+            this.route.navigate(['/rooms']);
+          },
+          (err) => {
+            console.log('Error', err);
+          }
+        );
+      };
+    }
+
+
   }
 }

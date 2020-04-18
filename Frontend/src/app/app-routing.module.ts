@@ -9,10 +9,14 @@ import { RoleGuard } from './guards/role.guard';
 import { DetailRoomComponent } from './components/room/detail-room/detail-room.component';
 import { RoomComponent } from './components/room/room.component';
 import { CreateRoomComponent } from './components/room/create-room/create-room.component';
+import { UploaderComponent } from './components/uploader/uploader.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/rooms', pathMatch: 'full' },
-
+  {
+    path: 'uploader',
+    component: UploaderComponent,
+  },
   {
     path: 'rooms',
     component: RoomComponent,
