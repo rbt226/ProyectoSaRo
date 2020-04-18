@@ -5,8 +5,11 @@
       <nav class="classy-navbar justify-content-between" id="robertoNav">
         <!-- Logo -->
         <a class="nav-brand" href="index.html"
-          ><img src="./assets/img/core-img/logo.png" alt=""
-        />Del<span>Parque</span>Consultorios</a>
+          ><img
+            src="./assets/img/core-img/logo.png"
+            alt=""
+          />Del<span>Parque</span>Consultorios</a
+        >
 
         <!-- Navbar Toggler -->
         <div class="classy-navbar-toggler">
@@ -26,10 +29,30 @@
           <!-- Nav Start -->
           <div class="classynav">
             <ul id="nav">
-              <li><a routerLink="/rooms" routerLinkActive="active">Rooms</a></li>
-              <li><a routerLink="/users" routerLinkActive="active">Users</a></li>
-              <li><a routerLink="/signIn" routerLinkActive="active">Sign In</a></li>
-              <li><a routerLink="/signUp" routerLinkActive="active">Sign Up</a></li>
+              <li>
+                <a routerLink="/rooms" routerLinkActive="active">Rooms</a>
+              </li>
+              <li>
+                <a routerLink="/users" routerLinkActive="active">Users</a>
+              </li>
+              <ng-container *ngIf="!authService.loggedIn(); else logOut">
+                <li>
+                  <a routerLink="/signIn" routerLinkActive="active">Sign In</a>
+                </li>
+                <li>
+                  <a routerLink="/signUp" routerLinkActive="active">Sign Up</a>
+                </li>
+              </ng-container>
+              <ng-template #logOut>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    style="cursor: pointer;"
+                    (click)="authService.logout()"
+                    >Logout</a
+                  >
+                </li>
+              </ng-template>
             </ul>
 
             <!-- Book Now -->

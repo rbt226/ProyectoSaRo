@@ -9,7 +9,7 @@ import { ListUsersComponent } from './components/user/list-users/list-users.comp
 import { ListRoomsComponent } from './components/room/list-rooms/list-rooms.component';
 import { NavbarComponent } from './components/common/navbar/navbar.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { DetailRoomComponent } from './components/room/detail-room/detail-room.component';
 import { RoomComponent } from './components/room/room.component';
@@ -45,6 +45,7 @@ import { FooterComponent} from './components/common/footer/footer.component';
     NgxSpinnerModule,
     BrowserAnimationsModule,
     FileUploadModule,
+    FormsModule,
     CloudinaryModule.forRoot({ Cloudinary }, {
       cloud_name: 'djbmfd9y6',
     } as CloudinaryConfiguration),
