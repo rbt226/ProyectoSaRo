@@ -8,6 +8,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
 import { DetailRoomComponent } from './components/room/detail-room/detail-room.component';
 import { RoomComponent } from './components/room/room.component';
+import { CreateRoomComponent } from './components/room/create-room/create-room.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/rooms', pathMatch: 'full' },
@@ -16,6 +17,10 @@ const routes: Routes = [
     path: 'rooms',
     component: RoomComponent,
     children: [
+      {
+        path: 'create', // child route path
+        component: CreateRoomComponent, // child route component that the router renders
+      },
       {
         path: '', // child route path
         component: ListRoomsComponent, // child route component that the router renders

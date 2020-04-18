@@ -1,40 +1,36 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-
-import { Cloudinary } from '@cloudinary/angular-5.x';
+import { Component, OnInit } from '@angular/core';
 import {
   FileUploader,
   FileUploaderOptions,
   ParsedResponseHeaders,
 } from 'ng2-file-upload';
+import { Cloudinary } from '@cloudinary/angular-5.x';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { RoomService } from 'src/app/services/room.service';
 
-interface HtmlInputEvent extends Event {
-  target: HTMLInputElement & EventTarget; // esto es para que haga un autocompletado
-}
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
+  selector: 'app-create-room',
+  templateUrl: './create-room.component.html',
+  styleUrls: ['./create-room.component.scss'],
 })
-export class SignUpComponent implements OnInit {
-  @Input()
-  responses: Array<any>;
+export class CreateRoomComponent implements OnInit {
+  uploader: FileUploader;
+  response: string;
+  formCreateRoom: FormGroup;
 
-  private hasBaseDropZoneOver = false;
-  public uploader: FileUploader;
+  public hasBaseDropZoneOver = false;
+  hasAnotherDropZoneOver: boolean;
+
   private title: string;
+  public imageDataArray;
 
   constructor(
-    private autService: AuthService,
+    private roomService: RoomService,
     private formBuilder: FormBuilder,
     private cloudinary: Cloudinary
-  ) {}
-  image: File;
-  imageSelected: string | ArrayBuffer;
-
-  formSignUp: FormGroup;
-
+  ) {
+    this.title = '';
+  }
   ngOnInit() {
     const uploaderOptions: FileUploaderOptions = {
       url: `https://api.cloudinary.com/v1_1/${
@@ -46,6 +42,17 @@ export class SignUpComponent implements OnInit {
       isHTML5: true,
       // Calculate progress independently for each uploaded file
       removeAfterUpload: true,
+      formatDataFunctionIsAsync: true,
+      formatDataFunction: async (item) => {
+        return new Promise((resolve, reject) => {
+          resolve({
+            name: item._file.name,
+            length: item._file.size,
+            contentType: item._file.type,
+            date: new Date(),
+          });
+        });
+      },
       // XHR request headers
       headers: [
         {
@@ -90,7 +97,7 @@ export class SignUpComponent implements OnInit {
       status: number,
       headers: ParsedResponseHeaders
     ) => {
-      console.log('entre aca?');
+      console.log('on compleyr ', JSON.stringify(response));
       upsertResponse({
         file: item.file,
         status,
@@ -98,19 +105,21 @@ export class SignUpComponent implements OnInit {
       });
     };
 
-    this.formSignUp = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      image: [''],
+    this.formCreateRoom = this.formBuilder.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
     });
   }
 
-  fileOverBase(e: any): void {
+  public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
+  public fileOverAnother(e: any): void {
+    this.hasAnotherDropZoneOver = e;
+  }
 
-  signUp(data) {
-    console.log(data.value);
+  create(data) {
+    console.log(data);
     this.uploader.uploadAll();
 
     // Update model on completion of uploading a file

@@ -17,4 +17,9 @@ export class RoomService {
     console.log('id Room ', idRoom);
     return this.http.get<any>(this.URL + '/rooms/' + idRoom);
   }
+
+  createRoom(room) {
+    console.log(' Room ', room);
+    return this.http.post<any>(this.URL, room);
+  }
 }

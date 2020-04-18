@@ -22,7 +22,8 @@ import {
 } from '@cloudinary/angular-5.x';
 import { Cloudinary } from 'cloudinary-core';
 import { WelcomeAreaComponent } from './components/welcome-area/welcome-area.component';
-import { FooterComponent} from './components/common/footer/footer.component';
+import { FooterComponent } from './components/common/footer/footer.component';
+import { CreateRoomComponent } from './components/room/create-room/create-room.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { FooterComponent} from './components/common/footer/footer.component';
     RoomComponent,
     WelcomeAreaComponent,
     FooterComponent,
+    CreateRoomComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +50,7 @@ import { FooterComponent} from './components/common/footer/footer.component';
     FormsModule,
     CloudinaryModule.forRoot({ Cloudinary }, {
       cloud_name: 'djbmfd9y6',
+      upload_preset: 'nqdq2zze',
     } as CloudinaryConfiguration),
   ],
   providers: [
