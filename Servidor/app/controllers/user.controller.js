@@ -8,10 +8,9 @@ exports.signIn = (req, res) => {
       message: "Content can not be empty!",
     });
   }
-  const userName = req.body.userName;
+  const mail = req.body.mail;
   const password = req.body.password;
-  // Save User in the database
-  userDao.signIn(userName, password, (err, data) => {
+  userDao.signIn(mail, password, (err, data) => {
     if (err)
       res.status(500).send({
         message: err || "Some error occurred while login.",

@@ -1,8 +1,8 @@
 const userModel = require("../models/user.model");
 
-exports.signIn = (userName, password, result) => {
+exports.signIn = (mail, password, result) => {
   userModel
-    .findOne({ where: { user_name: userName } })
+    .findOne({ where: { mail: mail } })
     .then((us) => {
       if (us && us.password === password) {
         result(null, { us });
