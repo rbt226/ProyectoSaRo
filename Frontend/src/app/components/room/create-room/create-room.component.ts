@@ -1,40 +1,39 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-
-import { Cloudinary } from '@cloudinary/angular-5.x';
+import { Component, OnInit } from '@angular/core';
 import {
   FileUploader,
   FileUploaderOptions,
   ParsedResponseHeaders,
 } from 'ng2-file-upload';
+import { Cloudinary } from '@cloudinary/angular-5.x';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { RoomService } from 'src/app/services/room.service';
+import { Router } from '@angular/router';
 
-interface HtmlInputEvent extends Event {
-  target: HTMLInputElement & EventTarget; // esto es para que haga un autocompletado
-}
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
+  selector: 'app-create-room',
+  templateUrl: './create-room.component.html',
+  styleUrls: ['./create-room.component.scss'],
 })
-export class SignUpComponent implements OnInit {
-  @Input()
-  responses: Array<any>;
+export class CreateRoomComponent implements OnInit {
+  uploader: FileUploader;
+  formCreateRoom: FormGroup;
 
-  private hasBaseDropZoneOver = false;
-  public uploader: FileUploader;
+  public hasBaseDropZoneOver = false;
+  hasAnotherDropZoneOver: boolean;
+
   private title: string;
+  private publicId: string;
+
+  public imageDataArray;
 
   constructor(
-    private autService: AuthService,
+    private roomService: RoomService,
     private formBuilder: FormBuilder,
-    private cloudinary: Cloudinary
-  ) {}
-  image: File;
-  imageSelected: string | ArrayBuffer;
-
-  formSignUp: FormGroup;
-
+    private cloudinary: Cloudinary,
+    private route: Router
+  ) {
+    this.title = '';
+  }
   ngOnInit() {
     const uploaderOptions: FileUploaderOptions = {
       url: `https://api.cloudinary.com/v1_1/${
@@ -58,7 +57,6 @@ export class SignUpComponent implements OnInit {
     const upsertResponse = (fileItem) => {
       // Check if HTTP request was successful
       if (fileItem.status !== 200) {
-        console.log('Upload to cloudinary Failed');
         return false;
       }
     };
@@ -69,10 +67,10 @@ export class SignUpComponent implements OnInit {
       form.append('upload_preset', this.cloudinary.config().upload_preset);
 
       // Add built-in and custom tags for displaying the uploaded photo in the list
-      let tags = 'angularimagegallery';
+      let tags = 'consultoriosdelparque';
       if (this.title) {
         form.append('context', `photo=${this.title}`);
-        tags = `angularimagegallery,${this.title}`;
+        tags = `consultoriosdelparque,${this.title}`;
       }
       form.append('tags', tags);
       form.append('file', fileItem);
@@ -88,31 +86,47 @@ export class SignUpComponent implements OnInit {
       response: string,
       status: number,
       headers: ParsedResponseHeaders
-    ) => {
+    ) =>
       upsertResponse({
         file: item.file,
         status,
         data: JSON.parse(response),
       });
-    };
 
-    this.formSignUp = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      image: [''],
+    this.formCreateRoom = this.formBuilder.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
     });
   }
 
-  fileOverBase(e: any): void {
+  public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
 
-  signUp(data) {
-    // Update model on completion of uploading a file
-    // this.autService.signUp(data).subscribe(
-    //   (res) => {
-    //     localStorage.setItem('token', res.token);
-    //   },
-    // );
+  create(data) {
+    if (this.uploader.queue.length > 0) {
+      for (const fileItem of this.uploader.queue) {
+        this.uploader.uploadItem(fileItem);
+        this.uploader.onCompleteItem = (
+          item: any,
+          response: any,
+          status: any,
+          headers: any
+        ) => {
+          this.publicId = JSON.parse(response).public_id;
+          data.image = this.publicId;
+          this.roomService.createRoom(data).subscribe((res) => {
+            this.route.navigate(['/rooms']);
+          });
+        };
+      }
+    } else {
+      if (this.publicId) {
+        data.image = this.publicId;
+      }
+      this.roomService.createRoom(data).subscribe((res) => {
+        this.route.navigate(['/rooms']);
+      });
+    }
   }
 }

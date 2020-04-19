@@ -25,18 +25,11 @@ export class SignInComponent implements OnInit {
   }
 
   signIn(data) {
-    console.log('llega signIn?', data.value);
     this.autService
       .signIn({ userName: 'mail@mail.com', password: 'password' })
-      .subscribe(
-        (res) => {
-          localStorage.setItem('token', res.token);
-          console.log('resss', res.token);
-          this.router.navigate(['/users']);
-        },
-        (err) => {
-          console.log('Error', err);
-        }
-      );
+      .subscribe((res) => {
+        localStorage.setItem('token', res.token);
+        this.router.navigate(['/users']);
+      });
   }
 }

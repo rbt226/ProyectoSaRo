@@ -22,27 +22,14 @@
             />
           </div>
           <div class="form-group">
-            <input
-              type="file"
-              formControlName="image"
-              class="d-none"
-              (change)="onImageSelected($event)"
-              #photoInput
-            />
+            <input type="file" ng2FileSelect [uploader]="uploader" />
           </div>
-          <img
-            [src]="imageSelected || 'assets/default.png'"
-            class="img-fluid"
-            alt="No Image"
-            (click)="photoInput.click()"
-          />
-          <!-- Con el # le decis q el tipo img corresponde al input file, con el src le indicas que si no hay imageSelected use la por default -->
           <button
             type="submit"
             class="form-control btn consultorio-btn w-100"
             [disabled]="!formSignUp.valid"
           >
-            <cl-image
+            <!-- <cl-image
               _ngcontent-ywn-2=""
               public-id="sample"
               class="thumbnail inline"
@@ -52,7 +39,7 @@
               <img
                 src="https://res.cloudinary.com/djbmfd9y6/image/upload/v1587095532/sample.jpg"
               />
-            </cl-image>
+            </cl-image> -->
             SignUp
           </button>
         </form>

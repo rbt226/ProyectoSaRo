@@ -26,11 +26,9 @@ export class DetailRoomComponent implements OnInit {
       this.roomService.getRoomById(idRoom).subscribe(
         (res) => {
           this.room = res;
-          console.log('res rooms', res);
           this.spinner.hide();
         },
         (err) => {
-          console.log('Error', err);
           this.spinner.hide();
         }
       );

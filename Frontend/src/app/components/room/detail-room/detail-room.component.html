@@ -1,11 +1,24 @@
 <h1>Room Detail</h1>
 <ng-container *ngIf="room">
   <div class="card mb-3">
-    <img src="assets/room.jpg" class="card-img-top" alt="..." />
+    <cl-image [public-id]="room.image_room" class="imgThumbnail" format="jpg">
+      <cl-transformation
+        height="300"
+        crop="fill"
+        radius="15"
+        width="300"
+      ></cl-transformation>
+    </cl-image>
     <div class="card-body">
       <h5 class="card-title">{{ room.name_room }}</h5>
       <p class="card-text">{{ room.description }}</p>
     </div>
   </div>
 </ng-container>
-<ngx-spinner bdColor = '#333' size = "large" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"></ngx-spinner>
+<ngx-spinner
+  bdColor="#333"
+  size="large"
+  color="#fff"
+  type="square-jelly-box"
+  [fullScreen]="true"
+></ngx-spinner>

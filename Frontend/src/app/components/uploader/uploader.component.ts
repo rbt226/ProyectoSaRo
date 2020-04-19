@@ -1,40 +1,22 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-
-import { Cloudinary } from '@cloudinary/angular-5.x';
+import { Component, OnInit } from '@angular/core';
 import {
   FileUploader,
   FileUploaderOptions,
-  ParsedResponseHeaders,
 } from 'ng2-file-upload';
+import { Cloudinary } from '@cloudinary/angular-5.x';
 
-interface HtmlInputEvent extends Event {
-  target: HTMLInputElement & EventTarget; // esto es para que haga un autocompletado
-}
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
+  selector: 'app-uploader',
+  templateUrl: './uploader.component.html',
+  styleUrls: ['./uploader.component.scss'],
 })
-export class SignUpComponent implements OnInit {
-  @Input()
-  responses: Array<any>;
-
-  private hasBaseDropZoneOver = false;
+export class UploaderComponent implements OnInit {
   public uploader: FileUploader;
-  private title: string;
+  public hasBaseDropZoneOver = false;
+  public imageDataArray;
 
-  constructor(
-    private autService: AuthService,
-    private formBuilder: FormBuilder,
-    private cloudinary: Cloudinary
-  ) {}
-  image: File;
-  imageSelected: string | ArrayBuffer;
-
-  formSignUp: FormGroup;
-
+  constructor(private cloudinary: Cloudinary) {
+  }
   ngOnInit() {
     const uploaderOptions: FileUploaderOptions = {
       url: `https://api.cloudinary.com/v1_1/${
@@ -59,6 +41,7 @@ export class SignUpComponent implements OnInit {
       // Check if HTTP request was successful
       if (fileItem.status !== 200) {
         console.log('Upload to cloudinary Failed');
+        console.log(fileItem);
         return false;
       }
     };
@@ -69,11 +52,7 @@ export class SignUpComponent implements OnInit {
       form.append('upload_preset', this.cloudinary.config().upload_preset);
 
       // Add built-in and custom tags for displaying the uploaded photo in the list
-      let tags = 'angularimagegallery';
-      if (this.title) {
-        form.append('context', `photo=${this.title}`);
-        tags = `angularimagegallery,${this.title}`;
-      }
+      let tags = 'consultoriosDelParque';
       form.append('tags', tags);
       form.append('file', fileItem);
 
@@ -87,32 +66,18 @@ export class SignUpComponent implements OnInit {
       item: any,
       response: string,
       status: number,
-      headers: ParsedResponseHeaders
-    ) => {
+    ) =>
       upsertResponse({
         file: item.file,
         status,
         data: JSON.parse(response),
       });
-    };
 
-    this.formSignUp = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      image: [''],
-    });
   }
 
-  fileOverBase(e: any): void {
+  public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
 
-  signUp(data) {
-    // Update model on completion of uploading a file
-    // this.autService.signUp(data).subscribe(
-    //   (res) => {
-    //     localStorage.setItem('token', res.token);
-    //   },
-    // );
-  }
+  
 }

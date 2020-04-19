@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +26,10 @@ import { FooterComponent } from './components/common/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RoomsAreaComponent } from './components/rooms-area/rooms-area.component';
 import { IndexComponent } from './components/index-component/index-component.component';
+import { CreateRoomComponent } from './components/room/create-room/create-room.component';
+import { GlobalErrorHandler } from './services/global-error-handler';
+import { ServerErrorInterceptor } from './services/server-error-interceptor';
+import { ToastNotificationsModule } from 'ngx-toast-notifications';
 
 @NgModule({
   declarations: [
@@ -42,6 +46,7 @@ import { IndexComponent } from './components/index-component/index-component.com
     WelcomeAreaComponent,
     RoomsAreaComponent,
     IndexComponent,
+    CreateRoomComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,17 +55,30 @@ import { IndexComponent } from './components/index-component/index-component.com
     ReactiveFormsModule,
     NgxSpinnerModule,
     BrowserAnimationsModule,
+    ToastNotificationsModule.forRoot({
+      duration: 6000,
+      position: 'top-right',
+      preventDuplicates: true,
+    }),
     FileUploadModule,
     FormsModule,
     CloudinaryModule.forRoot({ Cloudinary }, {
       cloud_name: 'djbmfd9y6',
+      upload_preset: 'nqdq2zze',
     } as CloudinaryConfiguration),
     NgbModule,
   ],
   providers: [
+    { provide: ErrorHandler, useClass: GlobalErrorHandler },
+
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ServerErrorInterceptor,
       multi: true,
     },
   ],
