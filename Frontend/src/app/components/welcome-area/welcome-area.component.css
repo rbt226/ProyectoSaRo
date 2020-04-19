@@ -86,12 +86,7 @@ ngb-carousel img {
   outline: none;
 }
 
-ngb-carousel {
-  width: inherit;
-  height: inherit;
-}
-
-/* .carousel-item div img {
+.carousel-item div img {
   content: "";
   position: absolute;
   top: 0;
@@ -99,10 +94,6 @@ ngb-carousel {
   left: 0;
   right: 0;
   background-color: rgba(0, 0, 0, 0.6);
-} */
-
-.carousel-indicators {
-  z-index: 20;
 }
 
 .img-carousel {
