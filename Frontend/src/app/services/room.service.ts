@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class RoomService {
-  private URL = 'http://localhost:3300/rooms';
+  private URL = 'http://localhost:3300/rooms/';
 
   constructor(private http: HttpClient) {}
 
@@ -14,12 +14,10 @@ export class RoomService {
   }
 
   getRoomById(idRoom) {
-    console.log('id Room ', idRoom);
     return this.http.get<any>(this.URL + idRoom);
   }
 
   createRoom(room) {
-    console.log(' Room ', room);
     return this.http.post<any>(this.URL, room);
   }
 }

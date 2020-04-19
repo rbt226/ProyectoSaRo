@@ -11,14 +11,8 @@ export class ListRoomsComponent implements OnInit {
   constructor(private roomService: RoomService) {}
 
   ngOnInit() {
-    this.roomService.getRooms().subscribe(
-      (res) => {
-        this.rooms = res;
-        console.log('res rooms', res);
-      },
-      (err) => {
-        console.log('Error', err);
-      }
-    );
+    this.roomService.getRooms().subscribe((res) => {
+      this.rooms = res;
+    });
   }
 }

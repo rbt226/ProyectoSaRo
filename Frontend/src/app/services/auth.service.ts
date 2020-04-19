@@ -31,7 +31,6 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
-    console.log('llegue?');
     this.router.navigate(['/signIn']);
   }
 }

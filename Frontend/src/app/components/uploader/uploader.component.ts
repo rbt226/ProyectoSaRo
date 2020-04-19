@@ -2,37 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import {
   FileUploader,
   FileUploaderOptions,
-  ParsedResponseHeaders,
 } from 'ng2-file-upload';
 import { Cloudinary } from '@cloudinary/angular-5.x';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { RoomService } from 'src/app/services/room.service';
-import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-create-room',
-  templateUrl: './create-room.component.html',
-  styleUrls: ['./create-room.component.scss'],
+  selector: 'app-uploader',
+  templateUrl: './uploader.component.html',
+  styleUrls: ['./uploader.component.scss'],
 })
-export class CreateRoomComponent implements OnInit {
-  uploader: FileUploader;
-  formCreateRoom: FormGroup;
-
+export class UploaderComponent implements OnInit {
+  public uploader: FileUploader;
   public hasBaseDropZoneOver = false;
-  hasAnotherDropZoneOver: boolean;
-
-  private title: string;
-  private publicId: string;
-
   public imageDataArray;
 
-  constructor(
-    private roomService: RoomService,
-    private formBuilder: FormBuilder,
-    private cloudinary: Cloudinary,
-    private route: Router
-  ) {
-    this.title = '';
+  constructor(private cloudinary: Cloudinary) {
   }
   ngOnInit() {
     const uploaderOptions: FileUploaderOptions = {
@@ -57,6 +40,8 @@ export class CreateRoomComponent implements OnInit {
     const upsertResponse = (fileItem) => {
       // Check if HTTP request was successful
       if (fileItem.status !== 200) {
+        console.log('Upload to cloudinary Failed');
+        console.log(fileItem);
         return false;
       }
     };
@@ -67,11 +52,7 @@ export class CreateRoomComponent implements OnInit {
       form.append('upload_preset', this.cloudinary.config().upload_preset);
 
       // Add built-in and custom tags for displaying the uploaded photo in the list
-      let tags = 'consultoriosdelparque';
-      if (this.title) {
-        form.append('context', `photo=${this.title}`);
-        tags = `consultoriosdelparque,${this.title}`;
-      }
+      let tags = 'consultoriosDelParque';
       form.append('tags', tags);
       form.append('file', fileItem);
 
@@ -85,7 +66,6 @@ export class CreateRoomComponent implements OnInit {
       item: any,
       response: string,
       status: number,
-      headers: ParsedResponseHeaders
     ) =>
       upsertResponse({
         file: item.file,
@@ -93,40 +73,11 @@ export class CreateRoomComponent implements OnInit {
         data: JSON.parse(response),
       });
 
-    this.formCreateRoom = this.formBuilder.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-    });
   }
 
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
 
-  create(data) {
-    if (this.uploader.queue.length > 0) {
-      for (const fileItem of this.uploader.queue) {
-        this.uploader.uploadItem(fileItem);
-        this.uploader.onCompleteItem = (
-          item: any,
-          response: any,
-          status: any,
-          headers: any
-        ) => {
-          this.publicId = JSON.parse(response).public_id;
-          data.image = this.publicId;
-          this.roomService.createRoom(data).subscribe((res) => {
-            this.route.navigate(['/rooms']);
-          });
-        };
-      }
-    } else {
-      if (this.publicId) {
-        data.image = this.publicId;
-      }
-      this.roomService.createRoom(data).subscribe((res) => {
-        this.route.navigate(['/rooms']);
-      });
-    }
-  }
+  
 }

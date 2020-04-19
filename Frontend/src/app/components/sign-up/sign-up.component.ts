@@ -59,7 +59,6 @@ export class SignUpComponent implements OnInit {
       // Check if HTTP request was successful
       if (fileItem.status !== 200) {
         console.log('Upload to cloudinary Failed');
-        console.log(fileItem);
         return false;
       }
     };
@@ -90,7 +89,6 @@ export class SignUpComponent implements OnInit {
       status: number,
       headers: ParsedResponseHeaders
     ) => {
-      console.log('entre aca?');
       upsertResponse({
         file: item.file,
         status,
@@ -110,18 +108,11 @@ export class SignUpComponent implements OnInit {
   }
 
   signUp(data) {
-    console.log(data.value);
-    this.uploader.uploadAll();
-
     // Update model on completion of uploading a file
     // this.autService.signUp(data).subscribe(
     //   (res) => {
     //     localStorage.setItem('token', res.token);
-    //     console.log('resss', res.token);
     //   },
-    //   (err) => {
-    //     console.log('Error', err);
-    //   }
     // );
   }
 }
