@@ -8,6 +8,8 @@ import { Cloudinary } from '@cloudinary/angular-5.x';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RoomService } from 'src/app/services/room.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
 
 @Component({
   selector: 'app-create-room',
@@ -17,10 +19,11 @@ import { Router } from '@angular/router';
 export class CreateRoomComponent implements OnInit {
   uploader: FileUploader;
   formCreateRoom: FormGroup;
-
+  maxSize = 10000;
+  allowedFileType = ['image'];
   public hasBaseDropZoneOver = false;
   hasAnotherDropZoneOver: boolean;
-
+  public errorImage = '';
   private title: string;
   private publicId: string;
 
@@ -30,7 +33,8 @@ export class CreateRoomComponent implements OnInit {
     private roomService: RoomService,
     private formBuilder: FormBuilder,
     private cloudinary: Cloudinary,
-    private route: Router
+    private route: Router,
+    private spinnerSevice: SpinnerService
   ) {
     this.title = '';
   }
@@ -45,6 +49,8 @@ export class CreateRoomComponent implements OnInit {
       isHTML5: true,
       // Calculate progress independently for each uploaded file
       removeAfterUpload: true,
+      allowedFileType: this.allowedFileType,
+      maxFileSize: this.maxSize,
       // XHR request headers
       headers: [
         {
@@ -93,9 +99,24 @@ export class CreateRoomComponent implements OnInit {
         data: JSON.parse(response),
       });
 
+    this.uploader.onWhenAddingFileFailed = (fileItem: any) => {
+      this.formCreateRoom.controls.image.setErrors({ incorrect: true });
+      this.errorImage = '';
+      if (fileItem.size > this.maxSize) {
+        this.errorImage = 'Se ha excedido el tamaño permitido';
+      } else {
+        if (!this.allowedFileType.includes(fileItem.type)) {
+          this.errorImage = 'Solamente te puede ingresar imagenes';
+        }
+      }
+    };
+    this.uploader.onAfterAddingFile = () => {
+      this.formCreateRoom.controls.image.reset();
+    };
     this.formCreateRoom = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
+      image: [''],
     });
   }
 
@@ -104,6 +125,8 @@ export class CreateRoomComponent implements OnInit {
   }
 
   create(data) {
+    this.spinnerSevice.showSpinner();
+
     if (this.uploader.queue.length > 0) {
       for (const fileItem of this.uploader.queue) {
         this.uploader.uploadItem(fileItem);
@@ -117,6 +140,7 @@ export class CreateRoomComponent implements OnInit {
           data.image = this.publicId;
           this.roomService.createRoom(data).subscribe((res) => {
             this.route.navigate(['/rooms']);
+            this.spinnerSevice.hideSpinner();
           });
         };
       }
@@ -126,6 +150,7 @@ export class CreateRoomComponent implements OnInit {
       }
       this.roomService.createRoom(data).subscribe((res) => {
         this.route.navigate(['/rooms']);
+        this.spinnerSevice.hideSpinner();
       });
     }
   }

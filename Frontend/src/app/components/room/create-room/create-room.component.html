@@ -21,14 +21,28 @@
             ></textarea>
           </div>
           <div class="form-group">
-            <input type="file" ng2FileSelect [uploader]="uploader" />
+            <input
+              formControlName="image"
+              type="file"
+              ng2FileSelect
+              [uploader]="uploader"
+            />
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="
+              formCreateRoom.controls.image.errors &&
+              formCreateRoom.controls.image.errors.incorrect
+            "
+          >
+            {{ errorImage }}
           </div>
           <button
             type="submit"
             class="form-control btn roberto-btn w-100"
             [disabled]="!formCreateRoom.valid"
           >
-            Create Room
+            Create
           </button>
         </form>
       </div>
