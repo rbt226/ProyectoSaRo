@@ -21,15 +21,16 @@ import {
   CloudinaryConfiguration,
 } from '@cloudinary/angular-5.x';
 import { Cloudinary } from 'cloudinary-core';
-import { WelcomeAreaComponent } from './components/welcome-area/welcome-area.component';
+import { WelcomeAreaComponent } from './components/areas/welcome-area/welcome-area.component';
+import { RoomsAreaComponent } from './components/areas/rooms-area/rooms-area.component';
 import { FooterComponent } from './components/common/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RoomsAreaComponent } from './components/rooms-area/rooms-area.component';
 import { IndexComponent } from './components/index-component/index-component.component';
 import { CreateRoomComponent } from './components/room/create-room/create-room.component';
 import { GlobalErrorHandler } from './services/global-error-handler';
 import { ServerErrorInterceptor } from './services/server-error-interceptor';
 import { ToastNotificationsModule } from 'ngx-toast-notifications';
+import { ServicesAreaComponent } from './components/areas/services-area/services-area.component';
 
 @NgModule({
   declarations: [
@@ -41,12 +42,12 @@ import { ToastNotificationsModule } from 'ngx-toast-notifications';
     NavbarComponent,
     DetailRoomComponent,
     RoomComponent,
-    WelcomeAreaComponent,
     FooterComponent,
     WelcomeAreaComponent,
     RoomsAreaComponent,
     IndexComponent,
     CreateRoomComponent,
+    ServicesAreaComponent,
   ],
   imports: [
     BrowserModule,
