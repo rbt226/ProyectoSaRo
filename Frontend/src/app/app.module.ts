@@ -82,12 +82,6 @@ import { ToastNotificationsModule } from 'ngx-toast-notifications';
       multi: true,
     },
   ],
-  bootstrap: [
-    AppComponent, 
-    WelcomeAreaComponent
-  ],
-  exports: [
-    WelcomeAreaComponent
-  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
