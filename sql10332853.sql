@@ -168,15 +168,15 @@ ALTER TABLE `client`
 -- Indexes for table `Occupation`
 --
 ALTER TABLE `occupation`
-  ADD PRIMARY KEY (`id_occupation`);
-  ADD UNIQUE KEY `U_IDX_TYPE` (`type_occupation`) USING BTREE,
+  ADD PRIMARY KEY (`id_occupation`),
+  ADD UNIQUE KEY `U_IDX_TYPE` (`type_occupation`) USING BTREE;
 
 
 --
 -- Indexes for table `permission`
 --
 ALTER TABLE `permission`
-  ADD PRIMARY KEY (`id_permission`);
+  ADD PRIMARY KEY (`id_permission`),
   ADD UNIQUE KEY `U_IDX_PERMISSION` (`type_permission`);
 
 
@@ -193,7 +193,7 @@ ALTER TABLE `permission_role`
 -- Indexes for table `role`
 --
 ALTER TABLE `role`
-  ADD PRIMARY KEY (`id_role`);
+  ADD PRIMARY KEY (`id_role`),
   ADD UNIQUE KEY `U_IDX_ROLE` (`name_role`);
 
 
@@ -201,7 +201,7 @@ ALTER TABLE `role`
 -- Indexes for table `Room`
 --
 ALTER TABLE `room`
-  ADD PRIMARY KEY (`id_role`);
+  ADD PRIMARY KEY (`id_room`),
   ADD UNIQUE KEY `U_IDX_ROOM` (`name_room`);
 
 

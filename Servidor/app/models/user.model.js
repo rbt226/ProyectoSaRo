@@ -34,7 +34,6 @@ User.init(
     },
     active_user: {
       type: Sequelize.BOOLEAN,
-      allowNull: false,
     },
     id_role: {
       type: Sequelize.INTEGER,

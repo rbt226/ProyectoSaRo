@@ -20,7 +20,6 @@ Occupation.init(
     },
     active_occupation: {
       type: Sequelize.BOOLEAN,
-      allowNull: false,
     },
     image_occupation: {
       type: Sequelize.STRING,

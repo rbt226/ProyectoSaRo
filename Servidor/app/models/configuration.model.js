@@ -23,7 +23,6 @@ Configuration.init(
     },
     active_conf: {
       type: Sequelize.BOOLEAN,
-      allowNull: false,
     }
   },
 

@@ -20,7 +20,6 @@ Room.init(
     },
     active_room: {
       type: Sequelize.BOOLEAN,
-      allowNull: false,
     },
     image_room: {
       type: Sequelize.STRING,
