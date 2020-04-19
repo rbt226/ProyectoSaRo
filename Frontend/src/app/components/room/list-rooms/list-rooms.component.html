@@ -1,10 +1,8 @@
 <ul class="list-group">
-  <li class="list-group-item" *ngFor="let room of rooms">
-    <a routerLink="{{ room.id_room }}">
+    <li class="list-group-item" *ngFor="let room of rooms">
+        <a routerLink="{{ room.id_room }}">
       {{ room.id_room }} - {{ room.name_room }} : {{ room.description }}</a
     >
     <!-- Esta ruta va sin / para que quede relativa , si desde room quiero ir a detail Room this.router.navigate(['items'], { relativeTo: this.route }); -->
   </li>
 </ul>
-
-<a routerLink="/users">Ejemplo - para ir a usuario</a>

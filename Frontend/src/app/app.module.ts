@@ -22,7 +22,10 @@ import {
 } from '@cloudinary/angular-5.x';
 import { Cloudinary } from 'cloudinary-core';
 import { WelcomeAreaComponent } from './components/welcome-area/welcome-area.component';
-import { FooterComponent} from './components/common/footer/footer.component';
+import { FooterComponent } from './components/common/footer/footer.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RoomsAreaComponent } from './components/rooms-area/rooms-area.component';
+import { IndexComponent } from './components/index-component/index-component.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { FooterComponent} from './components/common/footer/footer.component';
     RoomComponent,
     WelcomeAreaComponent,
     FooterComponent,
+    WelcomeAreaComponent,
+    RoomsAreaComponent,
+    IndexComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +55,7 @@ import { FooterComponent} from './components/common/footer/footer.component';
     CloudinaryModule.forRoot({ Cloudinary }, {
       cloud_name: 'djbmfd9y6',
     } as CloudinaryConfiguration),
+    NgbModule,
   ],
   providers: [
     {
@@ -57,6 +64,12 @@ import { FooterComponent} from './components/common/footer/footer.component';
       multi: true,
     },
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [
+    AppComponent, 
+    WelcomeAreaComponent
+  ],
+  exports: [
+    WelcomeAreaComponent
+  ],
 })
-export class AppModule {}
+export class AppModule { }

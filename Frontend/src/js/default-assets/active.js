@@ -1,13 +1,13 @@
 (function ($) {
     'use strict';
 
-    var roberto_window = $(window);
+    var consultorio_window = $(window);
 
     // ****************************
     // :: 1.0 Preloader Active Code
     // ****************************
 
-    roberto_window.on('load', function () {
+    consultorio_window.on('load', function () {
         $('#preloader').fadeOut('1000', function () {
             $(this).remove();
         });
@@ -18,7 +18,7 @@
     // ****************************
 
     if ($.fn.classyNav) {
-        $('#robertoNav').classyNav();
+        $('#consultorioNav').classyNav();
     }
 
     // ***************************
@@ -213,7 +213,7 @@
     // ***********************
     // :: 11.0 WOW Active Code
     // ***********************
-    if (roberto_window.width() > 767) {
+    if (consultorio_window.width() > 767) {
         new WOW().init();
     }
 
@@ -230,7 +230,7 @@
     // :: 13.0 Scrollup Active Code
     // ****************************
     if ($.fn.scrollUp) {
-        roberto_window.scrollUp({
+        consultorio_window.scrollUp({
             scrollSpeed: 1500,
             scrollText: '<i class="arrow_carrot-up"</i>'
         });

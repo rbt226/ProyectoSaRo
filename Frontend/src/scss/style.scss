@@ -1,7 +1,7 @@
 /* ------------------------------------------
 [Master Stylesheet]
 
-Template Name: Roberto - Hotel & Resort HTML Template
+Template Name: consultorio - Hotel & Resort HTML Template
 Template Author: Colorlib
 Template Author URL: http://colorlib.com
 Version: 1.0.0
@@ -34,34 +34,29 @@ Last Update: Feb 9, 2019
 - 19.0 Blog Area CSS
 --------------------------------------------- */
 
-/* Import Fonts & All CSS */
-@import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700');
 
+/* Import Fonts & All CSS */
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700');
 @import 'css/bootstrap.min.css';
 @import 'css/animate.css';
 @import 'css/default-assets/classy-nav.css';
-@import 'css/owl.carousel.min.css';
+// @import 'css/owl.carousel.min.css';
 @import 'css/magnific-popup.css';
 @import 'css/nice-select.css';
 @import 'css/font-awesome.min.css';
 @import 'css/style.css';
 @import 'css/bootstrap-datepicker.min.css';
 @import 'css/jquery-ui.min.css';
-
 // Utilities
-
 @import "utilities/fonts";
 @import "utilities/variables";
 @import "utilities/responsive";
 @import "utilities/color";
-
 // Mixins
-
 @import "mixins/flex";
 @import "mixins/miscellaneous";
-
 // Stylesheet
-
 @import "reboot";
 @import "spacing";
 @import "preloader";
