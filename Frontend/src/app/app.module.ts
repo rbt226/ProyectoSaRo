@@ -21,7 +21,7 @@ import {
   CloudinaryConfiguration,
 } from '@cloudinary/angular-5.x';
 import { Cloudinary } from 'cloudinary-core';
-import { WelcomeAreaComponent } from './components/welcome-area/welcome-area.component';
+import { WelcomeAreaComponent } from './components/areas/welcome-area/welcome-area.component';
 import { RoomsAreaComponent } from './components/areas/rooms-area/rooms-area.component';
 import { FooterComponent } from './components/common/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
