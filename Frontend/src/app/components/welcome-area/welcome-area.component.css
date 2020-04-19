@@ -48,6 +48,8 @@ ngbd-table-complete span.ngb-highlight {
 ngb-carousel .picsum-img-wrapper {
   height: 0;
   padding-top: 30%;
+  pointer-events: none;
+
   /* Keep ratio for 900x500 images */
 }
 
@@ -55,6 +57,8 @@ ngb-carousel .picsum-img-wrapper {
   ngb-carousel .picsum-img-wrapper {
     height: 0;
     padding-top: 30%;
+    pointer-events: none;
+
     /* Keep ratio for 900x500 images */
   }
 }
@@ -65,6 +69,7 @@ ngb-carousel .picsum-img-wrapper > img {
   left: 0;
   bottom: 0;
   right: 0;
+  pointer-events: none;
 }
 
 body {
@@ -84,6 +89,7 @@ section.content {
 ngb-carousel img {
   width: 100%;
   outline: none;
+  pointer-events: none;
 }
 
 .carousel-item div img {
@@ -98,4 +104,5 @@ ngb-carousel img {
 
 .img-carousel {
   width: -webkit-fill-available;
+  pointer-events: none;
 }
