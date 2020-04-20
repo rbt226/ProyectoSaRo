@@ -31,6 +31,7 @@ import { GlobalErrorHandler } from './services/global-error-handler';
 import { ServerErrorInterceptor } from './services/server-error-interceptor';
 import { ToastNotificationsModule } from 'ngx-toast-notifications';
 import { ServicesAreaComponent } from './components/areas/services-area/services-area.component';
+import { NguCarouselModule } from '@ngu/carousel';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { ServicesAreaComponent } from './components/areas/services-area/services
       cloud_name: 'djbmfd9y6',
       upload_preset: 'nqdq2zze',
     } as CloudinaryConfiguration),
+    NguCarouselModule,
     NgbModule,
   ],
   providers: [
