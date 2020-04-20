@@ -1,0 +1,42 @@
+<div class="hotel-search-form-area" *ngIf="!authService.loggedIn()">
+    <div class="container-fluid">
+        <div class="hotel-search-form">
+            <form action="#" method="post">
+                <div class="row justify-content-between align-items-end">
+                    <div class="padding-0 col-6 col-md-2 col-lg-2">
+                        <label for="checkIn">Fecha</label>
+                        <input type="date" class="form-control" id="checkIn" name="checkin-date">
+                    </div>
+                    <div class="padding-0 col-4 col-md-2">
+                        <label for="adults">Desde</label>
+                        <select name="adults" id="adults" class="form-control">
+                                <option class="list-group-item" *ngFor="let hour of hours" value={{hour}}>
+                                {{ hour }} </option>
+                        </select>
+                    </div>
+                    <div class="padding-0 col-4 col-md-2 col-lg-1">
+                        <label for="children">Horas</label>
+                        <select name="children" id="children" class="form-control">
+                                    <option value="01">1</option>
+                                    <option value="02">2</option>
+                                    <option value="03">3</option>
+                                    <option value="04">4</option>
+                                    <option value="05">5</option>
+                                    <option value="06">6</option>
+                                </select>
+                    </div>
+                    <div class="padding-0 col-6 col-md-2 col-lg-3">
+                        <label for="room">Sala</label>
+                        <select name="room" id="room" class="form-control">                            
+                                <option class="list-group-item" *ngFor="let room of rooms" value={{room.id_room}}>
+                                {{ room.name_room }} </option>
+                        </select>
+                    </div>
+                    <div class="padding-0 col-12 col-md-3">
+                        <button type="submit" class="form-control btn consultorio-btn w-100"><i class="icon_search"></i>&nbsp;&nbsp;Buscar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

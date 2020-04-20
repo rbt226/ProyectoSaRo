@@ -1,0 +1,19 @@
+  .service-content {
+      flex-wrap: wrap;
+      margin-bottom: 70px;
+  }
+  
+  @media (min-width:576px) {
+      .service-content {
+          flex-wrap: inherit;
+          margin-bottom: 0px;
+      }
+  }
+  
+  .single-service--area h5 {
+      color: black;
+  }
+  
+  .single-service--area:hover h5 {
+      color: #20603c;
+  }

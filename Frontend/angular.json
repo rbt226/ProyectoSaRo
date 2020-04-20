@@ -32,11 +32,10 @@
                             "src/styles.scss"
                         ],
                         "scripts": [
-                            "src/js/jquery.min.js",
-                            "src/js/popper.min.js",
-                            "src/js/bootstrap.min.js",
-                            "src/js/consultorio.bundle.js",
-                            "src/js/default-assets/active.js"
+                            "node_modules/jquery/dist/jquery.min.js",
+                            "node_modules/bootstrap/dist/js/bootstrap.min.js",
+                            "node_modules/popper.js/dist/umd/popper.js",
+                            { "input": "src/js/consultorio.bundle.js", "bundleName": "consultorio-bundle" }
                         ]
                     },
                     "configurations": {

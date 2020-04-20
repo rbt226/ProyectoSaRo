@@ -21,7 +21,7 @@ import {
   CloudinaryConfiguration,
 } from '@cloudinary/angular-5.x';
 import { Cloudinary } from 'cloudinary-core';
-import { WelcomeAreaComponent } from './components/welcome-area/welcome-area.component';
+import { WelcomeAreaComponent } from './components/areas/welcome-area/welcome-area.component';
 import { RoomsAreaComponent } from './components/areas/rooms-area/rooms-area.component';
 import { FooterComponent } from './components/common/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -32,6 +32,7 @@ import { ServerErrorInterceptor } from './services/server-error-interceptor';
 import { ToastNotificationsModule } from 'ngx-toast-notifications';
 import { ServicesAreaComponent } from './components/areas/services-area/services-area.component';
 import { NguCarouselModule } from '@ngu/carousel';
+import { BookingAreaComponent } from './components/areas/booking-area/booking-area.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { NguCarouselModule } from '@ngu/carousel';
     IndexComponent,
     CreateRoomComponent,
     ServicesAreaComponent,
+    BookingAreaComponent,
   ],
   imports: [
     BrowserModule,
