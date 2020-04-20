@@ -26,7 +26,7 @@ export class WelcomeAreaComponent implements AfterViewInit {
     velocity: 0.2,
     easing: 'cubic-bezier(0, 0, 0.2, 1)',
   };
-  images = [
+  carouselItems = [
     '/assets/images/test1.jpg',
     '/assets/images/test2.jpg',
     '/assets/images/test3.jpg',

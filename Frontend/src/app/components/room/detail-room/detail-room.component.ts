@@ -1,4 +1,10 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ChangeDetectorRef,
+  AfterViewInit,
+} from '@angular/core';
 import { RoomService } from 'src/app/services/room.service';
 import { Room } from 'src/app/models/room.interface';
 import { ActivatedRoute } from '@angular/router';
@@ -10,7 +16,7 @@ import { NguCarouselConfig, NguCarousel } from '@ngu/carousel';
   templateUrl: './detail-room.component.html',
   styleUrls: ['./detail-room.component.scss'],
 })
-export class DetailRoomComponent implements OnInit {
+export class DetailRoomComponent implements OnInit, AfterViewInit {
   slideNo = 0;
   withAnim = true;
   resetAnim = true;
@@ -34,8 +40,13 @@ export class DetailRoomComponent implements OnInit {
   constructor(
     private roomService: RoomService,
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private cdr: ChangeDetectorRef
   ) {}
+
+  ngAfterViewInit() {
+    this.cdr.detectChanges();
+  }
 
   moveTo(slide) {
     this.myCarousel.moveTo(slide, !this.withAnim);
