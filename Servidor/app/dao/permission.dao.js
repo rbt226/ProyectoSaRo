@@ -1,4 +1,5 @@
 const permissionModel = require("../models/permission.model");
+const utils = require("../common/utils");
 
 exports.create = (req, result) => {
   const permissionCreate = createPermissionModel(req);
@@ -8,9 +9,7 @@ exports.create = (req, result) => {
       result(null, newPermission);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
-      return;
+      utils.handleError(error, result);
     });
 };
 
@@ -22,8 +21,7 @@ exports.getAll = (result) => {
       result(null, permissions);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -38,8 +36,7 @@ exports.getPermissionById = (id, result) => {
       result(null, permission);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -55,8 +52,7 @@ exports.deleteById = (id, result) => {
       result(null, permissionModel);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 exports.deleteAll = (result) => {
@@ -67,8 +63,7 @@ exports.deleteAll = (result) => {
       result(null, permissions);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -93,8 +88,7 @@ exports.updateById = (id, req, result) => {
         });
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 

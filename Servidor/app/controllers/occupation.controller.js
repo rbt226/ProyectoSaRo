@@ -4,15 +4,15 @@ exports.create = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      error: { message: "Content can not be empty!" },
     });
   }
 
   // Save Occupation in the database
-  occupationDao.create(req, (err, data) => {
-    if (err)
+  occupationDao.create(req, (error, data) => {
+    if (error)
       res.status(500).send({
-        message: err || "Some error occurred while creating the Occupation.",
+        error,
       });
     else res.send(data);
   });
@@ -20,25 +20,26 @@ exports.create = (req, res) => {
 
 // Retrieve all Occupations from the database.
 exports.getAll = (req, res) => {
-  occupationDao.getAll((err, data) => {
-    if (err)
+  occupationDao.getAll((error, data) => {
+    if (error)
       res.status(500).send({
-        message: err || "Some error occurred while retrieving occupations.",
+        error,
       });
     else res.send(data);
   });
 };
 
 exports.getOccupationById = (req, res) => {
-  occupationDao.getOccupationById(req.params.id, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
+  occupationDao.getOccupationById(req.params.id, (error, data) => {
+    if (error) {
+      if (error.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Occupation with id ${req.params.id}.`,
+          message: `No se encontro Occupation con el identificador ${req.params.id}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving Occupation with id " + req.params.id,
+          message:
+            "Error retrieving Occupation con el identificador " + req.params.id,
         });
       }
     } else res.send(data);
@@ -46,15 +47,16 @@ exports.getOccupationById = (req, res) => {
 };
 
 exports.deleteById = (req, res) => {
-  occupationDao.deleteById(req.params.id, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
+  occupationDao.deleteById(req.params.id, (error, data) => {
+    if (error) {
+      if (error.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Occupation with id ${req.params.id}.`,
+          message: `No se encontro Occupation con el identificador ${req.params.id}.`,
         });
       } else {
         res.status(500).send({
-          message: "Could not delete Occupation with id " + req.params.id,
+          message:
+            "Could not delete Occupation con el identificador " + req.params.id,
         });
       }
     } else res.send({ message: `Occupation was deleted successfully!` });
@@ -62,10 +64,10 @@ exports.deleteById = (req, res) => {
 };
 
 exports.deleteAll = (req, res) => {
-  occupationDao.deleteAll((err, data) => {
-    if (err)
+  occupationDao.deleteAll((error, data) => {
+    if (error)
       res.status(500).send({
-        message: err || "Some error occurred while removing all occupations.",
+        error,
       });
     else
       res.send({
@@ -78,19 +80,19 @@ exports.updateById = (req, res) => {
   // Validate Request
   if (!req.body) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      error: { message: "Content can not be empty!" },
     });
   }
   const id = req.params.id;
-  occupationDao.updateById(id, req, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
+  occupationDao.updateById(id, req, (error, data) => {
+    if (error) {
+      if (error.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Occupation with id ${id}.`,
+          message: `No se encontro Occupation con el identificador ${id}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error updating Occupation with id " + id,
+          message: "Error updating Occupation con el identificador " + id,
         });
       }
     } else res.send({ message: `Occupation was updated successfully!` });

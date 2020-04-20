@@ -4,15 +4,15 @@ exports.create = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      error: { message: "Content can not be empty!" },
     });
   }
 
   // Save Client in the database
-  clientDao.create(req, (err, data) => {
-    if (err)
+  clientDao.create(req, (error, data) => {
+    if (error)
       res.status(500).send({
-        message: err || "Some error occurred while creating the Client.",
+        error,
       });
     else res.send(data);
   });
@@ -20,25 +20,27 @@ exports.create = (req, res) => {
 
 // Retrieve all Clients from the database.
 exports.getAll = (req, res) => {
-  clientDao.getAll((err, data) => {
-    if (err)
+  clientDao.getAll((error, data) => {
+    if (error)
       res.status(500).send({
-        message: err || "Some error occurred while retrieving clients.",
+        error,
       });
     else res.send(data);
   });
 };
 
 exports.getClientById = (req, res) => {
-  clientDao.getClientById(req.params.id, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
+  clientDao.getClientById(req.params.id, (error, data) => {
+    if (error) {
+      if (error.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Client with id ${req.params.id}.`,
+          error: {
+            message: `No se encontro Client con el identificador ${req.params.id}.`,
+          },
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving Client with id " + req.params.id,
+          error,
         });
       }
     } else res.send(data);
@@ -46,15 +48,17 @@ exports.getClientById = (req, res) => {
 };
 
 exports.deleteById = (req, res) => {
-  clientDao.deleteById(req.params.id, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
+  clientDao.deleteById(req.params.id, (error, data) => {
+    if (error) {
+      if (error.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Client with id ${req.params.id}.`,
+          error: {
+            message: `No se encontro Client con el identificador ${req.params.id}.`,
+          },
         });
       } else {
         res.status(500).send({
-          message: "Could not delete Client with id " + req.params.id,
+          error,
         });
       }
     } else res.send({ message: `Client was deleted successfully!` });
@@ -62,12 +66,13 @@ exports.deleteById = (req, res) => {
 };
 
 exports.deleteAll = (req, res) => {
-  clientDao.deleteAll((err, data) => {
-    if (err)
+  clientDao.deleteAll((error, data) => {
+    if (error)
       res.status(500).send({
-        message: err || "Some error occurred while removing all clients.",
+        error,
       });
-    else res.send({ message: `All Clients were deleted successfully! - ${data}` });
+    else
+      res.send({ message: `All Clients were deleted successfully! - ${data}` });
   });
 };
 
@@ -75,19 +80,21 @@ exports.updateById = (req, res) => {
   // Validate Request
   if (!req.body) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      error: { message: "Content can not be empty!" },
     });
   }
   const id = req.params.id;
-  clientDao.updateById(id, req, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
+  clientDao.updateById(id, req, (error, data) => {
+    if (error) {
+      if (error.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Client with id ${id}.`,
+          error: {
+            message: `No se encontro Client con el identificador ${id}.`,
+          },
         });
       } else {
         res.status(500).send({
-          message: "Error updating Client with id " + id,
+          error,
         });
       }
     } else res.send({ message: `Client was updated successfully!` });

@@ -1,4 +1,5 @@
 const bookingModel = require("../models/booking.model");
+const utils = require("../common/utils");
 
 exports.create = (req, result) => {
   const bookingCreate = createBookingModel(req);
@@ -8,9 +9,7 @@ exports.create = (req, result) => {
       result(null, newBooking);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
-      return;
+      utils.handleError(error, result);
     });
 };
 
@@ -22,8 +21,7 @@ exports.getAll = (result) => {
       result(null, bookings);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -38,8 +36,7 @@ exports.getBookingById = (id, result) => {
       result(null, booking);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -55,8 +52,7 @@ exports.getBookingsByDate = (date, result) => {
       result(null, bookings);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -71,8 +67,7 @@ exports.getBookingsByRoom = (idRoom, result) => {
       result(null, bookings);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -87,8 +82,7 @@ exports.getBookingsByUser = (idUser, result) => {
       result(null, bookings);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -104,8 +98,7 @@ exports.deleteById = (id, result) => {
       result(null, bookingModel);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 exports.deleteAll = (result) => {
@@ -116,8 +109,7 @@ exports.deleteAll = (result) => {
       result(null, bookings);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -142,8 +134,7 @@ exports.updateById = (id, req, result) => {
         });
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 

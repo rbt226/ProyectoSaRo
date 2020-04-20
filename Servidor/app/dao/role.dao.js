@@ -1,4 +1,5 @@
 const roleModel = require("../models/role.model");
+const utils = require("../common/utils");
 
 exports.create = (req, result) => {
   const roleCreate = createRoleModel(req);
@@ -8,9 +9,7 @@ exports.create = (req, result) => {
       result(null, newRole);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
-      return;
+      utils.handleError(error, result);
     });
 };
 
@@ -22,8 +21,7 @@ exports.getAll = (result) => {
       result(null, roles);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -38,8 +36,7 @@ exports.getRoleById = (id, result) => {
       result(null, role);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -55,8 +52,7 @@ exports.deleteById = (id, result) => {
       result(null, roleModel);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 exports.deleteAll = (result) => {
@@ -67,8 +63,7 @@ exports.deleteAll = (result) => {
       result(null, roles);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -93,8 +88,7 @@ exports.updateById = (id, req, result) => {
         });
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 

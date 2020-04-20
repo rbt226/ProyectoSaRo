@@ -1,4 +1,5 @@
 const roomModel = require("../models/room.model");
+const utils = require("../common/utils");
 
 exports.create = (req, result) => {
   const roomCreate = createRoomModel(req);
@@ -8,9 +9,7 @@ exports.create = (req, result) => {
       result(null, newRoom);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
-      return;
+      utils.handleError(error, result);
     });
 };
 
@@ -18,12 +17,10 @@ exports.getAll = (result) => {
   roomModel
     .findAll()
     .then((rooms) => {
-      console.log("rooms: ", rooms);
       result(null, rooms);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -38,8 +35,7 @@ exports.getRoomById = (id, result) => {
       result(null, room);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -55,8 +51,7 @@ exports.deleteById = (id, result) => {
       result(null, roomModel);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 exports.deleteAll = (result) => {
@@ -67,8 +62,7 @@ exports.deleteAll = (result) => {
       result(null, rooms);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -88,21 +82,30 @@ exports.updateById = (id, req, result) => {
           result(null, room);
         })
         .catch((error) => {
-          console.log("error: ", error);
-          result(error, null);
+          utils.handleError(error, result);
         });
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
 createRoomModel = (req) => {
+  const images = req.body.images;
+  let image = "";
+  images.forEach((im) => {
+    console.log("for each ", im);
+    if (!image) {
+      image = im;
+    } else {
+      image = image + "|" + im;
+    }
+  });
+  console.log("createRoomModel ", images, " imageee: ", image);
   return {
     name_room: req.body.name,
     active_room: req.body.active,
-    image_room: req.body.image,
+    image_room: image,
     description: req.body.description,
   };
 };

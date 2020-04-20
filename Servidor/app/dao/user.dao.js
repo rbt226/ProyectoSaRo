@@ -1,18 +1,20 @@
 const userModel = require("../models/user.model");
+const utils = require("../common/utils");
 
 exports.signIn = (mail, password, result) => {
   userModel
     .findOne({ where: { mail: mail } })
     .then((us) => {
+      console.log("qiuen es us ", us);
       if (us && us.password === password) {
         result(null, { us });
       } else {
-        result("User or password incorrect", null);
+        result({ message: "User or password incorrect" }, null);
       }
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      console.log("HANDLER ERROR ? ", error);
+      utils.handleError(error, result);
     });
 };
 
@@ -24,9 +26,7 @@ exports.create = (req, result) => {
       result(null, newUser);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
-      return;
+      utils.handleError(error, result);
     });
 };
 
@@ -38,8 +38,7 @@ exports.getAll = (result) => {
       result(null, users);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -54,8 +53,7 @@ exports.getUserById = (id, result) => {
       result(null, userModel);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -71,8 +69,7 @@ exports.deleteById = (id, result) => {
       result(null, userModel);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 exports.deleteAll = (result) => {
@@ -83,8 +80,7 @@ exports.deleteAll = (result) => {
       result(null, users);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -101,8 +97,7 @@ exports.updateById = (id, req, result) => {
       result(null, null);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 

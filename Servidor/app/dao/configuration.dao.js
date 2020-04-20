@@ -1,6 +1,7 @@
 const configurationModel = require("../models/configuration.model");
+const utils = require("../common/utils");
 
-exports.create = (req, result) => {  
+exports.create = (req, result) => {
   const configurationCreate = createConfigurationModel(req);
   configurationModel
     .create(configurationCreate)
@@ -8,9 +9,7 @@ exports.create = (req, result) => {
       result(null, newConfiguration);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
-      return;
+      utils.handleError(error, result);
     });
 };
 
@@ -22,8 +21,7 @@ exports.getAll = (result) => {
       result(null, configurations);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -38,8 +36,7 @@ exports.getConfigurationById = (id, result) => {
       result(null, configuration);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -55,8 +52,7 @@ exports.deleteById = (id, result) => {
       result(null, configurationModel);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 exports.deleteAll = (result) => {
@@ -67,8 +63,7 @@ exports.deleteAll = (result) => {
       result(null, configurations);
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -93,8 +88,7 @@ exports.updateById = (id, req, result) => {
         });
     })
     .catch((error) => {
-      console.log("error: ", error);
-      result(error, null);
+      utils.handleError(error, result);
     });
 };
 
@@ -102,6 +96,6 @@ createConfigurationModel = (req) => {
   return {
     key_conf: req.body.key,
     value_conf: req.body.value,
-    active_conf: req.body.active,    
+    active_conf: req.body.active,
   };
 };

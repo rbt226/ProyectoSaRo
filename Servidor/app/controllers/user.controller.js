@@ -5,17 +5,18 @@ exports.signIn = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      error: { message: "Content can not be empty!" },
     });
   }
   const mail = req.body.mail;
   const password = req.body.password;
-  userDao.signIn(mail, password, (err, data) => {
-    if (err)
+  userDao.signIn(mail, password, (error, data) => {
+    if (error)
       res.status(500).send({
-        message: err || "Some error occurred while login.",
+        error,
       });
     else {
+      console.log("estoy entrando aca?, ", data);
       const token = jwt.sign({ _id: data.id_user }, "secretKey");
       res.send({ token, data });
     }
@@ -25,14 +26,14 @@ exports.signUp = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      error: { message: "Content can not be empty!" },
     });
   }
 
-  userDao.create(req, (err, data) => {
-    if (err)
+  userDao.create(req, (error, data) => {
+    if (error)
       res.status(500).send({
-        message: err || "Some error occurred while creating the userDao.",
+        error,
       });
     else {
       const token = jwt.sign({ _id: data.id }, "secretKey");
@@ -46,15 +47,15 @@ exports.create = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      error: { message: "Content can not be empty!" },
     });
   }
 
   // Save User in the database
-  userDao.create(req, (err, data) => {
-    if (err)
+  userDao.create(req, (error, data) => {
+    if (error)
       res.status(500).send({
-        message: err || "Some error occurred while creating the userDao.",
+        error,
       });
     else res.send(data);
   });
@@ -62,25 +63,27 @@ exports.create = (req, res) => {
 
 // Retrieve all users from the database.
 exports.getAll = (req, res) => {
-  userDao.getAll((err, data) => {
-    if (err)
+  userDao.getAll((error, data) => {
+    if (error)
       res.status(500).send({
-        message: err || "Some error occurred while retrieving users.",
+        error,
       });
     else res.send(data);
   });
 };
 
 exports.getUserById = (req, res) => {
-  userDao.getUserById(req.params.id, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
+  userDao.getUserById(req.params.id, (error, data) => {
+    if (error) {
+      if (error.kind === "not_found") {
         res.status(404).send({
-          message: `Not found user with id ${req.params.id}.`,
+          error: {
+            message: `No se encontro user con el identificador ${req.params.id}.`,
+          },
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving user with id " + req.params.id,
+          error,
         });
       }
     } else res.send(data);
@@ -88,15 +91,17 @@ exports.getUserById = (req, res) => {
 };
 
 exports.deleteById = (req, res) => {
-  userDao.deleteById(req.params.id, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
+  userDao.deleteById(req.params.id, (error, data) => {
+    if (error) {
+      if (error.kind === "not_found") {
         res.status(404).send({
-          message: `Not found user with id ${req.params.id}.`,
+          error: {
+            message: `No se encontro user con el identificador ${req.params.id}.`,
+          },
         });
       } else {
         res.status(500).send({
-          message: "Could not delete user with id " + req.params.id,
+          error,
         });
       }
     } else res.send({ message: `user was deleted successfully!` });
@@ -104,10 +109,10 @@ exports.deleteById = (req, res) => {
 };
 
 exports.deleteAll = (req, res) => {
-  userDao.deleteAll((err, data) => {
-    if (err)
+  userDao.deleteAll((error, data) => {
+    if (error)
       res.status(500).send({
-        message: err || "Some error occurred while removing all users.",
+        error,
       });
     else
       res.send({ message: `All users were deleted successfully! - ${data}` });
@@ -118,19 +123,21 @@ exports.update = (req, res) => {
   // Validate Request
   if (!req.body) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      error: { message: "Content can not be empty!" },
     });
   }
 
-  userDao.updateById(req.params.id, req, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
+  userDao.updateById(req.params.id, req, (error, data) => {
+    if (error) {
+      if (error.kind === "not_found") {
         res.status(404).send({
-          message: `Not found User with id ${req.params.id}.`,
+          error: {
+            message: `No se encontro User con el identificador ${req.params.id}.`,
+          },
         });
       } else {
         res.status(500).send({
-          message: err || "Error updating User with id " + req.params.id,
+          error,
         });
       }
     } else res.send({ message: `user was updated successfully!` });

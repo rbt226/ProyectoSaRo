@@ -6,6 +6,7 @@ class Room extends Model {}
 
 // allowNull defaults to true
 
+Room.seq = Sequelize;
 Room.init(
   {
     // attributes
@@ -17,12 +18,17 @@ Room.init(
     name_room: {
       type: Sequelize.STRING,
       allowNull: false,
+      unique: {
+        args: true,
+        msg: "Name already in use",
+      },
     },
     active_room: {
       type: Sequelize.BOOLEAN,
     },
     image_room: {
       type: Sequelize.STRING,
+      defaultValue: "defaultImage",
       allowNull: false,
     },
     description: {
