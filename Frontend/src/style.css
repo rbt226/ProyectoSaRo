@@ -1657,11 +1657,9 @@ input:focus {
 }
 
 .single-room-slide .room-thumbnail {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
-    max-width: 50%;
-    width: 50%;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
 }
 
 @media only screen and (max-width: 767px) {

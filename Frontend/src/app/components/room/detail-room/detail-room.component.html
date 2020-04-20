@@ -1,4 +1,4 @@
-<h1>Room Detail</h1>
+<!-- <h1>Room Detail</h1>
 <ng-container *ngIf="room">
   <div class="card mb-3">
     <cl-image [public-id]="room.image_room" class="imgThumbnail" format="jpg">
@@ -14,5 +14,29 @@
       <p class="card-text">{{ room.description }}</p>
     </div>
   </div>
-</ng-container>
+</ng-container> -->
 
+<div *ngIf="room">
+  <ngu-carousel
+    #myCarousel
+    [inputs]="carouselConfig"
+    [dataSource]="room.images"
+  >
+    <ngu-tile *nguCarouselDef="let item; let j = index" class="item">
+      <cl-image
+        [public-id]="item"
+        class="tiles"
+        format="jpg"
+      ></cl-image>
+    </ngu-tile>
+    <button NguCarouselNext class="rightRs">></button>
+    <button NguCarouselPrev class="leftRs"><</button>
+    <ul class="myPoint" NguCarouselPoint>
+      <li
+        *ngFor="let j of myCarousel.pointNumbers; let i = index"
+        [class.active]="j == myCarousel.activePoint"
+        (click)="myCarousel.moveTo(i)"
+      ></li>
+    </ul>
+  </ngu-carousel>
+</div>

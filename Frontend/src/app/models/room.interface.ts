@@ -3,6 +3,6 @@ export interface Room {
   name_room: string;
   description: string;
   mobile_phone: number;
-  image_room: string;
+  images: Array<string>;
   active_room: boolean;
 }

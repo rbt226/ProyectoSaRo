@@ -1,9 +1,4 @@
-import {
-  Component,
-  AfterViewInit,
-  ViewChild,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NguCarouselConfig, NguCarousel } from '@ngu/carousel';
 
 @Component({
@@ -11,12 +6,10 @@ import { NguCarouselConfig, NguCarousel } from '@ngu/carousel';
   templateUrl: './welcome-area.component.html',
   styleUrls: ['./welcome-area.component.css'],
 })
-export class WelcomeAreaComponent implements AfterViewInit {
-  name = 'Angular';
+export class WelcomeAreaComponent {
   slideNo = 0;
   withAnim = true;
   resetAnim = true;
-  prueba = '/assets/images/test1.jpg';
   @ViewChild('myCarousel') myCarousel: NguCarousel<any>;
   carouselConfig: NguCarouselConfig = {
     grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
@@ -34,10 +27,6 @@ export class WelcomeAreaComponent implements AfterViewInit {
     '/assets/images/test3.jpg',
   ];
   constructor(private cdr: ChangeDetectorRef) {}
-
-  ngAfterViewInit() {
-    this.cdr.detectChanges();
-  }
 
   reset() {
     this.myCarousel.reset(!this.resetAnim);

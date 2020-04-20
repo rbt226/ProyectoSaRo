@@ -1,0 +1,83 @@
+.item {
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.tile {
+  background-position: center center !important;
+  background-repeat: no-repeat !important ;
+}
+
+button:focus {
+  outline: 0;
+}
+
+.room-thumbnail h-100 bg-img {
+  max-width: 50%;
+  width: 50%;
+}
+
+.owl-prev {
+  cursor: pointer;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  border: none;
+  user-select: none;
+  right: 50%;
+  transition-duration: 500ms;
+  width: 130px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  position: absolute;
+  bottom: 0;
+  z-index: 100;
+  background-image: none !important;
+  background-color: #fff !important;
+}
+.owl-next {
+  cursor: pointer;
+  border: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
+  background-color: #1cc3b2 !important;
+  left: 50%;
+  color: #fff;
+  -webkit-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+  width: 130px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  position: absolute;
+  bottom: 0;
+  z-index: 100;
+  background-image: none !important;
+}
+
+.rooms-btn {
+  position: relative;
+  z-index: 1;
+  min-width: 150px;
+  height: 46px;
+  line-height: 46px;
+  font-size: 16px;
+  font-weight: 500;
+  display: inline-block;
+  padding: 0 40px;
+  text-align: center;
+  text-transform: capitalize;
+  background-color: #1cc3b2;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  -webkit-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
