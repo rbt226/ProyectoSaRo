@@ -1,6 +1,6 @@
 .clear {
     padding-right: 5px;
-    color: #20603c;
+    color: #1cc3b2;
     margin-left: 10px;
 }
 
@@ -18,4 +18,5 @@
 .text-medium {
     color: #afb4bf;
     font-size: medium;
+    text-align: center;
 }

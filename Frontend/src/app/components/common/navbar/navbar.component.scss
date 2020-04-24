@@ -1,8 +1,57 @@
 .classy-nav-container span {
-    color: #20603c;
+    color: #1cc3b2;
     ;
+}
+
+.nav-brand {
+    font-size: 2em;
+}
+
+@media only screen and (max-width: 500px) {
+    .nav-brand {
+        font-size: 1em;
+    }
+}
+
+.nav-brand:hover {
+    color: #1cc3b2;
+}
+
+.nav-brand span {
+    color: #1cc3b2;
 }
 
 .nav-brand img {
     padding-right: 10px;
+    height: 70px;
+}
+
+@media only screen and (max-width: 500px) {
+    .nav-brand img {
+        padding-right: 5px;
+        height: 35px;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .nav-brand img {
+        padding-right: 5px;
+        height: 40px;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar-expand-lg .navbar-collapse {
+        display: block!important;
+        flex-basis: auto;
+    }
+}
+
+.navbar-nav {
+    text-align: right;
+    float: right;
+}
+
+.navbar-nav li {
+    float: left;
 }

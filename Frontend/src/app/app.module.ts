@@ -32,7 +32,7 @@ import { ServerErrorInterceptor } from './services/server-error-interceptor';
 import { ToastNotificationsModule } from 'ngx-toast-notifications';
 import { ServicesAreaComponent } from './components/areas/services-area/services-area.component';
 import { NguCarouselModule } from '@ngu/carousel';
-import { BookingAreaComponent } from './components/areas/booking-area/booking-area.component';
+import { BookingAreaComponent } from './components/areas/booking-area/booking-area.component';   
 
 @NgModule({
   declarations: [

@@ -165,14 +165,14 @@ ul li {
     position: fixed;
     top: 20px;
     width: 30px;
-    background: #20603c;
+    background: #1cc3b2;
     height: 30px;
     line-height: 30px;
 }
 
 button.mfp-close,
 button.mfp-arrow {
-    background: #20603c;
+    background: #1cc3b2;
 }
 
 .mfp-bottom-bar {
@@ -368,7 +368,7 @@ input:focus {
     z-index: 9999999;
     top: 0;
     left: 0;
-    background-color: #20603c;
+    background-color: #1cc3b2;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -454,7 +454,7 @@ input:focus {
 
 .section-heading h6 {
     text-transform: uppercase;
-    color: #20603c;
+    color: #1cc3b2;
     letter-spacing: 2px;
     display: block;
     margin-bottom: 10px;
@@ -502,7 +502,7 @@ input:focus {
     width: 40px;
     height: 40px;
     bottom: 40px;
-    background-color: #20603c;
+    background-color: #1cc3b2;
     color: #ffffff;
     text-align: center;
     -webkit-transition-duration: 500ms;
@@ -546,7 +546,7 @@ input:focus {
     padding: 0 40px;
     text-align: center;
     text-transform: capitalize;
-    background-color: #20603c;
+    background-color: #1cc3b2;
     color: #ffffff;
     border: none;
     border-radius: 2px;
@@ -561,14 +561,14 @@ input:focus {
     -webkit-box-shadow: 0 2px 40px 8px rgba(15, 15, 15, 0.15);
     box-shadow: 0 2px 40px 8px rgba(15, 15, 15, 0.15);
     background-color: #ffffff;
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .consultorio-btn.btn-2 {
     min-width: 180px;
     height: 50px;
     line-height: 46px;
-    border: 2px solid #20603c;
+    border: 2px solid #1cc3b2;
     background-color: transparent;
     color: #ffffff;
 }
@@ -576,7 +576,7 @@ input:focus {
 .consultorio-btn.btn-2:focus,
 .consultorio-btn.btn-2:hover {
     color: #ffffff;
-    background-color: #20603c;
+    background-color: #1cc3b2;
 }
 
 .continue-btn {
@@ -605,7 +605,7 @@ input:focus {
     -webkit-transition-duration: 500ms;
     -o-transition-duration: 500ms;
     transition-duration: 500ms;
-    background-color: #20603c;
+    background-color: #1cc3b2;
 }
 
 .header-area .search-form {
@@ -617,7 +617,7 @@ input:focus {
     z-index: 1;
     width: 100%;
     height: 0;
-    background-color: #20603c;
+    background-color: #1cc3b2;
 }
 
 .header-area .search-form.search-form-active {
@@ -690,7 +690,7 @@ input:focus {
 
 .top-header-area .top-header-content>a i {
     padding-right: 5px;
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -742,7 +742,7 @@ input:focus {
 
 .top-header-area .top-header-content .top-social-area a:hover,
 .top-header-area .top-header-content .top-social-area a:focus {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .classy-nav-container {
@@ -800,7 +800,7 @@ input:focus {
     }
     .classy-nav-container .classy-navbar .classynav ul li a:hover,
     .classy-nav-container .classy-navbar .classynav ul li a:focus {
-        color: #20603c;
+        color: #1cc3b2;
     }
 }
 
@@ -811,7 +811,7 @@ input:focus {
     }
     .classy-nav-container .classy-navbar .classynav ul li a:hover,
     .classy-nav-container .classy-navbar .classynav ul li a:focus {
-        color: #20603c;
+        color: #1cc3b2;
     }
 }
 
@@ -835,7 +835,7 @@ input:focus {
 .classy-nav-container .classy-navbar .classynav ul li.cn-dropdown-item ul li a:hover,
 .classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a:focus,
 .classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a:hover {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .classynav ul li.active a {
@@ -897,7 +897,7 @@ input:focus {
 
 .main-header-area .book-now-btn a {
     padding: 0 30px;
-    background-color: #20603c;
+    background-color: #1cc3b2;
     height: 80px;
     line-height: 80px;
     text-align: center;
@@ -952,7 +952,7 @@ input:focus {
 
 .main-header-area .search-btn:hover,
 .main-header-area .search-btn:focus {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 
@@ -977,7 +977,7 @@ input:focus {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background-color: #20603c;
+    background-color: #1cc3b2;
     text-indent: -50000em;
     position: absolute;
     top: 50%;
@@ -1023,7 +1023,7 @@ input:focus {
     z-index: 2;
     width: 100%;
     height: 770px;
-    background-color: #20603c;
+    background-color: #1cc3b2;
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -1135,7 +1135,7 @@ input:focus {
 
 .single-footer-widget .latest-blog-area .post-title:focus,
 .single-footer-widget .latest-blog-area .post-title:hover {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .single-footer-widget .footer-nav {
@@ -1191,7 +1191,7 @@ input:focus {
     top: 3px;
     right: 3px;
     color: #ffffff;
-    background-color: #20603c;
+    background-color: #1cc3b2;
     cursor: pointer;
     -webkit-transition-duration: 500ms;
     -o-transition-duration: 500ms;
@@ -1213,7 +1213,7 @@ input:focus {
 }
 
 .single-footer-widget h4 {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .single-footer-widget span {
@@ -1380,7 +1380,7 @@ input:focus {
     width: 100%;
     bottom: 0;
     left: 0;
-    background-color: #20603c;
+    background-color: #1cc3b2;
     z-index: 100;
     -webkit-transform: translateY(100%);
     -ms-transform: translateY(100%);
@@ -1522,7 +1522,7 @@ input:focus {
 }
 
 .consultorio-testimonials-area .single-testimonial-slide .rating-title h6 span {
-    color: #20603c;
+    color: #1cc3b2;
     font-size: 14px;
     font-weight: 400;
 }
@@ -1555,7 +1555,7 @@ input:focus {
     flex: 0 0 12px;
     max-width: 12px;
     width: 12px;
-    background-color: #20603c;
+    background-color: #1cc3b2;
     border-radius: 50%;
 }
 
@@ -1657,9 +1657,9 @@ input:focus {
 }
 
 .single-room-slide .room-thumbnail {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 50%;
-  flex: 0 0 50%;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
 }
 
 @media only screen and (max-width: 767px) {
@@ -1733,7 +1733,7 @@ input:focus {
 }
 
 .single-room-slide .room-content h3 {
-    color: #20603c;
+    color: #1cc3b2;
     font-size: 36px;
     display: block;
     margin-bottom: 25px;
@@ -1817,7 +1817,7 @@ input:focus {
 .rooms-slides .owl-prev:focus,
 .rooms-slides .owl-next:hover,
 .rooms-slides .owl-next:focus {
-    background-color: #20603c !important;
+    background-color: #1cc3b2 !important;
     color: #ffffff;
 }
 
@@ -1826,7 +1826,7 @@ input:focus {
 }
 
 .rooms-slides .owl-next {
-    background-color: #20603c !important;
+    background-color: #1cc3b2 !important;
     left: 50%;
     color: #ffffff;
 }
@@ -1910,7 +1910,7 @@ input:focus {
 }
 
 .single-room-area .room-content h4 {
-    color: #20603c;
+    color: #1cc3b2;
     margin-bottom: 20px;
 }
 
@@ -1955,7 +1955,7 @@ input:focus {
 .single-room-area .room-content .view-detail-btn {
     padding: 0;
     font-size: 16px;
-    color: #20603c;
+    color: #1cc3b2;
     font-weight: 500;
 }
 
@@ -1987,7 +1987,7 @@ input:focus {
 
 .hotel-reservation--area .form-control:focus {
     box-shadow: none;
-    border-bottom-color: #20603c;
+    border-bottom-color: #1cc3b2;
 }
 
 .hotel-reservation--area button {
@@ -2049,7 +2049,7 @@ input:focus {
 
 .ui-widget-header {
     border: 1px solid #e8f1f8;
-    background: #20603c;
+    background: #1cc3b2;
 }
 
 .ui-widget.ui-widget-content {
@@ -2068,8 +2068,8 @@ input:focus {
 .ui-button,
 html .ui-button.ui-state-disabled:hover,
 html .ui-button.ui-state-disabled:active {
-    border: 1px solid #20603c;
-    background: #20603c;
+    border: 1px solid #1cc3b2;
+    background: #1cc3b2;
 }
 
 .ui-slider-horizontal .ui-slider-handle {
@@ -2278,7 +2278,7 @@ html .ui-button.ui-state-disabled:active {
 }
 
 .room-review-area .single-room-review-area .reviwer-content .reviwer-title h6 {
-    color: #20603c;
+    color: #1cc3b2;
     margin-bottom: 0;
 }
 
@@ -2324,7 +2324,7 @@ html .ui-button.ui-state-disabled:active {
 }
 
 .about-us-content p span {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .about-thumbnail {
@@ -2418,10 +2418,11 @@ html .ui-button.ui-state-disabled:active {
     position: relative;
     z-index: 1;
     background-color: #ffffff;
-    box-shadow: 0 2px 14px 5px rgba(20, 20, 20, 0.05);
+    box-shadow: 0 2px 14px 5px rgba(20, 20, 20, 0.2);
     border-radius: 3px;
-    padding: 30px;
+    padding: 22px;
     text-align: center;
+    width: 18%;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -2481,7 +2482,7 @@ html .ui-button.ui-state-disabled:active {
 
 .single-service--area:hover h5,
 .single-service--area:focus h5 {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .hotel-search-form-area {
@@ -2555,7 +2556,7 @@ html .ui-button.ui-state-disabled:active {
 
 .hotel-search-form-area .hotel-search-form .form-control:focus {
     box-shadow: none;
-    border-color: #20603c;
+    border-color: #1cc3b2;
 }
 
 .consultorio-about-area {
@@ -2594,7 +2595,7 @@ html .ui-button.ui-state-disabled:active {
     width: 70px;
     height: 70px;
     background-color: #ffffff;
-    color: #20603c;
+    color: #1cc3b2;
     font-size: 18px;
     text-align: center;
     line-height: 70px;
@@ -2624,7 +2625,7 @@ html .ui-button.ui-state-disabled:active {
 
 .consultorio--video--area .video-content-area .video-play-btn:hover,
 .consultorio--video--area .video-content-area .video-play-btn:focus {
-    background-color: #20603c;
+    background-color: #1cc3b2;
     color: #ffffff;
 }
 
@@ -2660,7 +2661,7 @@ html .ui-button.ui-state-disabled:active {
 
 .consultorio-contact-form .form-control:focus {
     box-shadow: none;
-    border-color: #20603c;
+    border-color: #1cc3b2;
 }
 
 .consultorio-contact-form textarea.form-control {
@@ -2722,7 +2723,7 @@ html .ui-button.ui-state-disabled:active {
     display: inline-block;
     font-size: 30px;
     margin-bottom: 15px;
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 @media only screen and (max-width: 767px) {
@@ -2807,7 +2808,7 @@ html .ui-button.ui-state-disabled:active {
 
 .newsletter-form input:focus {
     box-shadow: none;
-    border-color: #20603c;
+    border-color: #1cc3b2;
 }
 
 .popular-tags {
@@ -2833,7 +2834,7 @@ html .ui-button.ui-state-disabled:active {
 
 .popular-tags li a:hover,
 .popular-tags li a:focus {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .instagram-feeds {
@@ -2912,7 +2913,7 @@ html .ui-button.ui-state-disabled:active {
 
 .single-recent-post .post-content .post-title:hover,
 .single-recent-post .post-content .post-title:focus {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .single-recent-post .post-content .post-meta {
@@ -2925,7 +2926,7 @@ html .ui-button.ui-state-disabled:active {
     position: relative;
     z-index: 1;
     font-size: 12px;
-    color: #20603c;
+    color: #1cc3b2;
     display: inline-block;
     margin-right: 30px;
     letter-spacing: 1px;
@@ -3023,7 +3024,7 @@ html .ui-button.ui-state-disabled:active {
 
 .breadcrumb-area .room-price {
     font-size: 36px;
-    color: #20603c;
+    color: #1cc3b2;
     margin-bottom: 0;
 }
 
@@ -3065,7 +3066,7 @@ html .ui-button.ui-state-disabled:active {
 
 .breadcrumb-content .breadcrumb .breadcrumb-item a:hover,
 .breadcrumb-content .breadcrumb .breadcrumb-item a:focus {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .breadcrumb-content .breadcrumb .breadcrumb-item+.breadcrumb-item::before {
@@ -3109,12 +3110,13 @@ html .ui-button.ui-state-disabled:active {
 
 .single-post-area .post-meta a:last-child {
     margin-right: 0;
-    color: #20603c;
+    color: #1cc3b2;
+    background-color: #1cc3b2;
 }
 
 .single-post-area .post-meta a:hover,
 .single-post-area .post-meta a:focus {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .single-post-area .post-title {
@@ -3126,7 +3128,7 @@ html .ui-button.ui-state-disabled:active {
 
 .single-post-area .post-title:hover,
 .single-post-area .post-title:focus {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .single-post-area p {
@@ -3142,7 +3144,7 @@ html .ui-button.ui-state-disabled:active {
 
 .single-post-area:hover .post-title,
 .single-post-area:focus .post-title {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .single-blog-post {
@@ -3223,7 +3225,7 @@ html .ui-button.ui-state-disabled:active {
 
 .single-blog-post .post-content .post-title:hover,
 .single-blog-post .post-content .post-title:focus {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .single-blog-post .post-content .post-meta {
@@ -3236,7 +3238,7 @@ html .ui-button.ui-state-disabled:active {
     position: relative;
     z-index: 1;
     font-size: 14px;
-    color: #20603c;
+    color: #1cc3b2;
     display: inline-block;
     margin-right: 30px;
     letter-spacing: 1px;
@@ -3339,7 +3341,7 @@ html .ui-button.ui-state-disabled:active {
 
 .breadcrumb-post-content .post-meta a:hover,
 .breadcrumb-post-content .post-meta a:focus {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .blog-details-text {
@@ -3443,7 +3445,7 @@ html .ui-button.ui-state-disabled:active {
 
 .post-author-area .author-social-info a:hover,
 .post-author-area .author-social-info a:focus {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .pagination {
@@ -3473,9 +3475,9 @@ html .ui-button.ui-state-disabled:active {
 
 .pagination .page-link:hover,
 .pagination .page-link:focus {
-    background-color: #20603c;
+    background-color: #1cc3b2;
     color: #ffffff;
-    border-color: #20603c;
+    border-color: #1cc3b2;
 }
 
 .pagination .page-link:focus {
@@ -3504,7 +3506,7 @@ html .ui-button.ui-state-disabled:active {
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 2px;
-    color: #20603c;
+    color: #1cc3b2;
     display: block;
     margin-bottom: 5px;
 }
@@ -3537,7 +3539,7 @@ html .ui-button.ui-state-disabled:active {
 
 .single-related-news .post-title:hover,
 .single-related-news .post-title:focus {
-    color: #20603c;
+    color: #1cc3b2;
 }
 
 .comment_area {
@@ -3591,7 +3593,7 @@ html .ui-button.ui-state-disabled:active {
 }
 
 .comment_area .comment-content .comment-meta .post-date {
-    color: #20603c;
+    color: #1cc3b2;
     font-size: 12px;
     text-transform: uppercase;
     display: block;
@@ -3641,8 +3643,8 @@ html .ui-button.ui-state-disabled:active {
 .comment_area .comment-content .comment-meta a.like:hover,
 .comment_area .comment-content .comment-meta a.reply:focus,
 .comment_area .comment-content .comment-meta a.reply:hover {
-    border-color: #20603c;
-    background-color: #20603c;
+    border-color: #1cc3b2;
+    background-color: #1cc3b2;
     color: #ffffff;
 }
 

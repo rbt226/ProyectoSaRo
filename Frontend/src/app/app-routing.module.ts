@@ -14,8 +14,12 @@ import { CreateRoomComponent } from './components/room/create-room/create-room.c
 const routes: Routes = [
   {
     path: '',
-    component: IndexComponent,
+    redirectTo: '/index.html',
     pathMatch: 'full',
+  },
+  {
+    path: 'index.html',
+    component: IndexComponent,
   },
   {
     path: 'rooms',
@@ -49,7 +53,7 @@ const routes: Routes = [
     path: 'signIn',
     component: SignInComponent,
   },
-  { path: '**', component: IndexComponent }, // si pone cualquier URL
+  { path: '**', redirectTo:"/" }, // si pone cualquier URL
 ];
 
 @NgModule({

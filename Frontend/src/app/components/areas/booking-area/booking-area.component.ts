@@ -13,21 +13,21 @@ export class BookingAreaComponent implements OnInit {
 
     rooms = [];
     hours = [];
+    today: string;
+
   constructor(
     private roomService: RoomService,
     private spinnerService: SpinnerService,
     private hoursSerice: HoursService,
     public authService: AuthService
   ) {}
- 
+  
   ngOnInit() {
-    //this.spinnerService.showSpinner();
-    this.roomService.getRooms().subscribe((res) => {
-      this.rooms = res;
       this.hours = this.hoursSerice.list_hours; 
-    //  this.spinnerService.hideSpinner();
-    });
-    
+      this.today = new Date().toISOString().split('T')[0];
+      this.roomService.getRooms().subscribe((res) => {
+      this.rooms = res;    
+    });    
   }
-
 }
+
