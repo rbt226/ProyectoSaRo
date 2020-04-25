@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -11,9 +12,13 @@ export class AppComponent {
   showModal: boolean;
   registerForm: FormGroup;
   submitted = false;
+  type:string; 
+
   constructor(private formBuilder: FormBuilder) { }
-  show()
+  show(data)
   {
+    this.type = data;
+    console.log("----> ", data);
     this.showModal = true; // Show-Hide Modal Check
     
   }
@@ -22,6 +27,7 @@ export class AppComponent {
   {
     this.showModal = false;
   }
+ 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
         email: ['', [Validators.required, Validators.email]],

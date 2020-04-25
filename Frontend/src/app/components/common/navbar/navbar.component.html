@@ -13,12 +13,12 @@
                 <!-- <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">Features</a> -->
                 <a class="nav-link" routerLink="/users" routerLinkActive="active">Users</a>
             </li>
-            <ng-container *ngIf="!authService.loggedIn(); else logOut">
+            <ng-container *ngIf="authService.loggedIn(); else logOut">
                 <li class="nav-item">
-                    <a class="nav-link" (click)="ngShow()" routerLinkActive="active">Sign In</a>
+                    <a class="nav-link" (click)="ngShow('signIn')" style="cursor: pointer;" routerLinkActive="active">Sign In</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/signUp" routerLinkActive="active">Sign Up</a>
+                    <a class="nav-link" (click)="ngShow('signUp')" style="cursor: pointer;" routerLinkActive="active">Sign Up</a>
                 </li>
             </ng-container>
             <ng-template #logOut>

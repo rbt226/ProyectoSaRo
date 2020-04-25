@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'src/app/services/spinner.service';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,7 +15,8 @@ export class SignInComponent implements OnInit {
     private autService: AuthService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private appComponent: AppComponent,
   ) {}
 
   formSignIn: FormGroup;
@@ -31,6 +33,7 @@ export class SignInComponent implements OnInit {
     this.autService.signIn(data).subscribe((res) => {
       localStorage.setItem('token', res.token);
       this.router.navigate(['/users']);
+      this.appComponent.hide();
       this.spinnerService.hideSpinner();
     });
   }

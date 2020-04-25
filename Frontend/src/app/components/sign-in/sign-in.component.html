@@ -1,11 +1,11 @@
 <div class="row">
-    <div class="col-md-4 mx-auto">
+    <div class="col-md-12 mx-auto">
         <div class="card">
             <div class="card-header">
                 SignIn
             </div>
             <div class="card-body">
-                <form [formGroup]="formSignIn" (ngSubmit)="signIn(formSignIn.value)" novalidate>
+                <form [formGroup]="formSignIn" (ngSubmit)="signIn(formSignIn.value)" novalidate class="col-md-10 mx-auto">
                     <div class="form-group">
                         <input formControlName="mail" class="form-control" autofocus />
                     </div>

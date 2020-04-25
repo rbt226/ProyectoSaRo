@@ -8,6 +8,7 @@ import {
   FileUploaderOptions,
   ParsedResponseHeaders,
 } from 'ng2-file-upload';
+import { AppComponent } from 'src/app/app.component';
 
 interface HtmlInputEvent extends Event {
   target: HTMLInputElement & EventTarget; // esto es para que haga un autocompletado
@@ -28,7 +29,8 @@ export class SignUpComponent implements OnInit {
   constructor(
     private autService: AuthService,
     private formBuilder: FormBuilder,
-    private cloudinary: Cloudinary
+    private cloudinary: Cloudinary,
+    private appComponent: AppComponent,
   ) {}
   image: File;
   imageSelected: string | ArrayBuffer;
@@ -114,5 +116,6 @@ export class SignUpComponent implements OnInit {
     //     localStorage.setItem('token', res.token);
     //   },
     // );
+    this.appComponent.hide();
   }
 }
