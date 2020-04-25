@@ -1,5 +1,5 @@
-<div *ngIf="rooms" class="contenedor">
-  <ngu-carousel #myCarousel [inputs]="carouselConfig" [dataSource]="rooms">
+<div *ngIf="rooms">
+  <ngu-carousel #myCarousel [inputs]="carouselConfig" [dataSource]="rooms" class="myCarousel">
     <ngu-tile *nguCarouselDef="let room; let j = index" class="item">
       <div class="single-room-slide d-flex align-items-center">
         <cl-image
