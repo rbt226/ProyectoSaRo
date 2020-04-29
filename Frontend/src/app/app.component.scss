@@ -2,6 +2,15 @@
     box-shadow: 0 2px 15px 1px rgba(32, 96, 60, 0.5);
 }
 
+@media only screen and (max-width: 576px) {
+    .modal-dialog {
+        margin-top: 50%;
+        width: 90%;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+}
+
 .modal-header {
     padding: 5px;
     margin-bottom: -35px;
