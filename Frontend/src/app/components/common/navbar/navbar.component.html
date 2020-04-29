@@ -15,10 +15,10 @@
                 <a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown">  Admin  </a>
                 <ul class="dropdown-menu fade-up">
                     <li><a class="dropdown-item" href="#"> Crear Usuario</a></li>
-                    <li><a class="dropdown-item" href="#"> Crear Sala</a></li>
+                    <li><a class="dropdown-item" routerLink="/createRoom" routerLinkActive="active"> Crear Sala</a></li>
                 </ul>
             </li>
-            <ng-container *ngIf="authService.loggedIn(); else logOut">
+            <ng-container *ngIf="!authService.loggedIn(); else logOut">
                 <li class="nav-item">
                     <a class="nav-link" (click)="ngShow('signIn')" style="cursor: pointer;" routerLinkActive="active">Sign In</a>
                 </li>

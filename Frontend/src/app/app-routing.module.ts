@@ -50,10 +50,10 @@ const routes: Routes = [
     component: SignUpComponent,
   },
   {
-    path: 'signIn',
-    component: SignInComponent,
+    path: 'createRoom',
+    component: CreateRoomComponent,
   },
-  { path: '**', redirectTo:"/" }, // si pone cualquier URL
+  { path: '**', redirectTo: '/' }, // si pone cualquier URL
 ];
 
 @NgModule({
