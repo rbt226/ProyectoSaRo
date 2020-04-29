@@ -85,12 +85,9 @@ button:focus {
   -o-transition-duration: 500ms;
   transition-duration: 500ms;
 }
-.animated {
-  animation-duration: 1s;
-  animation-fill-mode: both;
-}
-
-.fadeInUp {
-  -webkit-animation-name: fadeInUp;
-  animation-name: fadeInUp;
+.h2 {
+  color: #ffffff;
+  font-size: 30px;
+  display: block;
+  margin-bottom: 15px;
 }

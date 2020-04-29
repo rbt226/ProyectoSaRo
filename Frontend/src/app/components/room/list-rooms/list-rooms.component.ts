@@ -8,6 +8,7 @@ import {
 import { RoomService } from 'src/app/services/room.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { NguCarousel, NguCarouselConfig } from '@ngu/carousel';
+import * as AnimatePlugin from 'src/assets/javascript/animate-plus';
 
 @Component({
   selector: 'app-list-rooms',
@@ -17,14 +18,14 @@ import { NguCarousel, NguCarouselConfig } from '@ngu/carousel';
 export class ListRoomsComponent implements OnInit, AfterViewInit {
   rooms = [];
   name = 'Angular';
-  slideNo: number = 0;
   withAnim = true;
   resetAnim = true;
+
   @ViewChild('myCarousel') myCarousel: NguCarousel<any>;
   carouselConfig: NguCarouselConfig = {
     grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
     load: 4,
-    interval: { timing: 12000, initialDelay: 1000 },
+    interval: { timing: 20000, initialDelay: 1000 },
     loop: true,
     touch: true,
     velocity: 0.2,
@@ -47,12 +48,26 @@ export class ListRoomsComponent implements OnInit, AfterViewInit {
     this.cdr.detectChanges();
   }
 
+  resetAnimation() {
+    console.log('resetAnimation');
+    AnimatePlugin.reset();
+  }
+
   ngOnInit() {
     this.spinnerService.showSpinner();
-    this.roomService.getRooms().subscribe((res) => {
-      this.rooms = res;
-      this.spinnerService.hideSpinner();
-    });
+
+    this.roomService.getRooms().subscribe(
+      (res) => {
+        this.spinnerService.hideSpinner();
+        this.rooms = res;
+        console.log('roooms ', this.rooms);
+      },
+      () => {},
+      () => {
+        this.cdr.detectChanges();
+        AnimatePlugin.constructor();
+      }
+    );
   }
 
   reset() {
