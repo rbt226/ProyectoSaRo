@@ -1,59 +1,102 @@
 .item {
-  padding: 10px;
-  box-sizing: border-box;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .leftRs {
-  position: absolute;
-  margin: auto;
-  top: 0;
-  bottom: 0;
-  width: 50px;
-  height: 50px;
-  border-radius: 999px;
-  left: 0;
-  border-color: transparent;
-  background-color: transparent;
-  color: white;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 999px;
+    left: 0;
+    border-color: transparent;
+    background-color: transparent;
+    color: white;
 }
 
 .rightRs {
-  position: absolute;
-  background-color: transparent;
-  margin: auto;
-  top: 0;
-  bottom: 0;
-  width: 50px;
-  height: 50px;
-  border-radius: 999px;
-  border-color: transparent;
-  color: white;
-  right: 0;
+    position: absolute;
+    background-color: transparent;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 999px;
+    border-color: transparent;
+    color: white;
+    right: 0;
 }
 
 button:focus {
-  outline: 0;
+    outline: 0;
 }
 
 .myPoint {
-  list-style-type: none;
-  text-align: center;
-  padding: 12px;
-  margin: 0;
-  white-space: nowrap;
-  overflow: auto;
-  box-sizing: border-box;
+    list-style-type: none;
+    text-align: center;
+    padding: 12px;
+    margin: 0;
+    white-space: nowrap;
+    overflow: auto;
+    box-sizing: border-box;
 }
+
 .myPoint li {
-  display: inline-block;
-  border-radius: 50%;
-  border: 2px solid rgba(0, 0, 0, 0.55);
-  padding: 4px;
-  margin: 0 3px;
-  transition-timing-function: cubic-bezier(0.17, 0.67, 0.83, 0.67);
-  transition: 0.4s;
+    display: inline-block;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, 0.55);
+    padding: 4px;
+    margin: 0 3px;
+    transition-timing-function: cubic-bezier(0.17, 0.67, 0.83, 0.67);
+    transition: 0.4s;
 }
+
 .myPoint li.active {
-  background: #6b6b6b;
-  transform: scale(1.2);
+    background: #6b6b6b;
+    transform: scale(1.2);
+}
+
+@media (min-width:576px) {
+    .room-thumbnail {
+        flex: 0 0 40%;
+        max-width: 40%;
+    }
+}
+
+.description-container {
+    position: relative;
+    padding: 0px 50px 20px 50px;
+}
+
+.service-content>* {
+    margin: 10px;
+}
+
+.service-title {
+    color: #1cc3b2;
+}
+
+.service-list {
+    display: flex;
+}
+
+.service-item {
+    margin-right: 13px;
+    width: auto;
+    font-size: 13px;
+    margin-bottom: 8px;
+    line-height: 18px;
+    vertical-align: top;
+}
+
+.service-item span {
+    color: #2a303b;
+    line-height: 17px;
+    word-wrap: break-word;
+    text-decoration: none;
+    font-weight: bold;
 }

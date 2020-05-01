@@ -56,8 +56,12 @@ export class DetailRoomComponent implements OnInit, AfterViewInit {
     this.spinner.show();
     const idRoom = this.route.snapshot.paramMap.get('id');
     this.roomService.getRoomById(idRoom).subscribe((res) => {
-      this.room = res;
+      this.room = res;      
       this.spinner.hide();
     });
+  }
+
+  getWidthImg(){
+    return "-webkit-fill-available";
   }
 }
