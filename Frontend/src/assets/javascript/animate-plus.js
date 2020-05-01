@@ -513,14 +513,12 @@
 
   exports.constructor = () => {
     if (AnimatePlus.instance === null) {
-
       AnimatePlus.instance = new AnimatePlus();
     }
     AnimatePlus.getInstance().start();
   };
   exports.reset = () => {
     if (AnimatePlus.instance === null) {
-
       AnimatePlus.instance = new AnimatePlus();
     }
     AnimatePlus.getInstance().reset();
@@ -534,8 +532,6 @@
    */
   $(document).ready(function () {
     //Start as soon as the document is ready
-    debugger;
-    
     AnimatePlus.getInstance().start();
   });
 })(jQuery);

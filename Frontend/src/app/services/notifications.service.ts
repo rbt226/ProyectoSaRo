@@ -1,48 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Toaster } from 'ngx-toast-notifications';
-import alertify from 'alertify.js';
+
+import * as alertify from 'alertifyjs'; //import
+
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
-  constructor(private toaster: Toaster) {}
+  constructor() {}
 
-  showAlertify(message) {
-    alertify.error(message);
-  }
-  showAlertifySuccess(message) {
+  showSuccess(message) {
     alertify.success(message);
   }
 
-  showSuccess(message, title) {
-    this.toaster.open({
-      text: message,
-      caption: title,
-      type: 'success',
-    });
+  showError(message) {
+    alertify.error(message);
+  }
+  showInfo(message) {
+    alertify.notify(message);
+  }
+  showWarning(message) {
+    alertify.warning(message);
   }
 
-  showError(message, title) {
-    this.toaster.open({
-      text: message,
-      caption: title,
-      type: 'danger',
-    });
-  }
-
-  showInfo(message, title) {
-    this.toaster.open({
-      text: message,
-      caption: title,
-      type: 'info',
-    });
-  }
-
-  showWarning(message, title) {
-    this.toaster.open({
-      text: message,
-      caption: title,
-      type: 'warning',
-    });
+  showMessage(message) {
+    alertify.message(message);
   }
 }

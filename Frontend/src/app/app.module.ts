@@ -29,10 +29,9 @@ import { IndexComponent } from './components/index-component/index-component.com
 import { CreateRoomComponent } from './components/room/create-room/create-room.component';
 import { GlobalErrorHandler } from './services/global-error-handler';
 import { ServerErrorInterceptor } from './services/server-error-interceptor';
-import { ToastNotificationsModule } from 'ngx-toast-notifications';
 import { ServicesAreaComponent } from './components/areas/services-area/services-area.component';
 import { NguCarouselModule } from '@ngu/carousel';
-import { BookingAreaComponent } from './components/areas/booking-area/booking-area.component';   
+import { BookingAreaComponent } from './components/areas/booking-area/booking-area.component';
 
 @NgModule({
   declarations: [
@@ -59,11 +58,7 @@ import { BookingAreaComponent } from './components/areas/booking-area/booking-ar
     ReactiveFormsModule,
     NgxSpinnerModule,
     BrowserAnimationsModule,
-    ToastNotificationsModule.forRoot({
-      duration: 6000,
-      position: 'top-right',
-      preventDuplicates: true,
-    }),
+
     FileUploadModule,
     FormsModule,
     CloudinaryModule.forRoot({ Cloudinary }, {

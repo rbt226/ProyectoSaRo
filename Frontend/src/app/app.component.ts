@@ -1,51 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
+import { NotificationService } from './services/notifications.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Consultorios Del Parque';
   showModal: boolean;
   registerForm: FormGroup;
   submitted = false;
-  type:string; 
+  type: string;
 
-  constructor(private formBuilder: FormBuilder) { }
-  show(data)
-  {
+  constructor(
+    private formBuilder: FormBuilder,
+    private not: NotificationService
+  ) {}
+  show(data) {
     this.type = data;
     this.showModal = true; // Show-Hide Modal Check
-    
   }
-  //Bootstrap Modal Close event
-  hide()
-  {
+  // Bootstrap Modal Close event
+  hide() {
     this.showModal = false;
   }
- 
+
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
   // convenience getter for easy access to form fields
-  get f() { return this.registerForm.controls; }
-  onSubmit() {
-      this.submitted = true;
-      // stop here if form is invalid
-      if (this.registerForm.invalid) {
-          return;
-      }
-      if(this.submitted)
-      {
-        this.showModal = false;
-      }
-    
+
+  get f() {
+    return this.registerForm.controls;
   }
-  
+  onSubmit() {
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+      return;
+    }
+    if (this.submitted) {
+      this.showModal = false;
+    }
+  }
 }

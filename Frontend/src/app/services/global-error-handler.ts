@@ -26,12 +26,12 @@ export class GlobalErrorHandler implements ErrorHandler {
 
       // Server Erro
       stackTrace = errorService.getServerStack(error);
-      notifier.showError(message, '');
+      notifier.showError(message);
     } else {
       // Client Error
       message = errorService.getClientMessage(error);
       stackTrace = errorService.getClientStack(error);
-      notifier.showError(message, '');
+      notifier.showError(message);
     }
 
     // Always log errors

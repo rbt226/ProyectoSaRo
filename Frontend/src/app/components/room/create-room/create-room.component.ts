@@ -143,7 +143,7 @@ export class CreateRoomComponent implements OnInit {
         this.roomService.createRoom(data).subscribe((res) => {
           this.route.navigate(['/']);
           this.spinnerSevice.hideSpinner();
-          this.notification.showAlertify(
+          this.notification.showSuccess(
             'La sala se ha dado de alta correctamente'
           );
         });
@@ -155,7 +155,7 @@ export class CreateRoomComponent implements OnInit {
       this.roomService.createRoom(data).subscribe((res) => {
         this.route.navigate(['/']);
         this.spinnerSevice.hideSpinner();
-        this.notification.showAlertify(
+        this.notification.showSuccess(
           'La sala se ha dado de alta correctamente'
         );
       });

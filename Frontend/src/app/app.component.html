@@ -1,24 +1,44 @@
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
-<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-clip-rotate-multiple" [fullScreen]="true"></ngx-spinner>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate-multiple"
+  [fullScreen]="true"
+></ngx-spinner>
 
-
-<div [style.display]="showModal ? 'block' : 'none'" class="modal modal-back" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" (click)="hide()">x</button>
-            </div>
-            <div [ngSwitch]="type">
-                <div *ngSwitchCase="'signIn'">
-                    <app-sign-in></app-sign-in>
-                </div>
-                <div *ngSwitchCase="'signUp'">
-                    <app-sign-up></app-sign-up>
-                </div>
-                <div *ngSwitchDefault>nada</div>
-            </div>
-            <!-- <div class="modal-header ">
+<div
+  [style.display]="showModal ? 'block' : 'none'"
+  class="modal modal-back"
+  id="imagemodal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          (click)="hide()"
+        >
+          x
+        </button>
+      </div>
+      <div [ngSwitch]="type">
+        <div *ngSwitchCase="'signIn'">
+          <app-sign-in></app-sign-in>
+        </div>
+        <div *ngSwitchCase="'signUp'">
+          <app-sign-up></app-sign-up>
+        </div>
+        <div *ngSwitchDefault>nada</div>
+      </div>
+      <!-- <div class="modal-header ">
         <h4 class="modal-title " id="myModalLabel ">Login</h4>
         </div>
         <div class="modal-body ">
@@ -47,9 +67,8 @@
                 <button type="submit " class="btn btn-primary ">Submit</button>
             </form>
         </div>-->
-
-        </div>
     </div>
+  </div>
 </div>
 
 <app-footer></app-footer>
