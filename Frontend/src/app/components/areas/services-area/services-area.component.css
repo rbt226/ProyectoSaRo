@@ -1,19 +1,30 @@
-  .service-content {
-      flex-wrap: wrap;
-      margin-bottom: 70px;
-  }
-  
-  @media (min-width:576px) {
-      .service-content {
-          flex-wrap: inherit;
-          margin-bottom: 0px;
-      }
-  }
-  
-  .single-service--area h5 {
-      color: 1f1d1d;
-  }
-  
-  .single-service--area:hover h5 {
-      color: #1cc3b2;
-  }
+.service-content {
+    flex-wrap: wrap;
+    margin-bottom: 70px;
+}
+
+@media (min-width: 576px) {
+    .service-content {
+        flex-wrap: inherit;
+        margin-bottom: 0px;
+    }
+}
+
+.service-card {
+    color: #636a76;
+}
+
+.service-card:hover {
+    color: #1cc3b2;
+}
+
+.container-flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.single-service-area {
+    flex: 1 1 auto;
+    text-align: center;
+    margin: 5px;
+}
