@@ -1,18 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import {
-  FileUploader,
-  FileUploaderOptions,
-  ParsedResponseHeaders,
-  FileItem,
-} from 'ng2-file-upload';
+import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
 import { Cloudinary } from '@cloudinary/angular-5.x';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RoomService } from 'src/app/services/room.service';
 import { Router } from '@angular/router';
 import { SpinnerService } from 'src/app/services/spinner.service';
-import { fileURLToPath } from 'url';
+import { NotificationService } from 'src/app/services/notifications.service';
 
 @Component({
   selector: 'app-create-room',
@@ -39,7 +34,8 @@ export class CreateRoomComponent implements OnInit {
     private cloudinary: Cloudinary,
     private route: Router,
     private spinnerSevice: SpinnerService,
-    public sanitizer: DomSanitizer
+    public sanitizer: DomSanitizer,
+    private notification: NotificationService
   ) {
     this.title = '';
   }
@@ -147,6 +143,9 @@ export class CreateRoomComponent implements OnInit {
         this.roomService.createRoom(data).subscribe((res) => {
           this.route.navigate(['/']);
           this.spinnerSevice.hideSpinner();
+          this.notification.showAlertify(
+            'La sala se ha dado de alta correctamente'
+          );
         });
       };
     } else {
@@ -156,6 +155,9 @@ export class CreateRoomComponent implements OnInit {
       this.roomService.createRoom(data).subscribe((res) => {
         this.route.navigate(['/']);
         this.spinnerSevice.hideSpinner();
+        this.notification.showAlertify(
+          'La sala se ha dado de alta correctamente'
+        );
       });
     }
   }

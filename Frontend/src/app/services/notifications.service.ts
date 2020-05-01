@@ -1,11 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Toaster, ToastType } from 'ngx-toast-notifications';
-
+import { Toaster } from 'ngx-toast-notifications';
+import alertify from 'alertify.js';
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
   constructor(private toaster: Toaster) {}
+
+  showAlertify(message) {
+    alertify.error(message);
+  }
+  showAlertifySuccess(message) {
+    alertify.success(message);
+  }
 
   showSuccess(message, title) {
     this.toaster.open({

@@ -513,7 +513,6 @@
 
   exports.constructor = () => {
     if (AnimatePlus.instance === null) {
-      console.log("constructor");
 
       AnimatePlus.instance = new AnimatePlus();
     }
@@ -521,7 +520,6 @@
   };
   exports.reset = () => {
     if (AnimatePlus.instance === null) {
-      console.log("reset");
 
       AnimatePlus.instance = new AnimatePlus();
     }
@@ -536,10 +534,8 @@
    */
   $(document).ready(function () {
     //Start as soon as the document is ready
-    // $(".ngucarousel-items").bind("DOMSubtreeModified", function () {
-    //   $(".ngucarousel-items").unbind();
-    // AnimatePlus.getInstance().start();
-    //   AnimatePlus();
-    // });
+    debugger;
+    
+    AnimatePlus.getInstance().start();
   });
 })(jQuery);

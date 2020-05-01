@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { Room } from '../models/room.interface';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class RoomService {
   private URL = 'http://localhost:3300/rooms/';
 
-  constructor(private http: HttpClient, private spinner: NgxSpinnerService) {}
+  constructor(private http: HttpClient) {}
 
   getRooms() {
     return this.http.get<Room[]>(this.URL);

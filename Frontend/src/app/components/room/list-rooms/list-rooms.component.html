@@ -55,12 +55,12 @@
           </li>
           <li>
             <span><i class="fa fa-check"></i> Descripcion</span>
-            <span>: {{ room.description }}</span>
+            <span>{{ room.description }}</span>
           </li>
         </ul>
         <a
           routerLink="/rooms/{{ room.id_room }}"
-          class="btn rooms-btn mt-30 animate-plus"
+          class="btn rooms-btn animate-plus detailButton"
           data-animations="fadeInUp"
           data-animation-delay="700ms"
           data-animation-when-visible="true"

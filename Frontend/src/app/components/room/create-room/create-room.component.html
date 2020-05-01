@@ -3,9 +3,9 @@
     <div class="row">
       <div class="col-12">
         <div
-          class="section-heading text-center wow fadeInUp"
+          class="animate-plus section-heading text-center wow fadeInUp"
           data-animations="fadeInUp"
-          data-animation-delay="700ms"
+          data-animation-delay="200ms"
           data-animation-when-visible="true"
           data-animation-reset-offscreen="true"
         >
@@ -24,13 +24,11 @@
           >
             <div class="row">
               <div
-                class="col-12 col-lg-6 wow fadeInUp"
-                data-wow-delay="100ms"
-                style="
-                  visibility: visible;
-                  animation-delay: 100ms;
-                  animation-name: fadeInUp;
-                "
+                class="animate-plus col-12 col-lg-6 wow fadeInUp"
+                data-animations="fadeInUp"
+                data-animation-delay="700ms"
+                data-animation-when-visible="true"
+                data-animation-reset-offscreen="true"
               >
                 <input
                   formControlName="name"
@@ -42,13 +40,11 @@
               </div>
 
               <div
-                class="col-12 wow fadeInUp"
-                data-wow-delay="100ms"
-                style="
-                  visibility: visible;
-                  animation-delay: 100ms;
-                  animation-name: fadeInUp;
-                "
+                class="animate-plus col-12 wow fadeInUp"
+                data-animations="fadeInUp"
+                data-animation-delay="700ms"
+                data-animation-when-visible="true"
+                data-animation-reset-offscreen="true"
               >
                 <textarea
                   formControlName="description"
@@ -58,13 +54,11 @@
                 ></textarea>
               </div>
               <div
-                class="col-lg-6 col-md-12 col-xs-12 wow fadeInUp"
-                data-wow-delay="100ms"
-                style="
-                  visibility: visible;
-                  animation-delay: 100ms;
-                  animation-name: fadeInUp;
-                "
+                class="animate-plus col-lg-6 col-md-12 col-xs-12 wow fadeInUp"
+                data-animations="fadeInUp"
+                data-animation-delay="700ms"
+                data-animation-when-visible="true"
+                data-animation-reset-offscreen="true"
               >
                 <div class="custom-file">
                   <input
@@ -112,18 +106,16 @@
               <!-- GALERY -->
 
               <div
-                class="col-12 text-center wow fadeInUp"
-                data-wow-delay="100ms"
-                style="
-                  visibility: visible;
-                  animation-delay: 100ms;
-                  animation-name: fadeInUp;
-                "
+                class="animate-plus col-12 text-center wow fadeInUp"
+                data-animations="fadeInUp"
+                data-animation-delay="1000ms"
+                data-animation-when-visible="true"
+                data-animation-reset-offscreen="true"
               >
                 <button
                   type="submit"
                   class="btn consultorio-btn mt-15"
-                  [disabled]="!formCreateRoom.valid || urls.length==0"
+                  [disabled]="!formCreateRoom.valid || urls.length == 0"
                 >
                   Crear Sala
                 </button>
@@ -135,5 +127,3 @@
     </div>
   </div>
 </div>
-
-urls.length - {{urls.length}}
