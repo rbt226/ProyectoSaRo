@@ -49,7 +49,6 @@ export class ListRoomsComponent implements OnInit, AfterViewInit {
   }
 
   resetAnimation() {
-    console.log('resetAnimation');
     AnimatePlugin.reset();
   }
 
@@ -60,7 +59,6 @@ export class ListRoomsComponent implements OnInit, AfterViewInit {
       (res) => {
         this.spinnerService.hideSpinner();
         this.rooms = res;
-        console.log('roooms ', this.rooms);
       },
       () => {},
       () => {

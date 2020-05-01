@@ -18,7 +18,6 @@ export class AppComponent {
   show(data)
   {
     this.type = data;
-    console.log("----> ", data);
     this.showModal = true; // Show-Hide Modal Check
     
   }

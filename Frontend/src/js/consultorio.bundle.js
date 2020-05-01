@@ -89,7 +89,6 @@
             // check browser width in real-time
             function breakpointCheck() {
                 var windoWidth = window.innerWidth;
-                console.log("entra al consultorio bundle");
                 if (windoWidth <= defaultOpt.breakpoint) {
                     navContainer.removeClass('breakpoint-off').addClass('breakpoint-on');
                 } else {

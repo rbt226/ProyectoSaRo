@@ -1,51 +1,139 @@
-<div class="row">
-  <div class="col-md-4 mx-auto">
-    <div class="card">
-      <div class="card-header">
-        Create Room
-      </div>
-      <div class="card-body">
-        <form
-          [formGroup]="formCreateRoom"
-          (ngSubmit)="create(formCreateRoom.value)"
-          novalidate
+<div class="consultorio-contact-form-area section-padding-50-100">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div
+          class="section-heading text-center wow fadeInUp"
+          data-animations="fadeInUp"
+          data-animation-delay="700ms"
+          data-animation-when-visible="true"
+          data-animation-reset-offscreen="true"
         >
-          <div class="form-group">
-            <input formControlName="name" class="form-control" autofocus />
-          </div>
-          <div class="form-group">
-            <textarea
-              formControlName="description"
-              class="form-control"
-              autofocus
-            ></textarea>
-          </div>
-          <div class="form-group">
-            <input
-              formControlName="image"
-              type="file"
-              ng2FileSelect
-              [uploader]="uploader"
-            />
-          </div>
-          <div
-            class="text-danger"
-            *ngIf="
-              formCreateRoom.controls.image.errors &&
-              formCreateRoom.controls.image.errors.incorrect
-            "
+          <h6>SALAS</h6>
+          <h2>Nueva Sala</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="consultorio-contact-form">
+          <form
+            [formGroup]="formCreateRoom"
+            (ngSubmit)="create(formCreateRoom.value)"
+            novalidate
           >
-            {{ errorImage }}
-          </div>
-          <button
-            type="submit"
-            class="form-control btn roberto-btn w-100"
-            [disabled]="!formCreateRoom.valid"
-          >
-            Create
-          </button>
-        </form>
+            <div class="row">
+              <div
+                class="col-12 col-lg-6 wow fadeInUp"
+                data-wow-delay="100ms"
+                style="
+                  visibility: visible;
+                  animation-delay: 100ms;
+                  animation-name: fadeInUp;
+                "
+              >
+                <input
+                  formControlName="name"
+                  type="text"
+                  name="message-name"
+                  class="form-control mb-30"
+                  placeholder="Nombre"
+                />
+              </div>
+
+              <div
+                class="col-12 wow fadeInUp"
+                data-wow-delay="100ms"
+                style="
+                  visibility: visible;
+                  animation-delay: 100ms;
+                  animation-name: fadeInUp;
+                "
+              >
+                <textarea
+                  formControlName="description"
+                  name="message"
+                  class="form-control mb-30"
+                  placeholder="Descripcion"
+                ></textarea>
+              </div>
+              <div
+                class="col-lg-6 col-md-12 col-xs-12 wow fadeInUp"
+                data-wow-delay="100ms"
+                style="
+                  visibility: visible;
+                  animation-delay: 100ms;
+                  animation-name: fadeInUp;
+                "
+              >
+                <div class="custom-file">
+                  <input
+                    type="file"
+                    class="custom-file-input"
+                    id="customFileLang"
+                    lang="es"
+                    formControlName="images"
+                    ng2FileSelect
+                    [uploader]="uploader"
+                  />
+                  <label class="custom-file-label" for="customFileLang"
+                    >Seleccionar Imagenes</label
+                  >
+                </div>
+                <div
+                  class="text-danger"
+                  *ngIf="
+                    formCreateRoom.controls.images.errors &&
+                    formCreateRoom.controls.images.errors.incorrect
+                  "
+                >
+                  {{ errorImages }}
+                </div>
+              </div>
+              <!-- GALERY -->
+              <div class="container" *ngIf="uploader?.queue?.length > 0">
+                <hr class="mt-2 mb-5" />
+                <div class="row text-center text-lg-left">
+                  <div
+                    *ngFor="let url of urls"
+                    class="col-lg-3 col-md-4 col-6 d-block mb-4"
+                  >
+                    <img
+                      class="img-fluid img-thumbnail"
+                      [src]="sanitizer.bypassSecurityTrustUrl(url)"
+                    />
+                    <a
+                      (click)="removeImage(url)"
+                      class="fa fa-close fa-lg remove"
+                    ></a>
+                  </div>
+                </div>
+              </div>
+              <!-- GALERY -->
+
+              <div
+                class="col-12 text-center wow fadeInUp"
+                data-wow-delay="100ms"
+                style="
+                  visibility: visible;
+                  animation-delay: 100ms;
+                  animation-name: fadeInUp;
+                "
+              >
+                <button
+                  type="submit"
+                  class="btn consultorio-btn mt-15"
+                  [disabled]="!formCreateRoom.valid || urls.length==0"
+                >
+                  Crear Sala
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+urls.length - {{urls.length}}

@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+
 import {
   FileUploader,
   FileUploaderOptions,
   ParsedResponseHeaders,
+  FileItem,
 } from 'ng2-file-upload';
 import { Cloudinary } from '@cloudinary/angular-5.x';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RoomService } from 'src/app/services/room.service';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
+import { fileURLToPath } from 'url';
 
 @Component({
   selector: 'app-create-room',
@@ -19,22 +22,24 @@ import { SpinnerService } from 'src/app/services/spinner.service';
 export class CreateRoomComponent implements OnInit {
   uploader: FileUploader;
   formCreateRoom: FormGroup;
-  maxSize = 10000;
+  maxSize = 300000;
   allowedFileType = ['image'];
+  urls = [];
+  images = [];
   public hasBaseDropZoneOver = false;
   hasAnotherDropZoneOver: boolean;
-  public errorImage = '';
+  public errorImages = '';
   private title: string;
-  private publicId: string;
-
   public imageDataArray;
+  files: FileItem[] = [];
 
   constructor(
     private roomService: RoomService,
     private formBuilder: FormBuilder,
     private cloudinary: Cloudinary,
     private route: Router,
-    private spinnerSevice: SpinnerService
+    private spinnerSevice: SpinnerService,
+    public sanitizer: DomSanitizer
   ) {
     this.title = '';
   }
@@ -90,8 +95,7 @@ export class CreateRoomComponent implements OnInit {
     this.uploader.onCompleteItem = (
       item: any,
       response: string,
-      status: number,
-      headers: ParsedResponseHeaders
+      status: number
     ) =>
       upsertResponse({
         file: item.file,
@@ -100,28 +104,29 @@ export class CreateRoomComponent implements OnInit {
       });
 
     this.uploader.onWhenAddingFileFailed = (fileItem: any) => {
-      this.formCreateRoom.controls.image.setErrors({ incorrect: true });
-      this.errorImage = '';
+      this.formCreateRoom.controls.images.setErrors({ incorrect: true });
+      this.errorImages = '';
       if (fileItem.size > this.maxSize) {
-        this.errorImage = 'Se ha excedido el tamaño permitido';
+        this.errorImages = 'Se ha excedido el tamaño permitido';
       } else {
         if (!this.allowedFileType.includes(fileItem.type)) {
-          this.errorImage = 'Solamente te puede ingresar imagenes';
+          this.errorImages = 'Solamente te puede ingresar imagenes';
         }
       }
     };
-    this.uploader.onAfterAddingFile = () => {
-      this.formCreateRoom.controls.image.reset();
+    this.uploader.onAfterAddingFile = (fileItem) => {
+      this.formCreateRoom.controls.images.reset();
+      const url = window.URL
+        ? window.URL.createObjectURL(fileItem._file)
+        : (window as any).webkitURL.createObjectURL(fileItem._file);
+      this.urls.push(url);
+      this.files.push(fileItem);
     };
     this.formCreateRoom = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      image: [''],
+      images: [''],
     });
-  }
-
-  public fileOverBase(e: any): void {
-    this.hasBaseDropZoneOver = e;
   }
 
   create(data) {
@@ -130,28 +135,37 @@ export class CreateRoomComponent implements OnInit {
     if (this.uploader.queue.length > 0) {
       for (const fileItem of this.uploader.queue) {
         this.uploader.uploadItem(fileItem);
-        this.uploader.onCompleteItem = (
-          item: any,
-          response: any,
-          status: any,
-          headers: any
-        ) => {
-          this.publicId = JSON.parse(response).public_id;
-          data.image = this.publicId;
-          this.roomService.createRoom(data).subscribe((res) => {
-            this.route.navigate(['/rooms']);
-            this.spinnerSevice.hideSpinner();
-          });
+        this.uploader.onCompleteItem = (item, response: any, status) => {
+          const response2 = JSON.parse(response);
+          this.images.push(response2.public_id);
         };
       }
+
+      // }
+      this.uploader.onCompleteAll = () => {
+        data.images = this.images;
+        this.roomService.createRoom(data).subscribe((res) => {
+          this.route.navigate(['/']);
+          this.spinnerSevice.hideSpinner();
+        });
+      };
     } else {
-      if (this.publicId) {
-        data.image = this.publicId;
+      if (this.images) {
+        data.images = this.images;
       }
       this.roomService.createRoom(data).subscribe((res) => {
-        this.route.navigate(['/rooms']);
+        this.route.navigate(['/']);
         this.spinnerSevice.hideSpinner();
       });
+    }
+  }
+
+  removeImage(url) {
+    const index = this.urls.indexOf(url);
+    if (index > -1) {
+      this.urls.splice(index, 1);
+      this.uploader.removeFromQueue(this.files[index]);
+      this.files.splice(index, 1);
     }
   }
 }
