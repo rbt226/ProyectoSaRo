@@ -1649,6 +1649,19 @@ input:focus {
     }
 }
 
+.single-room-slide .room-thumbnail:hover img,
+.single-room-slide .room-thumbnail:focus img {
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05);
+}
+
+.single-room-slide .room-thumbnail img {
+    -webkit-transition-duration: 500ms;
+    -o-transition-duration: 500ms;
+    transition-duration: 500ms;
+}
+
 .single-room-slide .room-thumbnail {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 50%;
