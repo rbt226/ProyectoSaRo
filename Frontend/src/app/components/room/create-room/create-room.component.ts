@@ -17,7 +17,7 @@ import { NotificationService } from 'src/app/services/notifications.service';
 export class CreateRoomComponent implements OnInit {
   uploader: FileUploader;
   formCreateRoom: FormGroup;
-  maxSize = 300000;
+  maxSize = 5 * 1024 * 1024; // 5MB
   allowedFileType = ['image'];
   urls = [];
   images = [];
