@@ -1,121 +1,179 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
+import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
 import { Cloudinary } from '@cloudinary/angular-5.x';
-import {
-  FileUploader,
-  FileUploaderOptions,
-  ParsedResponseHeaders,
-} from 'ng2-file-upload';
-import { AppComponent } from 'src/app/app.component';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { RoomService } from 'src/app/services/room.service';
+import { Router } from '@angular/router';
+import { SpinnerService } from 'src/app/services/spinner.service';
+import { NotificationService } from 'src/app/services/notifications.service';
 
-interface HtmlInputEvent extends Event {
-  target: HTMLInputElement & EventTarget; // esto es para que haga un autocompletado
-}
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
+    selector: 'app-sign-up',
+    templateUrl: './sign-up.component.html',
+    styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent implements OnInit {
-  @Input()
-  responses: Array<any>;
+    uploader: FileUploader;
+    formCreateClient: FormGroup;
+    maxSize = 1024 * 1024; // 1MB
+    allowedFileType = ['image'];
+    urls = [];
+    imagen = [];
+    public hasBaseDropZoneOver = false;
+    hasAnotherDropZoneOver: boolean;
+    public errorImagen = '';
+    private title: string;
+    public imageDataArray;
+    files: FileItem[] = [];
 
-  private hasBaseDropZoneOver = false;
-  public uploader: FileUploader;
-  private title: string;
+    constructor(
+        private roomService: RoomService,
+        private formBuilder: FormBuilder,
+        private cloudinary: Cloudinary,
+        private route: Router,
+        private spinnerSevice: SpinnerService,
+        public sanitizer: DomSanitizer,
+        private notification: NotificationService
+    ) {
+        this.title = 'clientes';
+    }
+    ngOnInit() {
+        const uploaderOptions: FileUploaderOptions = {
+            url: `https://api.cloudinary.com/v1_1/${
+                this.cloudinary.config().cloud_name
+                }/image/upload`,
+            // Upload files automatically upon addition to upload queue
+            autoUpload: false,
+            // Use xhrTransport in favor of iframeTransport
+            isHTML5: true,
+            // Calculate progress independently for each uploaded file
+            removeAfterUpload: true,
+            allowedFileType: this.allowedFileType,
+            maxFileSize: this.maxSize,
+            // XHR request headers
+            headers: [
+                {
+                    name: 'X-Requested-With',
+                    value: 'XMLHttpRequest',
+                },
+            ],
+        };
 
-  constructor(
-    private autService: AuthService,
-    private formBuilder: FormBuilder,
-    private cloudinary: Cloudinary,
-    private appComponent: AppComponent,
-  ) {}
-  image: File;
-  imageSelected: string | ArrayBuffer;
+        const upsertResponse = (fileItem) => {
+            // Check if HTTP request was successful
+            if (fileItem.status !== 200) {
+                return false;
+            }
+        };
 
-  formSignUp: FormGroup;
+        this.uploader = new FileUploader(uploaderOptions);
+        this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
+            // Add Cloudinary's unsigned upload preset to the upload form
+            form.append('upload_preset', this.cloudinary.config().upload_preset);
 
-  ngOnInit() {
-    const uploaderOptions: FileUploaderOptions = {
-      url: `https://api.cloudinary.com/v1_1/${
-        this.cloudinary.config().cloud_name
-      }/image/upload`,
-      // Upload files automatically upon addition to upload queue
-      autoUpload: false,
-      // Use xhrTransport in favor of iframeTransport
-      isHTML5: true,
-      // Calculate progress independently for each uploaded file
-      removeAfterUpload: true,
-      // XHR request headers
-      headers: [
-        {
-          name: 'X-Requested-With',
-          value: 'XMLHttpRequest',
-        },
-      ],
-    };
+            // Add built-in and custom tags for displaying the uploaded imagen in the list
+            let tags = 'consultoriosdelparque';
+            if (this.title) {
+                form.append('context', `imagen=${this.title}`);
+                tags = `consultoriosdelparque,${this.title}`;
+            }
+            form.append('tags', tags);
+            form.append('file', fileItem);
 
-    const upsertResponse = (fileItem) => {
-      // Check if HTTP request was successful
-      if (fileItem.status !== 200) {
-        console.log('Upload to cloudinary Failed');
-        return false;
-      }
-    };
+            // Use default "withCredentials" value for CORS requests
+            fileItem.withCredentials = false;
+            return { fileItem, form };
+        };
 
-    this.uploader = new FileUploader(uploaderOptions);
-    this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
-      // Add Cloudinary's unsigned upload preset to the upload form
-      form.append('upload_preset', this.cloudinary.config().upload_preset);
+        // Update model on completion of uploading a file
+        this.uploader.onCompleteItem = (
+            item: any,
+            response: string,
+            status: number
+        ) =>
+            upsertResponse({
+                file: item.file,
+                status,
+                data: JSON.parse(response),
+            });
 
-      // Add built-in and custom tags for displaying the uploaded photo in the list
-      let tags = 'angularimagegallery';
-      if (this.title) {
-        form.append('context', `photo=${this.title}`);
-        tags = `angularimagegallery,${this.title}`;
-      }
-      form.append('tags', tags);
-      form.append('file', fileItem);
+        this.uploader.onWhenAddingFileFailed = (fileItem: any) => {
+            this.formCreateClient.controls.imagen.setErrors({ incorrect: true });
+            this.errorImagen = '';
+            if (fileItem.size > this.maxSize) {
+                this.errorImagen = 'Se ha excedido el tamaño permitido';
+            } else {
+                if (!this.allowedFileType.includes(fileItem.type)) {
+                    this.errorImagen = 'Solamente te puede ingresar imagenes';
+                }
+            }
+        };
+        this.uploader.onAfterAddingFile = (fileItem) => {
+            this.formCreateClient.controls.imagen.reset();
+            const url = window.URL
+                ? window.URL.createObjectURL(fileItem._file)
+                : (window as any).webkitURL.createObjectURL(fileItem._file);
+            this.urls.push(url);
+            this.files.push(fileItem);
+        };
+        this.formCreateClient = this.formBuilder.group({
+            name: ['', Validators.required],
+            lastName: ['', Validators.required],
+            document: ['', Validators.required],
+            email: ['', Validators.required, Validators.email],
+            userName: ['', Validators.required],
+            mobilePhone: ['', Validators.required],
+            password: ['', Validators.required],
+            passwordConfirmation: ['', Validators.required],
+            imagen: ['defaultUser'],
+        });
+    }
 
-      // Use default "withCredentials" value for CORS requests
-      fileItem.withCredentials = false;
-      return { fileItem, form };
-    };
+    create(data) {
+        this.spinnerSevice.showSpinner();
 
-    // Update model on completion of uploading a file
-    this.uploader.onCompleteItem = (
-      item: any,
-      response: string,
-      status: number,
-      headers: ParsedResponseHeaders
-    ) => {
-      upsertResponse({
-        file: item.file,
-        status,
-        data: JSON.parse(response),
-      });
-    };
+        if (this.uploader.queue.length > 0) {
+            for (const fileItem of this.uploader.queue) {
+                this.uploader.uploadItem(fileItem);
+                this.uploader.onCompleteItem = (item, response: any, status) => {
+                    const response2 = JSON.parse(response);
+                    this.imagen.push(response2.public_id);
+                };
+            }
 
-    this.formSignUp = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      image: [''],
-    });
-  }
+            // }
+            this.uploader.onCompleteAll = () => {
+                data.image = this.imagen;
+                this.roomService.createRoom(data).subscribe((res) => {
+                    this.route.navigate(['/']);
+                    this.spinnerSevice.hideSpinner();
+                    this.notification.showSuccess(
+                        'Se ha registrado satisfactoriamente'
+                    );
+                });
+            };
+        } else {
+            if (this.imagen) {
+                data.image = this.imagen;
+            }
+            this.roomService.createRoom(data).subscribe((res) => {
+                this.route.navigate(['/']);
+                this.spinnerSevice.hideSpinner();
+                this.notification.showSuccess(
+                    'Se ha registrado satisfactoriamente'
+                );
+            });
+        }
+    }
 
-  fileOverBase(e: any): void {
-    this.hasBaseDropZoneOver = e;
-  }
-
-  signUp(data) {
-    // Update model on completion of uploading a file
-    // this.autService.signUp(data).subscribe(
-    //   (res) => {
-    //     localStorage.setItem('token', res.token);
-    //   },
-    // );
-    this.appComponent.hide();
-  }
+    removeImage(url) {
+        const index = this.urls.indexOf(url);
+        if (index > -1) {
+            this.urls.splice(index, 1);
+            this.uploader.removeFromQueue(this.files[index]);
+            this.files.splice(index, 1);
+        }
+    }
 }
