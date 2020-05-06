@@ -10,6 +10,7 @@ import { DetailRoomComponent } from './components/room/detail-room/detail-room.c
 import { RoomComponent } from './components/room/room.component';
 import { IndexComponent } from './components/index-component/index-component.component';
 import { CreateRoomComponent } from './components/room/create-room/create-room.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,10 @@ const routes: Routes = [
     component: ListUsersComponent,
     canActivate: [AuthGuard, RoleGuard],
     data: { role: 'Admin' },
+  },
+   {
+    path: 'contact',
+    component: ContactComponent,   
   },
   {
     path: 'signUp',

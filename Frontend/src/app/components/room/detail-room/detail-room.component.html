@@ -1,66 +1,16 @@
 <div class="row" *ngIf="room">
-  <div class="col-12 col-lg-12">
-    <div
-      class="single-room-area d-flex align-items-center mb-50 wow fadeInUp"
-      data-wow-delay="100ms"
-      style="
-        visibility: visible;
-        animation-delay: 100ms;
-        animation-name: fadeInUp;
-      "
-    >
-      <div class="room-thumbnail" *ngIf="room">
-        <ngu-carousel
-          #myCarousel
-          [inputs]="carouselConfig"
-          [dataSource]="room.images"
-        >
-          <ngu-tile *nguCarouselDef="let item; let j = index">
-            <cl-image [public-id]="item" [style.width]="getWidthImg()">
-              <cl-transformation width="400" height="225" crop="thumb">
-              </cl-transformation>
-            </cl-image>
-          </ngu-tile>
-          <button NguCarouselNext class="rightRs">></button>
-          <button NguCarouselPrev class="leftRs"></button>
-          <ul class="myPoint" NguCarouselPoint>
-            <li
-              *ngFor="let j of myCarousel.pointNumbers; let i = index"
-              [class.active]="j == myCarousel.activePoint"
-              (click)="myCarousel.moveTo(i)"
-            ></li>
-          </ul>
-        </ngu-carousel>
-      </div>
-      <div class="room-content">
-        <h1>{{ room.name_room }}</h1>
-        <div class="service-content">
-          <h6 class="service-title">Servicios</h6>
-          <ul class="service-list fa-ul">
-            <li class="service-item fa-li">
-              <span class="amenity-info fa fa-check">Escritorio</span>
-            </li>
-            <li class="service-item fa-li">
-              <span class="amenity-info fa fa-check">Butacas</span>
-            </li>
-            <li class="service-item fa-li">
-              <span class="amenity-info fa fa-check">Espacioso</span>
-            </li>
-            <li class="service-item fa-li">
-              <span class="amenity-info fa fa-check">Luz Regulable</span>
-            </li>
-            <li class="service-item fa-li">
-              <span class="amenity-info fa fa-check">Aire acondicionado</span>
-            </li>
-          </ul>
+    <div class="col-12 col-lg-12">
+        <div class="room-thumbnail" *ngIf="room">
+            <ngu-carousel #myCarousel [inputs]="carouselConfig" [dataSource]="room.images">
+                <ngu-tile *nguCarouselDef="let item; let j = index" class="tile">
+                    <cl-image [public-id]="item" [style.width]="getWidthImg()">
+                        <cl-transformation width="400" height="225" crop="thumb">
+                        </cl-transformation>
+                    </cl-image>
+                </ngu-tile>
+                <button NguCarouselNext class="rightRs">></button>
+                <button NguCarouselPrev class="leftRs"></button>
+            </ngu-carousel>
         </div>
-
-        <div class="room-feature">
-          <h6>
-            <span> {{ room.description }}</span>
-          </h6>
-        </div>
-      </div>
     </div>
-  </div>
 </div>

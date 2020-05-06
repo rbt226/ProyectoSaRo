@@ -21,12 +21,10 @@ export class ServerErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       retry(1),
       catchError((error: HttpErrorResponse) => {
-        this.spinnerService.hideSpinner();
-        console.log('apago?');
+        this.spinnerService.hideSpinner();        
         if (error.status === 401) {
           localStorage.removeItem('token');
         } else {
-          console.log('entro a HttpInterceptor?');
           return throwError(error);
         }
       })

@@ -8,7 +8,8 @@ import {
 import { RoomService } from 'src/app/services/room.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { NguCarousel, NguCarouselConfig } from '@ngu/carousel';
-import * as AnimatePlugin from 'src/assets/javascript/animate-plus';
+import * as AnimatePlugin from 'src/assets/javascript/animate-plus'
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-list-rooms',
@@ -41,8 +42,13 @@ export class ListRoomsComponent implements OnInit, AfterViewInit {
   constructor(
     private roomService: RoomService,
     private spinnerService: SpinnerService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private app: AppComponent
   ) {}
+
+  ngShow(type, data) {
+    this.app.show(type, data);
+  }  
 
   ngAfterViewInit() {
     this.cdr.detectChanges();

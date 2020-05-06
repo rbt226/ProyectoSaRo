@@ -4,6 +4,7 @@ import {
   ViewChild,
   ChangeDetectorRef,
   AfterViewInit,
+  Input,
 } from '@angular/core';
 import { RoomService } from 'src/app/services/room.service';
 import { Room } from 'src/app/models/room.interface';
@@ -17,6 +18,8 @@ import { NguCarouselConfig, NguCarousel } from '@ngu/carousel';
   styleUrls: ['./detail-room.component.scss'],
 })
 export class DetailRoomComponent implements OnInit, AfterViewInit {
+  @Input() data: any;
+
   slideNo = 0;
   withAnim = true;
   resetAnim = true;
@@ -53,8 +56,9 @@ export class DetailRoomComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+
     this.spinner.show();
-    const idRoom = this.route.snapshot.paramMap.get('id');
+    const idRoom = this.data;
     this.roomService.getRoomById(idRoom).subscribe((res) => {
       this.room = res;
       this.cdr.detectChanges();

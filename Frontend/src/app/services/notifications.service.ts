@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import * as alertify from 'alertifyjs'; //import
+import * as alertify from 'alertifyjs';
 
 @Injectable({
   providedIn: 'root',

@@ -18,6 +18,9 @@
                 <div *ngSwitchCase="'signUp'">
                     <app-sign-up></app-sign-up>
                 </div>
+                <div *ngSwitchCase="'roomDetail'">
+                    <app-detail-room [data]="data"></app-detail-room>
+                </div>
                 <div *ngSwitchDefault>nada</div>
             </div>
         </div>

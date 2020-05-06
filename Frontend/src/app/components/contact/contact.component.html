@@ -1,0 +1,108 @@
+<!-- Breadcrumb Area Start -->
+<div class="breadcrumb-area contact-breadcrumb bg-img bg-overlay jarallax" style="background-image: url(assets/img/bg-img/18.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-content text-center mt-100">
+                    <h2 class="page-title">Contactanos</h2>
+                    <!-- <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
+                        </ol>
+                    </nav> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb Area End -->
+
+<!-- Google Maps & Contact Info Area Start -->
+<section class="google-maps-contact-info">
+    <div class="container-fluid">
+        <div class="google-maps-contact-content">
+            <div class="row">
+                <!-- Single Contact Info -->
+                <div class="col-6 col-lg-3">
+                    <div class="single-contact-info">
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                        <h4>Teléfono</h4>
+                        <p>099887755</p>
+                    </div>
+                </div>
+                <!-- Single Contact Info -->
+                <div class="col-6 col-lg-3">
+                    <div class="single-contact-info">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        <h4>Dirección</h4>
+                        <p>Belgrano 2894, Montevideo, Uruguay</p>
+                    </div>
+                </div>
+                <!-- Single Contact Info -->
+                <div class="col-6 col-lg-3">
+                    <div class="single-contact-info">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <h4>Horarios</h4>
+                        <p>08:00 a 21:00</p>
+                    </div>
+                </div>
+                <!-- Single Contact Info -->
+                <div class="col-6 col-lg-3">
+                    <div class="single-contact-info">
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                        <h4>Email</h4>
+                        <p>delparqueconsultorios@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Google Maps -->
+            <div class="google-maps">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3272.667926012847!2d-56.15505568504243!3d-34.88968418019136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959f80fc1be1daa3%3A0x7900de05a64fea8c!2sCalle%20Belgrano%202894%2C%2011600%20Montevideo%2C%20Departamento%20de%20Montevideo!5e0!3m2!1ses-419!2suy!4v1588475403456!5m2!1ses-419!2suy"
+                    width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Google Maps & Contact Info Area End -->
+
+<!-- Contact Form Area Start -->
+<div class="roberto-contact-form-area section-padding-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <!-- Section Heading -->
+                <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms">
+                    <h6>Contactanos</h6>
+                    <h2>Envíanos un mensaje</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <!-- Form -->
+                <div class="contact-form">
+                    <form [formGroup]="formContact" (ngSubmit)="send(formContact.value)">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+                                <input formControlName="name" type="text" name="message-name" class="form-control mb-30" placeholder="Nombre">
+                            </div>
+                            <div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
+                                <input formControlName="email" type="email" name="message-email" class="form-control mb-30" placeholder="Tu Email">
+                            </div>
+                            <div class="col-12 wow fadeInUp" data-wow-delay="100ms">
+                                <textarea formControlName="message" name="message" class="form-control mb-30" placeholder="Mensaje"></textarea>
+                            </div>
+                            <div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
+                                <button type="submit" class="btn consultorio-btn mt-15">Enviar Mensaje</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact Form Area End -->

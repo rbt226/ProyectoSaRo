@@ -60,13 +60,6 @@ button:focus {
     transform: scale(1.2);
 }
 
-@media (min-width:576px) {
-    .room-thumbnail {
-        flex: 0 0 40%;
-        max-width: 40%;
-    }
-}
-
 .description-container {
     position: relative;
     padding: 0px 50px 20px 50px;
@@ -99,4 +92,12 @@ button:focus {
     word-wrap: break-word;
     text-decoration: none;
     font-weight: bold;
+}
+
+.tile {
+    padding: 0px;
+}
+
+.row {
+    width: 80%;
 }

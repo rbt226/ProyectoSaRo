@@ -11,8 +11,8 @@ import { AppComponent } from 'src/app/app.component';
 export class NavbarComponent {
   constructor(public authService: AuthService, private app: AppComponent) {}
 
-   ngShow(data) {
-    this.app.show(data);
+   ngShow(type) {
+    this.app.show(type, null);
     }  
 
   public isMenuCollapsed = true;

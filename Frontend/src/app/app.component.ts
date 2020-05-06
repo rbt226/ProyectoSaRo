@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NotificationService } from './services/notifications.service';
 
 @Component({
   selector: 'app-root',
@@ -13,16 +12,15 @@ export class AppComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   type: string;
+  data: any;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private not: NotificationService
-  ) {}
-  show(data) {
-    this.type = data;
+  constructor(private formBuilder: FormBuilder) {}
+  show(type, data) {
+    this.type = type;
+    this.data = data;
     this.showModal = true; // Show-Hide Modal Check
   }
-  // Bootstrap Modal Close event
+  //Bootstrap Modal Close event
   hide() {
     this.showModal = false;
   }
@@ -34,7 +32,6 @@ export class AppComponent implements OnInit {
     });
   }
   // convenience getter for easy access to form fields
-
   get f() {
     return this.registerForm.controls;
   }

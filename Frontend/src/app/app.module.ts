@@ -32,6 +32,8 @@ import { ServerErrorInterceptor } from './services/server-error-interceptor';
 import { ServicesAreaComponent } from './components/areas/services-area/services-area.component';
 import { NguCarouselModule } from '@ngu/carousel';
 import { BookingAreaComponent } from './components/areas/booking-area/booking-area.component';
+import { ContactComponent } from './components/contact/contact.component';
+
 
 @NgModule({
   declarations: [
@@ -50,6 +52,7 @@ import { BookingAreaComponent } from './components/areas/booking-area/booking-ar
     CreateRoomComponent,
     ServicesAreaComponent,
     BookingAreaComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
