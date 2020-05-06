@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-
-import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
-import { Cloudinary } from '@cloudinary/angular-5.x';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { RoomService } from 'src/app/services/room.service';
 import { Router } from '@angular/router';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { Cloudinary } from '@cloudinary/angular-5.x';
+import { FileItem, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { NotificationService } from 'src/app/services/notifications.service';
+import { RoomService } from 'src/app/services/room.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
+import { ConfirmedValidator } from 'src/app/validators/password.validator';
 
 @Component({
     selector: 'app-sign-up',
@@ -19,14 +19,14 @@ export class SignUpComponent implements OnInit {
     formCreateClient: FormGroup;
     maxSize = 1024 * 1024; // 1MB
     allowedFileType = ['image'];
-    urls = [];
+    photo;
     imagen = [];
     public hasBaseDropZoneOver = false;
     hasAnotherDropZoneOver: boolean;
     public errorImagen = '';
     private title: string;
     public imageDataArray;
-    files: FileItem[] = [];
+    file: FileItem = null;
 
     constructor(
         private roomService: RoomService,
@@ -115,8 +115,11 @@ export class SignUpComponent implements OnInit {
             const url = window.URL
                 ? window.URL.createObjectURL(fileItem._file)
                 : (window as any).webkitURL.createObjectURL(fileItem._file);
-            this.urls.push(url);
-            this.files.push(fileItem);
+            this.photo = url;
+            this.file = fileItem;
+            if (this.uploader.queue.length > 1) {
+                this.uploader.queue.splice(0, 1); // clear old file & replace it with the new one
+            }
         };
         this.formCreateClient = this.formBuilder.group({
             name: ['', Validators.required],
@@ -126,11 +129,16 @@ export class SignUpComponent implements OnInit {
             userName: ['', Validators.required],
             mobilePhone: ['', Validators.required],
             password: ['', Validators.required],
-            passwordConfirmation: ['', Validators.required],
+            passwordConfirm: ['', Validators.required],
             imagen: ['defaultUser'],
+        }, {
+            validator: ConfirmedValidator('password', 'passwordConfirm')
         });
     }
 
+    get f() {
+        return this.formCreateClient.controls;
+    }
     create(data) {
         this.spinnerSevice.showSpinner();
 
@@ -168,12 +176,9 @@ export class SignUpComponent implements OnInit {
         }
     }
 
-    removeImage(url) {
-        const index = this.urls.indexOf(url);
-        if (index > -1) {
-            this.urls.splice(index, 1);
-            this.uploader.removeFromQueue(this.files[index]);
-            this.files.splice(index, 1);
-        }
+    removeImage() {
+        this.photo = null;
+        this.uploader.removeFromQueue(this.file);
+        this.file = null;
     }
 }

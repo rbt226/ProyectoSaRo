@@ -1,8 +1,8 @@
-<div class="sign-up-area section-padding-50-100">
+<div class="sign-up-area section-padding-50-50">
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="animate-plus section-heading text-center wow fadeInUp" data-animations="fadeInUp" data-animation-delay="200ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
+                <div class="animate-plus section-heading text-center " data-animation-delay="200ms" data-animation-when-visible="true">
                     <h6>Usuario</h6>
                     <h2>Registrarse</h2>
                 </div>
@@ -13,53 +13,62 @@
                 <div class="consultorio-contact-form">
                     <form [formGroup]="formCreateClient" (ngSubmit)="create(formCreateClient.value)">
                         <div class="row">
-                            <div class="animate-plus col-12 col-lg-6 wow fadeInUp" data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
+                            <div class="animate-plus col-12 col-lg-6 ">
                                 <input formControlName="name" type="text" class="form-control mb-30" placeholder="Nombre" />
                             </div>
-                            <div class="animate-plus col-12 col-lg-6 wow fadeInUp" data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
+                            <div class="animate-plus col-12 col-lg-6 ">
                                 <input formControlName="lastName" type="text" class="form-control mb-30" placeholder="Apellido" />
                             </div>
-                            <div class="animate-plus col-12 col-lg-6 wow fadeInUp" data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
+                            <div class="animate-plus col-12 col-lg-6 ">
                                 <input formControlName="document" type="number" class="form-control mb-30" placeholder="Documento" />
                             </div>
-                            <div class="animate-plus col-12 col-lg-6 wow fadeInUp" data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
+                            <div class="animate-plus col-12 col-lg-6 ">
                                 <input formControlName="mobilePhone" type="number" class="form-control mb-30" placeholder="Celular" />
                             </div>
-                            <div class="animate-plus col-12 col-lg-6 wow fadeInUp" data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
+                            <div class="animate-plus col-12 col-lg-6 ">
                                 <input formControlName="email" type="email" class="form-control mb-30" placeholder="Email" />
                             </div>
-                            <div class="animate-plus col-12 col-lg-6 wow fadeInUp" data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
-                                <input formControlName="userName" type="text" class="form-control mb-30" placeholder="UserName" />
+                            <div class="animate-plus col-12 col-lg-6 ">
+                                <input formControlName="userName" type="text" class="form-control mb-30" placeholder="User Name" />
                             </div>
-                            <div class="animate-plus col-12 col-lg-6 wow fadeInUp" data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
-                                <input formControlName="password" type="password" class="form-control mb-30" placeholder="Password" />
+                            <div class="form-group animate-plus col-12 col-lg-6 " data-animation-delay="700ms">
+                                <input [ngClass]="{'is-invalid': f.password.touched && f.password.invalid}" formControlName="password" type="password" class="form-control mb-30"
+                                    placeholder="Password" />
+                                <small *ngIf="f.password.touched && f.password.invalid" class="text-danger">
+                                    <div *ngIf="f.password.errors.required">La contraseña es requerida.</div>
+                                </small>
                             </div>
-                            <div class="animate-plus col-12 col-lg-6 wow fadeInUp" data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
-                                <input formControlName="passwordConfirmation" type="password" class="form-control mb-30" placeholder="Confirmacion" />
+                            <div class="form-group animate-plus col-12 col-lg-6 " data-animation-delay="700ms">
+                                <input [ngClass]="{'is-invalid': f.passwordConfirm.touched && f.passwordConfirm.invalid}" formControlName="passwordConfirm" type="password"
+                                    class="form-control mb-30" placeholder="Confirmar constraseña" />
+                                <small *ngIf="f.passwordConfirm.touched && f.passwordConfirm.invalid" class="text-danger">
+                                    <div *ngIf="f.passwordConfirm.errors.required">La contraseña es requerida.</div>
+                                    <div *ngIf="f.passwordConfirm.errors.confirmedValidator">Las contraseñas no coinciden</div>
+                                </small>
                             </div>
 
-                            <div class="animate-plus col-12" data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
+                            <div class="animate-plus col-12">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="customFileLang" lang="es" formControlName="imagen" ng2FileSelect [uploader]="uploader" />
                                     <label class="custom-file-label" for="customFileLang">Seleccionar Imagen</label>
                                 </div>
-                                <div class="text-danger" *ngIf=" formCreateClient.controls.imagen.errors && formCreateClient.controls.imagen.errors.incorrect">
+                                <small class="text-danger" *ngIf=" f.imagen.errors && f.imagen.errors.incorrect">
                                     {{ errorImagen }}
-                                </div>
+                                </small>
                             </div>
                             <!-- PHOTO -->
                             <div class="container" *ngIf="uploader?.queue?.length > 0">
-                                <hr class="mt-2 mb-5" />
-                                <div class="row text-center text-lg-left">
-                                    <div *ngFor="let url of urls" class="col-12 d-block mb-4">
-                                        <img class="img-fluid img-thumbnail" [src]="sanitizer.bypassSecurityTrustUrl(url)" />
-                                        <a (click)="removeImage(url)" class="fa fa-close fa-lg remove"></a>
+                                <hr class="mt-2" />
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-4 col-md-6 col-sm-8 col-6 d-block">
+                                        <img class=" img-fluid img-thumbnail" [src]="sanitizer.bypassSecurityTrustUrl(photo)" />
+                                        <a (click)="removeImage()" class="fa fa-close fa-lg remove"></a>
                                     </div>
                                 </div>
                             </div>
                             <!-- PHOTO -->
 
-                            <div class="animate-plus col-12 text-center wow fadeInUp" data-animations="fadeInUp" data-animation-delay="1000ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
+                            <div class="animate-plus col-12 text-center " data-animation-delay="1000ms" data-animation-when-visible="true">
                                 <button type="submit" class="btn consultorio-btn mt-15" [disabled]="!formCreateClient.valid">
                                     Registrarse
                                 </button>

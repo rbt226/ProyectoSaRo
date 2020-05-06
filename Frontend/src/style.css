@@ -34,10 +34,9 @@ Last Update: Feb 9, 2019
 - 19.0 Blog Area CSS
 --------------------------------------------- */
 
-
 /* Import Fonts & All CSS */
 
-@import url("https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700");
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700');
 @import url(css/bootstrap.min.css);
 @import url(css/animate.css);
 @import url(css/default-assets/classy-nav.css);
@@ -59,7 +58,7 @@ Last Update: Feb 9, 2019
 }
 
 body {
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 400;
     font-size: 16px;
     position: relative;
@@ -72,7 +71,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     color: #ffffff;
     line-height: 1.3;
     font-weight: 500;
@@ -124,7 +123,7 @@ ul li {
 
 .bg-overlay::after {
     position: absolute;
-    content: "";
+    content: '';
     height: 100%;
     width: 100%;
     top: 0;
@@ -144,10 +143,10 @@ ul li {
     z-index: 0;
 }
 
-.jarallax>.jarallax-img {
+.jarallax > .jarallax-img {
     position: absolute;
     object-fit: cover;
-    font-family: "object-fit: cover";
+    font-family: 'object-fit: cover';
     top: 0;
     left: 0;
     width: 100%;
@@ -215,7 +214,6 @@ input:focus {
 .mfp-arrow-right::before {
     border-left-color: #ffffff;
 }
-
 
 /* :: 02.0 Spacing Area CSS */
 
@@ -333,6 +331,11 @@ input:focus {
     padding-bottom: 100px;
 }
 
+.section-padding-50-50 {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
 .section-padding-80 {
     padding-top: 80px;
     padding-bottom: 80px;
@@ -362,7 +365,6 @@ input:focus {
     padding-top: 100px;
     padding-bottom: 0;
 }
-
 
 /* :: 3.0 Preloader Area CSS */
 
@@ -411,7 +413,7 @@ input:focus {
 
 .loader:before,
 .loader:after {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
 }
@@ -447,7 +449,6 @@ input:focus {
         box-shadow: 0 2.5em 0 0;
     }
 }
-
 
 /* :: 4.0 Heading Area CSS */
 
@@ -496,7 +497,6 @@ input:focus {
     color: #ffffff;
 }
 
-
 /* :: 5.0 Backtotop Area CSS */
 
 #scrollUp {
@@ -531,7 +531,6 @@ input:focus {
     background-color: #000000;
     color: #ffffff;
 }
-
 
 /* :: 6.0 Buttons Area CSS */
 
@@ -618,7 +617,6 @@ input:focus {
     color: #000000;
 }
 
-
 /* :: 7.0 Header Area CSS */
 
 .header-area {
@@ -698,7 +696,7 @@ input:focus {
     align-items: center;
 }
 
-.top-header-area .top-header-content>a {
+.top-header-area .top-header-content > a {
     color: #ffffff;
     font-size: 14px;
     font-weight: 400;
@@ -707,41 +705,41 @@ input:focus {
     margin-right: 50px;
 }
 
-.top-header-area .top-header-content>a:last-child {
+.top-header-area .top-header-content > a:last-child {
     margin-right: 0;
 }
 
-.top-header-area .top-header-content>a i {
+.top-header-area .top-header-content > a i {
     padding-right: 5px;
     color: #1cc3b2;
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-    .top-header-area .top-header-content>a {
+    .top-header-area .top-header-content > a {
         margin-right: 30px;
     }
 }
 
 @media only screen and (max-width: 767px) {
-    .top-header-area .top-header-content>a {
+    .top-header-area .top-header-content > a {
         margin-right: 15px;
     }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-    .top-header-area .top-header-content>a span {
+    .top-header-area .top-header-content > a span {
         display: none;
     }
 }
 
 @media only screen and (max-width: 767px) {
-    .top-header-area .top-header-content>a span {
+    .top-header-area .top-header-content > a span {
         display: none;
     }
 }
 
-.top-header-area .top-header-content>a:hover,
-.top-header-area .top-header-content>a:focus {
+.top-header-area .top-header-content > a:hover,
+.top-header-area .top-header-content > a:focus {
     color: #afb4bf;
 }
 
@@ -854,10 +852,38 @@ input:focus {
     color: #2a303b;
 }
 
-.classy-nav-container .classy-navbar .classynav ul li.cn-dropdown-item ul li a:focus,
-.classy-nav-container .classy-navbar .classynav ul li.cn-dropdown-item ul li a:hover,
-.classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a:focus,
-.classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a:hover {
+.classy-nav-container
+    .classy-navbar
+    .classynav
+    ul
+    li.cn-dropdown-item
+    ul
+    li
+    a:focus,
+.classy-nav-container
+    .classy-navbar
+    .classynav
+    ul
+    li.cn-dropdown-item
+    ul
+    li
+    a:hover,
+.classy-nav-container
+    .classy-navbar
+    .classynav
+    ul
+    li.megamenu-item
+    ul
+    li
+    a:focus,
+.classy-nav-container
+    .classy-navbar
+    .classynav
+    ul
+    li.megamenu-item
+    ul
+    li
+    a:hover {
     color: #1cc3b2;
 }
 
@@ -874,7 +900,7 @@ input:focus {
     bottom: 0;
     left: 10%;
     z-index: 1;
-    content: "";
+    content: '';
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
@@ -889,9 +915,9 @@ input:focus {
     }
 }
 
-.classynav ul li.has-down>a::after,
-.classynav ul li.has-down.active>a::after,
-.classynav ul li.megamenu-item>a::after {
+.classynav ul li.has-down > a::after,
+.classynav ul li.has-down.active > a::after,
+.classynav ul li.megamenu-item > a::after {
     color: #2a303b;
 }
 
@@ -977,7 +1003,6 @@ input:focus {
 .main-header-area .search-btn:focus {
     color: #1cc3b2;
 }
-
 
 /* :: 8.0 Hero Area CSS */
 
@@ -1103,7 +1128,6 @@ input:focus {
         font-size: 30px;
     }
 }
-
 
 /* :: 9.0 Footer Area CSS */
 
@@ -1318,7 +1342,6 @@ input:focus {
     color: #ffffff;
 }
 
-
 /* :: 10.0 Partner Area CSS */
 
 .partner-logo-content {
@@ -1341,7 +1364,6 @@ input:focus {
         max-height: 30px;
     }
 }
-
 
 /* :: 11.0 Project Area CSS */
 
@@ -1455,7 +1477,6 @@ input:focus {
     visibility: visible;
 }
 
-
 /* :: 12.0 CTA CSS */
 
 .consultorio-cta-area {
@@ -1479,7 +1500,6 @@ input:focus {
     margin-bottom: 0;
     color: #ffffff;
 }
-
 
 /* :: 13.0 Testimonial Area CSS */
 
@@ -1535,7 +1555,11 @@ input:focus {
     margin-bottom: 10px;
 }
 
-.consultorio-testimonials-area .single-testimonial-slide .rating-title .rating i {
+.consultorio-testimonials-area
+    .single-testimonial-slide
+    .rating-title
+    .rating
+    i {
     color: #f5b917;
     font-size: 14px;
 }
@@ -1686,7 +1710,6 @@ input:focus {
         height: 750px;
     }
 }
-
 
 /* ---------- DETAIL ROOM ----------*/
 
@@ -2121,7 +2144,11 @@ html .ui-button.ui-state-disabled:active {
     margin-bottom: 10px;
 }
 
-.room-review-area .single-room-review-area .reviwer-content .reviwer-title span {
+.room-review-area
+    .single-room-review-area
+    .reviwer-content
+    .reviwer-title
+    span {
     font-size: 14px;
     display: block;
     margin-bottom: 10px;
@@ -2129,7 +2156,11 @@ html .ui-button.ui-state-disabled:active {
 }
 
 @media only screen and (max-width: 767px) {
-    .room-review-area .single-room-review-area .reviwer-content .reviwer-title span {
+    .room-review-area
+        .single-room-review-area
+        .reviwer-content
+        .reviwer-title
+        span {
         font-size: 12px;
     }
 }
@@ -2140,7 +2171,11 @@ html .ui-button.ui-state-disabled:active {
 }
 
 @media only screen and (max-width: 767px) {
-    .room-review-area .single-room-review-area .reviwer-content .reviwer-title h6 {
+    .room-review-area
+        .single-room-review-area
+        .reviwer-content
+        .reviwer-title
+        h6 {
         font-size: 14px;
     }
 }
@@ -2151,11 +2186,14 @@ html .ui-button.ui-state-disabled:active {
 }
 
 @media only screen and (max-width: 767px) {
-    .room-review-area .single-room-review-area .reviwer-content .reviwer-rating i {
+    .room-review-area
+        .single-room-review-area
+        .reviwer-content
+        .reviwer-rating
+        i {
         font-size: 12px;
     }
 }
-
 
 /* :: 15.0 About CSS */
 
@@ -2486,7 +2524,6 @@ html .ui-button.ui-state-disabled:active {
     color: #ffffff;
 }
 
-
 /* :: 16.0 Contact Area CSS */
 
 .consultorio-contact-form {
@@ -2627,7 +2664,6 @@ html .ui-button.ui-state-disabled:active {
         height: 300px;
     }
 }
-
 
 /* :: 17.0 Widget Area CSS */
 
@@ -2795,7 +2831,7 @@ html .ui-button.ui-state-disabled:active {
 }
 
 .single-recent-post .post-content .post-meta a:last-child::before {
-    content: "/";
+    content: '/';
     position: absolute;
     top: 0;
     left: -20px;
@@ -2806,7 +2842,6 @@ html .ui-button.ui-state-disabled:active {
 .single-recent-post .post-content .post-meta a:focus {
     color: #000000;
 }
-
 
 /* :: 18.0 Breadcrumb Area CSS */
 
@@ -2926,12 +2961,11 @@ html .ui-button.ui-state-disabled:active {
     color: #1cc3b2;
 }
 
-.breadcrumb-content .breadcrumb .breadcrumb-item+.breadcrumb-item::before {
-    content: "\f105";
-    font-family: "FontAwesome";
+.breadcrumb-content .breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+    content: '\f105';
+    font-family: 'FontAwesome';
     color: #ffffff;
 }
-
 
 /* :: 19.0 Blog CSS */
 
@@ -3113,7 +3147,7 @@ html .ui-button.ui-state-disabled:active {
 }
 
 .single-blog-post .post-content .post-meta a:last-child::before {
-    content: "/";
+    content: '/';
     position: absolute;
     top: 0;
     left: -20px;
@@ -3189,7 +3223,7 @@ html .ui-button.ui-state-disabled:active {
 }
 
 .breadcrumb-post-content .post-meta a:last-child::before {
-    content: "/";
+    content: '/';
     position: absolute;
     top: 0;
     left: -20px;
