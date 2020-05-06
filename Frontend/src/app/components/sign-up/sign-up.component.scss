@@ -6,10 +6,13 @@
 
 .remove {
     position: absolute;
-    right: 24px;
-    top: 10px;
-    color: #1cc3b2 !important;
+    right: 7px;
+    top: -5px;
+    color: white !important;
+    border-style: double;
     cursor: pointer;
+    background-color: #307afe;
+    padding: 1px;
 }
 
 h2 {
@@ -25,4 +28,12 @@ h2 {
 }
 .is-invalid:hover {
     border-color: #dc3545 !important;
+}
+.gallery-image {
+    border: 2px solid #307afe !important;
+}
+
+.img-thumbnail {
+    object-fit: cover;
+    height: 180px;
 }

@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 import { Cloudinary } from '@cloudinary/angular-5.x';
 import { FileItem, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
 import { NotificationService } from 'src/app/services/notifications.service';
-import { RoomService } from 'src/app/services/room.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
-import { ConfirmedValidator } from 'src/app/validators/password.validator';
+import { UserService } from 'src/app/services/user.service';
+import { ConfirmedValidator, DocumentValidator } from 'src/app/validators/password.validator';
 
 @Component({
     selector: 'app-sign-up',
@@ -19,7 +19,8 @@ export class SignUpComponent implements OnInit {
     formCreateClient: FormGroup;
     maxSize = 1024 * 1024; // 1MB
     allowedFileType = ['image'];
-    photo;
+    photo = 'assets/images/default.jpg';
+    defaultPhoto = true;
     imagen = [];
     public hasBaseDropZoneOver = false;
     hasAnotherDropZoneOver: boolean;
@@ -29,7 +30,7 @@ export class SignUpComponent implements OnInit {
     file: FileItem = null;
 
     constructor(
-        private roomService: RoomService,
+        private userService: UserService,
         private formBuilder: FormBuilder,
         private cloudinary: Cloudinary,
         private route: Router,
@@ -111,10 +112,11 @@ export class SignUpComponent implements OnInit {
             }
         };
         this.uploader.onAfterAddingFile = (fileItem) => {
-            this.formCreateClient.controls.imagen.reset();
+            this.formCreateClient.controls.image.reset();
             const url = window.URL
                 ? window.URL.createObjectURL(fileItem._file)
                 : (window as any).webkitURL.createObjectURL(fileItem._file);
+            debugger;
             this.photo = url;
             this.file = fileItem;
             if (this.uploader.queue.length > 1) {
@@ -125,14 +127,15 @@ export class SignUpComponent implements OnInit {
             name: ['', Validators.required],
             lastName: ['', Validators.required],
             document: ['', Validators.required],
-            email: ['', Validators.required, Validators.email],
+            email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
             userName: ['', Validators.required],
             mobilePhone: ['', Validators.required],
             password: ['', Validators.required],
             passwordConfirm: ['', Validators.required],
-            imagen: ['defaultUser'],
+            documentType: ['CI', Validators.required],
+            image: [''],
         }, {
-            validator: ConfirmedValidator('password', 'passwordConfirm')
+            validator: [ConfirmedValidator('password', 'passwordConfirm'), DocumentValidator('documentType', 'document')]
         });
     }
 
@@ -141,7 +144,7 @@ export class SignUpComponent implements OnInit {
     }
     create(data) {
         this.spinnerSevice.showSpinner();
-
+        debugger;
         if (this.uploader.queue.length > 0) {
             for (const fileItem of this.uploader.queue) {
                 this.uploader.uploadItem(fileItem);
@@ -154,7 +157,9 @@ export class SignUpComponent implements OnInit {
             // }
             this.uploader.onCompleteAll = () => {
                 data.image = this.imagen;
-                this.roomService.createRoom(data).subscribe((res) => {
+
+                this.userService.signUp(data).subscribe((res) => {
+                    debugger;
                     this.route.navigate(['/']);
                     this.spinnerSevice.hideSpinner();
                     this.notification.showSuccess(
@@ -163,10 +168,11 @@ export class SignUpComponent implements OnInit {
                 });
             };
         } else {
-            if (this.imagen) {
+            if (this.imagen.length > 0) {
                 data.image = this.imagen;
             }
-            this.roomService.createRoom(data).subscribe((res) => {
+            this.userService.signUp(data).subscribe((res) => {
+                debugger;
                 this.route.navigate(['/']);
                 this.spinnerSevice.hideSpinner();
                 this.notification.showSuccess(
@@ -177,8 +183,15 @@ export class SignUpComponent implements OnInit {
     }
 
     removeImage() {
-        this.photo = null;
+        debugger;
+        this.photo = 'assets/images/default.jpg';
         this.uploader.removeFromQueue(this.file);
         this.file = null;
+    }
+
+    changeDocument() {
+        this.formCreateClient.controls.document.setValue('');
+        this.formCreateClient.controls.document.markAsUntouched();
+
     }
 }

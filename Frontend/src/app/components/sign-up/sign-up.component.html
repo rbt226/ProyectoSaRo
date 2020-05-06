@@ -20,16 +20,39 @@
                                 <input formControlName="lastName" type="text" class="form-control mb-30" placeholder="Apellido" />
                             </div>
                             <div class="animate-plus col-12 col-lg-6 ">
-                                <input formControlName="document" type="number" class="form-control mb-30" placeholder="Documento" />
+                                <div class="row">
+                                    <div class="col-6 col-lg-5 ">
+                                        <select class="form-control" formControlName="documentType" (change)="changeDocument()">
+                                            <option value="CI">CI</option>
+                                            <option value="passport">Pasaporte</option>
+                                        </select>
+                                    </div>
+                                    <div class="animate-plus col-6 col-lg-7 ">
+                                        <input [ngClass]="{'is-invalid': f.document.touched && f.document.invalid}" formControlName="document" type="text"
+                                            class="form-control mb-30" placeholder="Documento" />
+                                        <small *ngIf="f.document.touched && f.document.invalid" class="text-danger">
+                                            <div *ngIf="f.document.errors.required">La cedula es requerida.</div>
+                                            <div *ngIf="f.document.errors.ci">No es una cedula valida</div>
+                                            <div *ngIf="f.document.errors.passport">No es un pasaporte valido</div>
+                                        </small>
+                                        <br>
+                                    </div>
+                                </div>
                             </div>
+
                             <div class="animate-plus col-12 col-lg-6 ">
                                 <input formControlName="mobilePhone" type="number" class="form-control mb-30" placeholder="Celular" />
                             </div>
                             <div class="animate-plus col-12 col-lg-6 ">
-                                <input formControlName="email" type="email" class="form-control mb-30" placeholder="Email" />
+                                <input [ngClass]="{'is-invalid': f.email.touched && f.email.invalid}" formControlName="email" type="email" class="form-control mb-30"
+                                    placeholder="Email" />
+                                <small *ngIf="f.email.touched && f.email.invalid" class="text-danger">
+                                    <div *ngIf="f.email.errors?.pattern">Por favor ingrese una direccion de mail correcta</div>
+                                </small>
                             </div>
+
                             <div class="animate-plus col-12 col-lg-6 ">
-                                <input formControlName="userName" type="text" class="form-control mb-30" placeholder="User Name" />
+                                <input formControlName="userName" type="text" class="form-control mb-30" placeholder="Usuario" />
                             </div>
                             <div class="form-group animate-plus col-12 col-lg-6 " data-animation-delay="700ms">
                                 <input [ngClass]="{'is-invalid': f.password.touched && f.password.invalid}" formControlName="password" type="password" class="form-control mb-30"
@@ -49,20 +72,21 @@
 
                             <div class="animate-plus col-12">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="customFileLang" lang="es" formControlName="imagen" ng2FileSelect [uploader]="uploader" />
+                                    <input type="file" class="custom-file-input" id="customFileLang" lang="es" formControlName="image" ng2FileSelect [uploader]="uploader" />
                                     <label class="custom-file-label" for="customFileLang">Seleccionar Imagen</label>
                                 </div>
-                                <small class="text-danger" *ngIf=" f.imagen.errors && f.imagen.errors.incorrect">
+                                <small class="text-danger" *ngIf="f.image.errors && f.image.errors.incorrect">
                                     {{ errorImagen }}
                                 </small>
                             </div>
                             <!-- PHOTO -->
-                            <div class="container" *ngIf="uploader?.queue?.length > 0">
+                            <div class="container">
                                 <hr class="mt-2" />
                                 <div class="row justify-content-center">
                                     <div class="col-lg-4 col-md-6 col-sm-8 col-6 d-block">
-                                        <img class=" img-fluid img-thumbnail" [src]="sanitizer.bypassSecurityTrustUrl(photo)" />
-                                        <a (click)="removeImage()" class="fa fa-close fa-lg remove"></a>
+                                        <img [ngClass]="{'gallery-image': uploader?.queue?.length > 0}" class=" img-fluid img-thumbnail"
+                                            [src]="sanitizer.bypassSecurityTrustUrl(photo)" />
+                                        <a *ngIf="uploader?.queue?.length > 0" (click)="removeImage()" class="fa fa-close fa-lg remove"></a>
                                     </div>
                                 </div>
                             </div>
