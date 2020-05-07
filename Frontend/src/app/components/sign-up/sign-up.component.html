@@ -4,7 +4,7 @@
             <div class="col-12">
                 <div class="animate-plus section-heading text-center " data-animation-delay="200ms" data-animation-when-visible="true">
                     <h6>Usuario</h6>
-                    <h2>Registrarse</h2>
+                    <h3>Registrarse</h3>
                 </div>
             </div>
         </div>
@@ -28,10 +28,9 @@
                                         </select>
                                     </div>
                                     <div class="animate-plus col-6 col-lg-7 ">
-                                        <input [ngClass]="{'is-invalid': f.document.touched && f.document.invalid}" formControlName="document" type="text"
-                                            class="form-control mb-30" placeholder="Documento" />
+                                        <input [ngClass]="{'is-invalid': f.document.touched && f.document.invalid}" formControlName="document" type="text" class="form-control mb-30" placeholder="Documento" />
                                         <small *ngIf="f.document.touched && f.document.invalid" class="text-danger">
-                                            <div *ngIf="f.document.errors.required">La cedula es requerida.</div>
+                                            <div *ngIf="f.document.errors?.required">La cedula es requerida.</div>
                                             <div *ngIf="f.document.errors.ci">No es una cedula valida</div>
                                             <div *ngIf="f.document.errors.passport">No es un pasaporte valido</div>
                                         </small>
@@ -44,8 +43,7 @@
                                 <input formControlName="mobilePhone" type="number" class="form-control mb-30" placeholder="Celular" />
                             </div>
                             <div class="animate-plus col-12 col-lg-6 ">
-                                <input [ngClass]="{'is-invalid': f.email.touched && f.email.invalid}" formControlName="email" type="email" class="form-control mb-30"
-                                    placeholder="Email" />
+                                <input [ngClass]="{'is-invalid': f.email.touched && f.email.invalid}" formControlName="email" type="email" class="form-control mb-30" placeholder="Email" />
                                 <small *ngIf="f.email.touched && f.email.invalid" class="text-danger">
                                     <div *ngIf="f.email.errors?.pattern">Por favor ingrese una direccion de mail correcta</div>
                                 </small>
@@ -55,15 +53,13 @@
                                 <input formControlName="userName" type="text" class="form-control mb-30" placeholder="Usuario" />
                             </div>
                             <div class="form-group animate-plus col-12 col-lg-6 " data-animation-delay="700ms">
-                                <input [ngClass]="{'is-invalid': f.password.touched && f.password.invalid}" formControlName="password" type="password" class="form-control mb-30"
-                                    placeholder="Password" />
+                                <input [ngClass]="{'is-invalid': f.password.touched && f.password.invalid}" formControlName="password" type="password" class="form-control mb-30" placeholder="Password" />
                                 <small *ngIf="f.password.touched && f.password.invalid" class="text-danger">
                                     <div *ngIf="f.password.errors.required">La contraseña es requerida.</div>
                                 </small>
                             </div>
                             <div class="form-group animate-plus col-12 col-lg-6 " data-animation-delay="700ms">
-                                <input [ngClass]="{'is-invalid': f.passwordConfirm.touched && f.passwordConfirm.invalid}" formControlName="passwordConfirm" type="password"
-                                    class="form-control mb-30" placeholder="Confirmar constraseña" />
+                                <input [ngClass]="{'is-invalid': f.passwordConfirm.touched && f.passwordConfirm.invalid}" formControlName="passwordConfirm" type="password" class="form-control mb-30" placeholder="Confirmar constraseña" />
                                 <small *ngIf="f.passwordConfirm.touched && f.passwordConfirm.invalid" class="text-danger">
                                     <div *ngIf="f.passwordConfirm.errors.required">La contraseña es requerida.</div>
                                     <div *ngIf="f.passwordConfirm.errors.confirmedValidator">Las contraseñas no coinciden</div>
@@ -83,9 +79,8 @@
                             <div class="container">
                                 <hr class="mt-2" />
                                 <div class="row justify-content-center">
-                                    <div class="col-lg-4 col-md-6 col-sm-8 col-6 d-block">
-                                        <img [ngClass]="{'gallery-image': uploader?.queue?.length > 0}" class=" img-fluid img-thumbnail"
-                                            [src]="sanitizer.bypassSecurityTrustUrl(photo)" />
+                                    <div class="d-block">
+                                        <img [ngClass]="{'gallery-image': uploader?.queue?.length > 0}" class=" img-fluid img-thumbnail" [src]="sanitizer.bypassSecurityTrustUrl(photo)" />
                                         <a *ngIf="uploader?.queue?.length > 0" (click)="removeImage()" class="fa fa-close fa-lg remove"></a>
                                     </div>
                                 </div>

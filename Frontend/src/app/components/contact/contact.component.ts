@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmailService } from 'src/app/services/email.service';
-import { SpinnerService } from 'src/app/services/spinner.service';
 import { NotificationService } from 'src/app/services/notifications.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
 
 @Component({
   selector: 'app-contact',
@@ -11,6 +11,7 @@ import { NotificationService } from 'src/app/services/notifications.service';
 })
 export class ContactComponent implements OnInit {
   formContact: FormGroup;
+  formSubmitted = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -22,26 +23,32 @@ export class ContactComponent implements OnInit {
   ngOnInit() {
     this.formContact = this.formBuilder.group({
       name: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required,  Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
       message: ['', Validators.required],
     });
   }
 
+  get form() {
+    return this.formContact.controls;
+  }
   send(data) {
-    console.log('data --> ', data);
-    this.spinnerSevice.showSpinner();
-    this.emailService
-      .sendEmail({
-        mail: data.email,
-        name: data.name,
-        msg: data.message,
-      }).subscribe((res) => {
-        this.notification.showSuccess(
-                        'El mensaje ha sido enviado'
-                    );       
-        this.formContact.reset();
-        this.spinnerSevice.hideSpinner();
-      });
-    this.spinnerSevice.hideSpinner();
+    event.preventDefault();
+    this.formSubmitted = true;
+
+    if (this.formContact.valid) {
+      this.spinnerSevice.showSpinner();
+      this.emailService
+        .sendEmail({
+          mail: data.email,
+          name: data.name,
+          msg: data.message,
+        })
+        .subscribe((res) => {
+          this.notification.showSuccess('El mensaje ha sido enviado');
+          this.formContact.reset();
+          this.spinnerSevice.hideSpinner();
+        });
+      this.spinnerSevice.hideSpinner();
+    }
   }
 }

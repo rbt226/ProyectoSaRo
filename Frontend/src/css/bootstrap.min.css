@@ -4722,7 +4722,7 @@ input[type=submit].btn-block {
 .navbar-light .navbar-nav .nav-link.active,
 .navbar-light .navbar-nav .nav-link.show,
 .navbar-light .navbar-nav .show>.nav-link {
-    color: rgba(0, 0, 0, .9)
+    color: rgba(0, 0, 0, .5)
 }
 
 .navbar-light .navbar-toggler {

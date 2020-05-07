@@ -60,7 +60,7 @@
             <!-- Google Maps -->
             <div class="google-maps">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3272.667926012847!2d-56.15505568504243!3d-34.88968418019136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959f80fc1be1daa3%3A0x7900de05a64fea8c!2sCalle%20Belgrano%202894%2C%2011600%20Montevideo%2C%20Departamento%20de%20Montevideo!5e0!3m2!1ses-419!2suy!4v1588475403456!5m2!1ses-419!2suy"
-                    width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                    width="600" height="450" frameborder="0" style="border: 0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
             </div>
         </div>
     </div>
@@ -87,16 +87,23 @@
                     <form [formGroup]="formContact" (ngSubmit)="send(formContact.value)">
                         <div class="row">
                             <div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
-                                <input formControlName="name" type="text" name="message-name" class="form-control mb-30" placeholder="Nombre">
+                                <input formControlName="name" type="text" class="form-control mb-30" placeholder="Nombre" [ngClass]="{ 'is-required': form.name.errors?.required }" />
                             </div>
                             <div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
-                                <input formControlName="email" type="email" name="message-email" class="form-control mb-30" placeholder="Tu Email">
+                                <input formControlName="email" type="email" class="form-control mb-30" placeholder="Email" [ngClass]="{ 'is-required': form.email.errors?.required }" />
+                                <small *ngIf="form.email.touched && form.email.invalid" class="text-danger">
+                  <div *ngIf="form.email.errors?.pattern">
+                    Por favor ingrese una direccion de mail correcta
+                  </div>
+                </small>
                             </div>
                             <div class="col-12 wow fadeInUp" data-wow-delay="100ms">
-                                <textarea formControlName="message" name="message" class="form-control mb-30" placeholder="Mensaje"></textarea>
+                                <textarea formControlName="message" class="form-control mb-30" placeholder="Mensaje" [ngClass]="{ 'is-required': form.message.errors?.required }"></textarea>
                             </div>
                             <div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
-                                <button type="submit" class="btn consultorio-btn mt-15">Enviar Mensaje</button>
+                                <button type="submit" class="btn consultorio-btn mt-15">
+                  Enviar Mensaje
+                </button>
                             </div>
                         </div>
                     </form>

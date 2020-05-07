@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SpinnerService } from 'src/app/services/spinner.service';
 import { AppComponent } from 'src/app/app.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -16,25 +16,35 @@ export class SignInComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private spinnerService: SpinnerService,
-    private appComponent: AppComponent,
+    private appComponent: AppComponent
   ) {}
 
   formSignIn: FormGroup;
+  formSubmitted = false;
 
   ngOnInit() {
     this.formSignIn = this.formBuilder.group({
-      mail: ['', [Validators.required, Validators.email]],
+      mail: ['', [Validators.required,  Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
       password: ['', Validators.required],
     });
   }
 
+  get form() {
+    return this.formSignIn.controls;
+  }
+
   signIn(data) {
-    this.spinnerService.showSpinner();
-    this.autService.signIn(data).subscribe((res) => {
-      localStorage.setItem('token', res.token);
-      this.router.navigate(['/users']);
-      this.appComponent.hide();
-      this.spinnerService.hideSpinner();
-    });
+    event.preventDefault();
+    this.formSubmitted = true;
+
+    if (this.formSignIn.valid) {      
+      this.spinnerService.showSpinner();
+      this.autService.signIn(data).subscribe((res) => {
+        localStorage.setItem('token', res.token);
+        this.router.navigate(['/users']);
+        this.appComponent.hide();
+        this.spinnerService.hideSpinner();
+      });
+    }
   }
 }

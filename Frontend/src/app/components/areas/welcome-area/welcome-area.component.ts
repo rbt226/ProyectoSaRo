@@ -27,10 +27,10 @@ export class WelcomeAreaComponent implements AfterViewInit {
     easing: 'cubic-bezier(0, 0, 0.2, 1)',
   };
   images = [
-    '/assets/images/test1.jpg',
-    '/assets/images/test2.jpg',
-    '/assets/images/test3.jpg',
-    '/assets/images/test3.jpg',
+    '/assets/images/test1.jpeg',
+    '/assets/images/test2.jpeg',
+    '/assets/images/test3.jpeg',
+    '/assets/images/test4.jpeg',
   ];
   constructor(private cdr: ChangeDetectorRef) {}
 

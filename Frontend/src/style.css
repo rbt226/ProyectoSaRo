@@ -3523,3 +3523,12 @@ html .ui-button.ui-state-disabled:active {
 .comment_area .children .single_comment_area:last-of-type {
     margin-bottom: 0;
 }
+
+.is-required {
+    background-image: url(/assets/img/core-img/asterisk.svg);
+    background-repeat: no-repeat;
+    /* border-color: #dc3545; */
+    padding-right: 2.25rem;
+    background-position: center right calc(2.25rem / 4);
+    background-size: calc(1.25rem / 2) calc(1.25rem / 2);
+}
