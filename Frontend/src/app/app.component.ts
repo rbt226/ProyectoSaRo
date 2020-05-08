@@ -1,48 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalService } from './services/modal.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'Consultorios Del Parque';
-  showModal: boolean;
-  registerForm: FormGroup;
-  submitted = false;
-  type: string;
-  data: any;
+    title = 'Consultorios Del Parque';
+    registerForm: FormGroup;
+    submitted = false;
+    type: string;
 
-  constructor(private formBuilder: FormBuilder) {}
-  show(type, data) {
-    this.type = type;
-    this.data = data;
-    this.showModal = true; // Show-Hide Modal Check
-  }
-  //Bootstrap Modal Close event
-  hide() {
-    this.showModal = false;
-  }
+    constructor(
+        private formBuilder: FormBuilder,
+        public modalService: ModalService
+    ) { }
 
-  ngOnInit() {
-    this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });
-  }
-  // convenience getter for easy access to form fields
-  get f() {
-    return this.registerForm.controls;
-  }
-  onSubmit() {
-    this.submitted = true;
-    // stop here if form is invalid
-    if (this.registerForm.invalid) {
-      return;
+
+    ngOnInit() {
+        this.registerForm = this.formBuilder.group({
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', [Validators.required, Validators.minLength(6)]],
+        });
     }
-    if (this.submitted) {
-      this.showModal = false;
+    // convenience getter for easy access to form fields
+
+    get f() {
+        return this.registerForm.controls;
     }
-  }
+    onSubmit() {
+        this.submitted = true;
+        // stop here if form is invalid
+        if (this.registerForm.invalid) {
+            return;
+        }
+        if (this.submitted) {
+            this.modalService.hideModal();
+        }
+    }
 }

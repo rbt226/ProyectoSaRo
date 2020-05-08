@@ -1,19 +1,19 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { AppComponent } from 'src/app/app.component';
+import { ModalService } from 'src/app/services/modal.service';
 
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
-  constructor(public authService: AuthService, private app: AppComponent) {}
+    constructor(public authService: AuthService, private modalService: ModalService) { }
 
-   ngShow(type) {
-    this.app.show(type, null);
-    }  
+    public isMenuCollapsed = true;
 
-  public isMenuCollapsed = true;
+    ngShow(type) {
+        this.modalService.showModal(type, null);
+    }
 }
