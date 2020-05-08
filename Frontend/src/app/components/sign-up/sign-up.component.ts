@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router } from '@angular/router';
-import { Cloudinary } from '@cloudinary/angular-5.x';
-import { FileItem, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
+import { FileItem, FileUploader } from 'ng2-file-upload';
+import { CloudinaryService } from 'src/app/services/cloudinary.service';
+import { ModalService } from 'src/app/services/modal.service';
 import { NotificationService } from 'src/app/services/notifications.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { UserService } from 'src/app/services/user.service';

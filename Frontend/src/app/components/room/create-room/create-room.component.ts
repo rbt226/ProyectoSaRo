@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-
-import { FileUploader, FileUploaderOptions, FileItem } from 'ng2-file-upload';
-import { Cloudinary } from '@cloudinary/angular-5.x';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { RoomService } from 'src/app/services/room.service';
 import { Router } from '@angular/router';
-import { SpinnerService } from 'src/app/services/spinner.service';
+import { Cloudinary } from '@cloudinary/angular-5.x';
+import { FileItem, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
+import { CloudinaryService } from 'src/app/services/cloudinary.service';
 import { NotificationService } from 'src/app/services/notifications.service';
+import { RoomService } from 'src/app/services/room.service';
+import { SpinnerService } from 'src/app/services/spinner.service';
+
 
 @Component({
     selector: 'app-create-room',
@@ -35,6 +36,7 @@ export class CreateRoomComponent implements OnInit {
         private route: Router,
         private spinnerSevice: SpinnerService,
         public sanitizer: DomSanitizer,
+        private cloudinaryService: CloudinaryService,
         private notification: NotificationService
     ) {
         this.title = 'salas';
@@ -140,26 +142,24 @@ export class CreateRoomComponent implements OnInit {
             // }
             this.uploader.onCompleteAll = () => {
                 data.images = this.images;
-                this.roomService.createRoom(data).subscribe((res) => {
-                    this.route.navigate(['/']);
-                    this.spinnerSevice.hideSpinner();
-                    this.notification.showSuccess(
-                        'La sala se ha dado de alta correctamente'
-                    );
-                });
+                this.createRoom(data);
             };
         } else {
             if (this.images) {
                 data.images = this.images;
             }
-            this.roomService.createRoom(data).subscribe((res) => {
-                this.route.navigate(['/']);
-                this.spinnerSevice.hideSpinner();
-                this.notification.showSuccess(
-                    'La sala se ha dado de alta correctamente'
-                );
-            });
+            this.createRoom(data);
         }
+    }
+
+    createRoom(room) {
+        this.roomService.createRoom(room).subscribe(res => {
+            this.route.navigate(['/']);
+            this.spinnerSevice.hideSpinner();
+            this.notification.showSuccess(
+                'La sala se ha dado de alta correctamente'
+            );
+        })
     }
 
     removeImage(url) {

@@ -41,7 +41,6 @@ export class UploaderComponent implements OnInit {
       // Check if HTTP request was successful
       if (fileItem.status !== 200) {
         console.log('Upload to cloudinary Failed');
-        console.log(fileItem);
         return false;
       }
     };
