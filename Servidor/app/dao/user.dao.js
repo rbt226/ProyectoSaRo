@@ -2,6 +2,7 @@ const userModel = require("../models/user.model");
 const utils = require("../common/utils");
 
 exports.signIn = (email, password, result) => {
+<<<<<<< HEAD
     userModel
         .findOne({ where: { email: email } })
         .then((us) => {
@@ -16,6 +17,20 @@ exports.signIn = (email, password, result) => {
             console.log("HANDLER ERROR ? ", error);
             utils.handleError(error, result);
         });
+=======
+  userModel
+    .findOne({ where: { email: email } })
+    .then((us) => {
+      if (us && us.password === password) {
+        result(null, { us });
+      } else {
+        result({ message: "User or password incorrect" }, null);
+      }
+    })
+    .catch((error) => {
+      utils.handleError(error, result);
+    });
+>>>>>>> Se agrega logica para el signIn
 };
 
 exports.create = (req, result) => {
@@ -30,6 +45,7 @@ exports.create = (req, result) => {
         });
 };
 exports.signUp = (req, result) => {
+<<<<<<< HEAD
     const userCreate = createUserModel(req);
     userCreate.active_user = 0;
     userCreate.id_role = 1;
@@ -41,6 +57,20 @@ exports.signUp = (req, result) => {
         .catch((error) => {
             utils.handleError(error, result);
         });
+=======
+  const userCreate = createUserModel(req);
+  userCreate.active_user = 0;
+  userCreate.id_role = 1;
+
+  userModel
+    .create(userCreate)
+    .then((newUser) => {
+      result(null, newUser);
+    })
+    .catch((error) => {
+      utils.handleError(error, result);
+    });
+>>>>>>> Se agrega logica para el signIn
 };
 
 exports.getAll = (result) => {
@@ -71,19 +101,21 @@ exports.getUserById = (id, result) => {
 };
 
 exports.deleteById = (id, result) => {
-    userModel
-        .destroy({ where: { id_user: id } })
-        .then((userModel) => {
-            if (!userModel) {
-                return result({ kind: "not_found" }, null);
-            }
-            console.log("deleted user with userId" + id);
+  console.log("estoy eliminando el usuario");
+  userModel
+    .destroy({ where: { id_user: id } })
+    .then((userModel) => {
+      if (!userModel) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("Deleted user with userId" + id);
 
-            result(null, userModel);
-        })
-        .catch((error) => {
-            utils.handleError(error, result);
-        });
+      result(null, userModel);
+    })
+    .catch((error) => {
+      console.log("Error al borrar usuario ", error);
+      utils.handleError(error, result);
+    });
 };
 exports.deleteAll = (result) => {
     userModel
@@ -115,15 +147,15 @@ exports.updateById = (id, req, result) => {
 };
 
 createUserModel = (req) => {
-    return {
-        email: req.body.email,
-        user_name: req.body.userName,
-        mobile_phone: req.body.mobilePhone,
-        password: req.body.password,
-        image_user: req.body.image,
-        active_user: req.body.active,
-        id_role: req.body.idRole,
-    };
+  return {
+    email: req.body.email,
+    user_name: req.body.userName,
+    mobile_phone: req.body.mobilePhone,
+    password: req.body.password,
+    image_user: req.body.image ? req.body.image : "Site/default_ghidmx",
+    active_user: req.body.active,
+    id_role: req.body.idRole,
+  };
 };
 
 exports.getUserByEmail = (email, result) => {

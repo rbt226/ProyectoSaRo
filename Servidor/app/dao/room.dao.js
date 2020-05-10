@@ -94,14 +94,12 @@ createRoomModel = (req) => {
   const images = req.body.images;
   let image = "";
   images.forEach((im) => {
-    console.log("for each ", im);
     if (!image) {
       image = im;
     } else {
       image = image + "|" + im;
     }
   });
-  console.log("createRoomModel ", images, " imageee: ", image);
   return {
     name_room: req.body.name,
     active_room: req.body.active,

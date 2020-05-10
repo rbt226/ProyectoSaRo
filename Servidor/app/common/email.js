@@ -5,7 +5,6 @@ Envío de Mails utilizando librería Nodemailer
 var nodemailer = require("nodemailer");
 
 exports.sendEmail = (req, res) => {
-    console.log("llego al back");
 
     var transporter = nodemailer.createTransport({
         service: "gmail",

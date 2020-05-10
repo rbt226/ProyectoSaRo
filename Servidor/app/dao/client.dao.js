@@ -6,9 +6,11 @@ exports.create = (req, result) => {
   clientModel
     .create(clientCreate)
     .then((newClient) => {
+      console.log("Se ha creado el cliente");
       result(null, newClient);
     })
     .catch((error) => {
+      console.log("Error al crear cliente ", error);
       utils.handleError(error, result);
     });
 };

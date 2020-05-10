@@ -12,6 +12,8 @@
     "dateformat": "^3.0.3",
     "debug": "~2.6.9",
     "express": "~4.17.1",
+    "filereader": "^0.10.3",
+    "formidable": "^1.2.2",
     "http-errors": "~1.7.3",
     "jsonwebtoken": "^8.5.1",
     "morgan": "~1.10.0",
