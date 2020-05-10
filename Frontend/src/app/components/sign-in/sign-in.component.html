@@ -12,9 +12,9 @@
             <div class="card-body">
                 <form [formGroup]="formSignIn" (ngSubmit)="signIn(formSignIn.value)" novalidate class="col-md-10 mx-auto">
                     <div class="form-group">
-                        <input formControlName="mail" class="form-control" placeholder="Email" autofocus [ngClass]="{'is-required': form.mail.errors?.required}" />
-                        <small *ngIf="form.mail.touched && form.mail.invalid" class="text-danger">
-                            <div *ngIf="form.mail.errors?.pattern">Por favor ingrese una direccion de mail correcta</div>
+                        <input formControlName="email" class="form-control" placeholder="Email" autofocus [ngClass]="{'is-required': form.email.errors?.required}" />
+                        <small *ngIf="form.email.touched && form.email.invalid" class="text-danger">
+                            <div *ngIf="form.email.errors?.pattern">Por favor ingrese una direccion de email correcta</div>
                         </small>
                     </div>
                     <div class="form-group">

@@ -16,27 +16,37 @@ export class SignInComponent implements OnInit {
         private formBuilder: FormBuilder,
         private router: Router,
         private spinnerService: SpinnerService,
-        private modalService: ModalService
+        public modalService: ModalService
     ) { }
 
     formSignIn: FormGroup;
+    formSubmitted = false;
 
     ngOnInit() {
         this.formSignIn = this.formBuilder.group({
-            mail: ['', [Validators.required, Validators.email]],
+            email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]],
             password: ['', Validators.required],
         });
     }
 
-    if (this.formSignIn.valid) {
-      
-      this.spinnerService.showSpinner();
-      this.autService.signIn(data).subscribe((res) => {
-        localStorage.setItem('token', res.token);
-        this.router.navigate(['/users']);
-        this.appComponent.hide();
-        this.spinnerService.hideSpinner();
-      });
+    get form() {
+        return this.formSignIn.controls;
+    }
+
+    signIn(data) {
+        event.preventDefault();
+        this.formSubmitted = true;
+
+        if (this.formSignIn.valid) {
+
+            this.spinnerService.showSpinner();
+            this.autService.signIn(data).subscribe((res) => {
+                localStorage.setItem('token', res.token);
+                this.router.navigate(['/']);
+                this.modalService.hideModal();
+                this.spinnerService.hideSpinner();
+            });
+        }
     }
   }
 }
