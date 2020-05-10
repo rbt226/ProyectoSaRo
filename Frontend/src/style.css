@@ -261,6 +261,14 @@ input:focus {
     margin-top: 150px;
 }
 
+.mr-05 {
+    margin-right: 5px;
+}
+
+.mr-10 {
+    margin-right: 10px;
+}
+
 .mr-15 {
     margin-right: 15px;
 }
@@ -545,7 +553,6 @@ input:focus {
 }
 
 /* :: 6.0 Buttons Area CSS */
-
 
 /* 
 .btn:focus {

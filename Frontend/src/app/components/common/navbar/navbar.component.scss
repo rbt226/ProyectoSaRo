@@ -1,6 +1,5 @@
 .classy-nav-container span {
     color: #1cc3b2;
-    ;
 }
 
 .nav-brand {
@@ -42,12 +41,14 @@
 
 @media only screen and (min-width: 992px) {
     .navbar-expand-lg .navbar-collapse {
-        display: block!important;
+        display: block !important;
         flex-basis: auto;
     }
 }
 
 .navbar-nav {
     text-align: right;
-    float: right;
+    -webkit-box-pack: flex-end!important;  
+    justify-content: flex-end!important;
 }
+
