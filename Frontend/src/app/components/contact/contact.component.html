@@ -5,12 +5,6 @@
             <div class="col-12">
                 <div class="breadcrumb-content text-center mt-100">
                     <h2 class="page-title">Contactanos</h2>
-                    <!-- <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Contact Us</li>
-                        </ol>
-                    </nav> -->
                 </div>
             </div>
         </div>
@@ -87,10 +81,10 @@
                     <form [formGroup]="formContact" (ngSubmit)="send(formContact.value)">
                         <div class="row">
                             <div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
-                                <input formControlName="name" type="text" class="form-control mb-30" placeholder="Nombre" [ngClass]="{ 'is-required': form.name.errors?.required }" />
+                                <input formControlName="name" type="text" class="form-control mt-30" placeholder="Nombre" [ngClass]="{ 'is-required': form.name.errors?.required }" />
                             </div>
                             <div class="col-12 col-lg-6 wow fadeInUp" data-wow-delay="100ms">
-                                <input formControlName="email" type="email" class="form-control mb-30" placeholder="Email" [ngClass]="{ 'is-required': form.email.errors?.required }" />
+                                <input formControlName="email" type="email" class="form-control mt-30" placeholder="Email" [ngClass]="{ 'is-required': form.email.errors?.required }" />
                                 <small *ngIf="form.email.touched && form.email.invalid" class="text-danger">
                   <div *ngIf="form.email.errors?.pattern">
                     Por favor ingrese una direccion de mail correcta
@@ -98,10 +92,10 @@
                 </small>
                             </div>
                             <div class="col-12 wow fadeInUp" data-wow-delay="100ms">
-                                <textarea formControlName="message" class="form-control mb-30" placeholder="Mensaje" [ngClass]="{ 'is-required': form.message.errors?.required }"></textarea>
+                                <textarea formControlName="message" class="form-control mt-30" placeholder="Mensaje" [ngClass]="{ 'is-required': form.message.errors?.required }"></textarea>
                             </div>
                             <div class="col-12 text-center wow fadeInUp" data-wow-delay="100ms">
-                                <button type="submit" class="btn consultorio-btn mt-15">
+                                <button type="submit" class="btn consultorio-btn mt-30">
                   Enviar Mensaje
                 </button>
                             </div>

@@ -37,7 +37,8 @@ export class SignInComponent implements OnInit {
     event.preventDefault();
     this.formSubmitted = true;
 
-    if (this.formSignIn.valid) {      
+    if (this.formSignIn.valid) {
+      
       this.spinnerService.showSpinner();
       this.autService.signIn(data).subscribe((res) => {
         localStorage.setItem('token', res.token);
