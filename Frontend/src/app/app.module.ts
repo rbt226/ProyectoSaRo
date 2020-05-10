@@ -17,6 +17,7 @@ import { ServicesAreaComponent } from './components/areas/services-area/services
 import { WelcomeAreaComponent } from './components/areas/welcome-area/welcome-area.component';
 import { FooterComponent } from './components/common/footer/footer.component';
 import { NavbarComponent } from './components/common/navbar/navbar.component';
+import { ContactComponent } from './components/contact/contact.component';
 import { IndexComponent } from './components/index-component/index-component.component';
 import { CreateRoomComponent } from './components/room/create-room/create-room.component';
 import { DetailRoomComponent } from './components/room/detail-room/detail-room.component';
@@ -47,6 +48,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
         CreateRoomComponent,
         ServicesAreaComponent,
         BookingAreaComponent,
+        ContactComponent
     ],
     imports: [
         BrowserModule,

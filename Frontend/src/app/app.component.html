@@ -20,7 +20,7 @@
                     <app-sign-up></app-sign-up>
                 </div>
                 <div *ngSwitchCase="'roomDetail'">
-                    <app-detail-room [data]="data"></app-detail-room>
+                    <app-detail-room [data]="modalService.getData()"></app-detail-room>
                 </div>
                 <div *ngSwitchDefault>nada</div>
             </div>
