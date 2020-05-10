@@ -14,25 +14,33 @@
                     <form [formGroup]="formCreateClient" (ngSubmit)="create(formCreateClient.value)">
                         <div class="row">
                             <div class="animate-plus col-12 col-lg-6 ">
-                                <input formControlName="name" type="text" class="form-control mb-30" placeholder="Nombre" />
+                                <input [ngClass]="{ 'is-required': form.name.errors?.required && form.name.untouched}" formControlName="name" type="text" class="form-control mt-30"
+                                    placeholder="Nombre" />
+                                <small *ngIf="form.name.touched && form.name.invalid" class="text-danger">
+                                    <div *ngIf="form.name.errors?.required">El nombre es requerido.</div>
+                                </small>
                             </div>
                             <div class="animate-plus col-12 col-lg-6 ">
-                                <input formControlName="lastName" type="text" class="form-control mb-30" placeholder="Apellido" />
+                                <input [ngClass]="{ 'is-required': form.lastName.errors?.required && form.lastName.untouched}" formControlName="lastName" type="text"
+                                    class="form-control mt-30" placeholder="Apellido" />
+                                <small *ngIf="form.lastName.touched && form.lastName.invalid" class="text-danger">
+                                    <div *ngIf="form.lastName.errors?.required">El apellido es requerido.</div>
+                                </small>
                             </div>
                             <div class="animate-plus col-12 col-lg-6 ">
                                 <div class="row">
                                     <div class="col-6 col-lg-5 ">
-                                        <select class="form-control" formControlName="documentType" (change)="changeDocument()">
+                                        <select class="form-control mt-30" formControlName="documentType" (change)="changeDocument()">
                                             <option value="CI">CI</option>
                                             <option value="passport">Pasaporte</option>
                                         </select>
                                     </div>
                                     <div class="animate-plus col-6 col-lg-7 ">
-                                        <input [ngClass]="{'is-invalid': f.document.touched && f.document.invalid}" formControlName="document" type="text" class="form-control mb-30" placeholder="Documento" />
-                                        <small *ngIf="f.document.touched && f.document.invalid" class="text-danger">
-                                            <div *ngIf="f.document.errors?.required">La cedula es requerida.</div>
-                                            <div *ngIf="f.document.errors.ci">No es una cedula valida</div>
-                                            <div *ngIf="f.document.errors.passport">No es un pasaporte valido</div>
+                                        <input formControlName="document" type="text" class="form-control mt-30" placeholder="Documento" />
+                                        <small *ngIf="form.document.touched && form.document.invalid" class="text-danger">
+                                            <!-- <div *ngIf="form.document.errors?.required">La cedula es requerida.</div> -->
+                                            <div *ngIf="form.document.errors.ci">No es una cedula valida</div>
+                                            <div *ngIf="form.document.errors.passport">No es un pasaporte valido</div>
                                         </small>
                                         <br>
                                     </div>
@@ -40,29 +48,41 @@
                             </div>
 
                             <div class="animate-plus col-12 col-lg-6 ">
-                                <input formControlName="mobilePhone" type="number" class="form-control mb-30" placeholder="Celular" />
+                                <input [ngClass]="{ 'is-required': form.mobilePhone.errors?.required && form.mobilePhone.untouched }" formControlName="mobilePhone" type="number"
+                                    class="form-control mt-30" placeholder="Celular" />
+                                <small *ngIf="form.mobilePhone.touched && form.mobilePhone.invalid" class="text-danger">
+                                    <div *ngIf="form.mobilePhone.errors?.required">El número celular es requerido.</div>
+                                </small>
                             </div>
                             <div class="animate-plus col-12 col-lg-6 ">
-                                <input [ngClass]="{'is-invalid': f.email.touched && f.email.invalid}" formControlName="email" type="email" class="form-control mb-30" placeholder="Email" />
-                                <small *ngIf="f.email.touched && f.email.invalid" class="text-danger">
-                                    <div *ngIf="f.email.errors?.pattern">Por favor ingrese una direccion de mail correcta</div>
+                                <input [ngClass]="{ 'is-required': form.email.errors?.required  && form.email.untouched }" formControlName="email" type="email"
+                                    class="form-control mt-30" placeholder="Email" />
+                                <small *ngIf="form.email.touched && form.email.invalid" class="text-danger">
+                                    <div *ngIf="form.email.errors?.pattern">Por favor ingrese una direccion de email correcta</div>
+                                    <div *ngIf="form.email.errors?.required">La direccion de email es requerida</div>
                                 </small>
                             </div>
 
                             <div class="animate-plus col-12 col-lg-6 ">
-                                <input formControlName="userName" type="text" class="form-control mb-30" placeholder="Usuario" />
-                            </div>
-                            <div class="form-group animate-plus col-12 col-lg-6 " data-animation-delay="700ms">
-                                <input [ngClass]="{'is-invalid': f.password.touched && f.password.invalid}" formControlName="password" type="password" class="form-control mb-30" placeholder="Password" />
-                                <small *ngIf="f.password.touched && f.password.invalid" class="text-danger">
-                                    <div *ngIf="f.password.errors.required">La contraseña es requerida.</div>
+                                <input [ngClass]="{ 'is-required': form.userName.errors?.required && form.userName.untouched }" formControlName="userName" type="text"
+                                    class="form-control mt-30" placeholder="Usuario" />
+                                <small *ngIf="form.userName.touched && form.userName.invalid" class="text-danger">
+                                    <div *ngIf="form.userName.errors?.required">El username es requerido</div>
                                 </small>
                             </div>
                             <div class="form-group animate-plus col-12 col-lg-6 " data-animation-delay="700ms">
-                                <input [ngClass]="{'is-invalid': f.passwordConfirm.touched && f.passwordConfirm.invalid}" formControlName="passwordConfirm" type="password" class="form-control mb-30" placeholder="Confirmar constraseña" />
-                                <small *ngIf="f.passwordConfirm.touched && f.passwordConfirm.invalid" class="text-danger">
-                                    <div *ngIf="f.passwordConfirm.errors.required">La contraseña es requerida.</div>
-                                    <div *ngIf="f.passwordConfirm.errors.confirmedValidator">Las contraseñas no coinciden</div>
+                                <input [ngClass]="{ 'is-required': form.password.errors?.required && form.password.untouched }" formControlName="password" type="password"
+                                    class="form-control mt-30" placeholder="Password" />
+                                <small *ngIf="form.password.touched && form.password.invalid" class="text-danger">
+                                    <div *ngIf="form.password.errors.required">La contraseña es requerida.</div>
+                                </small>
+                            </div>
+                            <div class="form-group animate-plus col-12 col-lg-6 " data-animation-delay="700ms">
+                                <input [ngClass]="{ 'is-required': form.passwordConfirm.errors?.required  && form.passwordConfirm.untouched}" formControlName="passwordConfirm"
+                                    type="password" class="form-control mt-30" placeholder="Confirmar constraseña" />
+                                <small *ngIf="form.passwordConfirm.touched && form.passwordConfirm.invalid" class="text-danger">
+                                    <div *ngIf="form.passwordConfirm.errors.required">La contraseña es requerida.</div>
+                                    <div *ngIf="form.passwordConfirm.errors.confirmedValidator">Las contraseñas no coinciden</div>
                                 </small>
                             </div>
 
@@ -71,7 +91,7 @@
                                     <input type="file" class="custom-file-input" id="customFileLang" lang="es" formControlName="image" ng2FileSelect [uploader]="uploader" />
                                     <label class="custom-file-label" for="customFileLang">Seleccionar Imagen</label>
                                 </div>
-                                <small class="text-danger" *ngIf="f.image.errors && f.image.errors.incorrect">
+                                <small class="text-danger" *ngIf="form.image.errors && form.image.errors.incorrect">
                                     {{ errorImagen }}
                                 </small>
                             </div>
@@ -80,7 +100,8 @@
                                 <hr class="mt-2" />
                                 <div class="row justify-content-center">
                                     <div class="d-block">
-                                        <img [ngClass]="{'gallery-image': uploader?.queue?.length > 0}" class=" img-fluid img-thumbnail" [src]="sanitizer.bypassSecurityTrustUrl(photo)" />
+                                        <img [ngClass]="{'gallery-image': uploader?.queue?.length > 0}" class=" img-fluid img-thumbnail"
+                                            [src]="sanitizer.bypassSecurityTrustUrl(photo)" />
                                         <a *ngIf="uploader?.queue?.length > 0" (click)="removeImage()" class="fa fa-close fa-lg remove"></a>
                                     </div>
                                 </div>
@@ -88,7 +109,7 @@
                             <!-- PHOTO -->
 
                             <div class="animate-plus col-12 text-center " data-animation-delay="1000ms" data-animation-when-visible="true">
-                                <button type="submit" class="btn consultorio-btn mt-15" [disabled]="!formCreateClient.valid">
+                                <button type="submit" class="btn consultorio-btn mt-15">
                                     Registrarse
                                 </button>
                             </div>

@@ -37,3 +37,7 @@ h2 {
     object-fit: cover;
     height: 180px;
 }
+
+.ng-touched.ng-invalid {
+    border-color: #dc3545 !important;
+}
