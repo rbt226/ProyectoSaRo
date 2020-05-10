@@ -11,7 +11,7 @@
         <div class=" row">
             <div class="col-12">
                 <div class="consultorio-contact-form">
-                    <form [formGroup]="formCreateClient" (ngSubmit)="create(formCreateClient.value)">
+                    <form [formGroup]="formCreateClient" (ngSubmit)="create()">
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <input [ngClass]="{ 'is-required': form.name.errors?.required && form.name.untouched}" formControlName="name" type="text" class="form-control mt-30"
@@ -83,26 +83,27 @@
 
                             <div class="col-12 mt-30">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input " id="customFileLang" lang="es" formControlName="image" ng2FileSelect [uploader]="uploader" />
+                                    <input #file type="file" class="custom-file-input " id="customFileLang" lang="es" formControlName="image" accept='image/*'
+                                        (change)="preview($event)" />
                                     <label class="custom-file-label" for="customFileLang">Seleccionar Imagen</label>
                                 </div>
-                                <small class="text-danger" *ngIf="form.image.errors && form.image.errors.incorrect">
+
+                                <small class="text-danger" *ngIf="errorImagen">
                                     {{ errorImagen }}
                                 </small>
+
                             </div>
                             <!-- PHOTO -->
                             <div class="container">
                                 <hr class="mt-2" />
                                 <div class="row justify-content-center">
-                                    <div class="d-block">
-                                        <img [ngClass]="{'gallery-image': uploader?.queue?.length > 0}" class=" img-fluid img-thumbnail"
-                                            [src]="sanitizer.bypassSecurityTrustUrl(photo)" />
-                                        <a *ngIf="uploader?.queue?.length > 0" (click)="removeImage()" class="fa fa-close fa-lg remove"></a>
+                                    <div class="d-block p-rel">
+                                        <img [ngClass]="{'gallery-image': imageSelected}" class="img-fluid img-thumbnail" [src]="imgURL" />
+                                        <a *ngIf="imageSelected" (click)="removeImage()" class="fa fa-close fa-lg remove"></a>
                                     </div>
                                 </div>
                             </div>
                             <!-- PHOTO -->
-
                             <div class="col-12 text-center">
                                 <button type="submit" class="btn consultorio-btn mt-15">
                                     Registrarse

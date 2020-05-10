@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Cloudinary } from '@cloudinary/angular-5.x';
-import { FileItem, FileUploader, FileUploaderOptions } from 'ng2-file-upload';
+import { ModalService } from 'src/app/services/modal.service';
 import { NotificationService } from 'src/app/services/notifications.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { UserService } from 'src/app/services/user.service';
@@ -15,113 +14,26 @@ import { ConfirmedValidator, DocumentValidator } from 'src/app/validators/passwo
     styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent implements OnInit {
-    uploader: FileUploader;
     formCreateClient: FormGroup;
     maxSize = 1024 * 1024; // 1MB
     allowedFileType = ['image'];
-    photo = 'assets/images/default.jpg';
-    defaultPhoto = true;
-    imagen = [];
-    public hasBaseDropZoneOver = false;
-    hasAnotherDropZoneOver: boolean;
     public errorImagen = '';
-    private title: string;
-    public imageDataArray;
-    file: FileItem = null;
+    public imagePath;
+    imgURL: any = 'assets/images/default.jpg';
+    imageSelected = false;
 
     constructor(
         private userService: UserService,
         private formBuilder: FormBuilder,
-        private cloudinary: Cloudinary,
         private route: Router,
         private spinnerSevice: SpinnerService,
         public sanitizer: DomSanitizer,
-        private notification: NotificationService
+        private notification: NotificationService,
+        private modalService: ModalService,
     ) {
-        this.title = 'clientes';
     }
     ngOnInit() {
-        const uploaderOptions: FileUploaderOptions = {
-            url: `https://api.cloudinary.com/v1_1/${
-                this.cloudinary.config().cloud_name
-                }/image/upload`,
-            // Upload files automatically upon addition to upload queue
-            autoUpload: false,
-            // Use xhrTransport in favor of iframeTransport
-            isHTML5: true,
-            // Calculate progress independently for each uploaded file
-            removeAfterUpload: true,
-            allowedFileType: this.allowedFileType,
-            maxFileSize: this.maxSize,
-            // XHR request headers
-            headers: [
-                {
-                    name: 'X-Requested-With',
-                    value: 'XMLHttpRequest',
-                },
-            ],
-        };
 
-        const upsertResponse = (fileItem) => {
-            // Check if HTTP request was successful
-            if (fileItem.status !== 200) {
-                return false;
-            }
-        };
-
-        this.uploader = new FileUploader(uploaderOptions);
-        this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
-            // Add Cloudinary's unsigned upload preset to the upload form
-            form.append('upload_preset', this.cloudinary.config().upload_preset);
-
-            // Add built-in and custom tags for displaying the uploaded imagen in the list
-            let tags = 'consultoriosdelparque';
-            if (this.title) {
-                form.append('context', `imagen=${this.title}`);
-                tags = `consultoriosdelparque,${this.title}`;
-            }
-            form.append('tags', tags);
-            form.append('file', fileItem);
-
-            // Use default "withCredentials" value for CORS requests
-            fileItem.withCredentials = false;
-            return { fileItem, form };
-        };
-
-        // Update model on completion of uploading a file
-        this.uploader.onCompleteItem = (
-            item: any,
-            response: string,
-            status: number
-        ) =>
-            upsertResponse({
-                file: item.file,
-                status,
-                data: JSON.parse(response),
-            });
-
-        this.uploader.onWhenAddingFileFailed = (fileItem: any) => {
-            this.formCreateClient.controls.imagen.setErrors({ incorrect: true });
-            this.errorImagen = '';
-            if (fileItem.size > this.maxSize) {
-                this.errorImagen = 'Se ha excedido el tamaño permitido';
-            } else {
-                if (!this.allowedFileType.includes(fileItem.type)) {
-                    this.errorImagen = 'Solamente te puede ingresar imagenes';
-                }
-            }
-        };
-        this.uploader.onAfterAddingFile = (fileItem) => {
-            this.formCreateClient.controls.image.reset();
-            const url = window.URL
-                ? window.URL.createObjectURL(fileItem._file)
-                : (window as any).webkitURL.createObjectURL(fileItem._file);
-            this.photo = url;
-            this.file = fileItem;
-            if (this.uploader.queue.length > 1) {
-                this.uploader.queue.splice(0, 1); // clear old file & replace it with the new one
-            }
-        };
         this.formCreateClient = this.formBuilder.group(
             {
                 name: ['', Validators.required],
@@ -139,7 +51,9 @@ export class SignUpComponent implements OnInit {
                 password: ['', Validators.required],
                 passwordConfirm: ['', Validators.required],
                 documentType: ['CI'],
-                image: ['site/default_ghidmx'],
+                image: [''],
+                fileSource: [''],
+
             },
             {
                 validator: [
@@ -155,52 +69,69 @@ export class SignUpComponent implements OnInit {
     get form() {
         return this.formCreateClient.controls;
     }
-    create(data) {
+    create() {
+        const formData = new FormData();
+        formData.append('file', this.formCreateClient.get('fileSource').value);
+        formData.append('name', this.formCreateClient.get('name').value);
+        formData.append('lastName', this.formCreateClient.get('lastName').value);
+        formData.append('email', this.formCreateClient.get('email').value);
+        formData.append('document', this.formCreateClient.get('document').value);
+        formData.append('userName', this.formCreateClient.get('userName').value);
+        formData.append('password', this.formCreateClient.get('password').value);
+        formData.append('mobilePhone', this.formCreateClient.get('mobilePhone').value);
+        if (this.imageSelected) {
+            formData.append('file', this.formCreateClient.get('fileSource').value);
+        }
+
         if (this.formCreateClient.valid) {
             this.spinnerSevice.showSpinner();
-            this.userService.signUp(data).subscribe((res) => {
+            this.userService.signUp(formData).subscribe((res) => {
                 this.route.navigate(['/']);
                 this.spinnerSevice.hideSpinner();
+                this.formCreateClient.reset();
+                this.modalService.hideModal();
                 this.notification.showSuccess('Se ha registrado satisfactoriamente');
             });
         } else {
             this.formCreateClient.markAllAsTouched();
         }
-        // if (this.uploader.queue.length > 0) {
-        //     for (const fileItem of this.uploader.queue) {
-        //         this.uploader.uploadItem(fileItem);
-        //         this.uploader.onCompleteItem = (item, response: any, status) => {
-        //             const response2 = JSON.parse(response);
-        //             this.imagen.push(response2.public_id);
-        //         };
-        //     }
+    }
+    preview(event) {
+        if (event.target.files.length === 0) {
+            return;
+        }
+        this.imageSelected = true;
 
-        //     // }
-        //     this.uploader.onCompleteAll = () => {
-        //         data.image = this.imagen;
+        const mimeType = event.target.files[0].type;
+        const size = event.target.files[0].size;
 
-        //         this.userService.signUp(data).subscribe((res) => {
-        //             this.route.navigate(['/']);
-        //             this.spinnerSevice.hideSpinner();
-        //             this.notification.showSuccess('Se ha registrado satisfactoriamente');
-        //         });
-        //     };
-        // } else {
-        //     if (this.imagen.length > 0) {
-        //         data.image = this.imagen;
-        //     }
-        //     this.userService.signUp(data).subscribe((res) => {
-        //         this.route.navigate(['/']);
-        //         this.spinnerSevice.hideSpinner();
-        //         this.notification.showSuccess('Se ha registrado satisfactoriamente');
-        //     });
-        // }
+        if (size > this.maxSize) {
+            this.errorImagen = 'Se excede el máximo permitido';
+            return;
+        }
+        if (mimeType.match(/image\/*/) == null) {
+            this.errorImagen = 'Only images are supported.';
+            return;
+        }
+
+        const reader = new FileReader();
+        this.imagePath = event.target.files;
+        const file = event.target.files[0];
+        console.log('filee', file);
+        reader.readAsDataURL(event.target.files[0]);
+        this.formCreateClient.patchValue({
+            fileSource: file
+
+        });
+        reader.onload = () => {
+            this.imgURL = reader.result;
+        };
     }
 
     removeImage() {
-        this.photo = 'assets/images/default.jpg';
-        this.uploader.removeFromQueue(this.file);
-        this.file = null;
+        this.imgURL = 'assets/images/default.jpg';
+        this.imagePath = null;
+        this.imageSelected = false;
     }
 
     changeDocument() {

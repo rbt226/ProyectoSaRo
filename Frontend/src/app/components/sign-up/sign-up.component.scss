@@ -6,8 +6,8 @@
 
 .remove {
     position: absolute;
-    right: 7px;
-    top: -5px;
+    right: 10px;
+    top: 10px;
     color: white !important;
     border-style: double;
     cursor: pointer;
@@ -36,8 +36,14 @@ h2 {
 .img-thumbnail {
     object-fit: cover;
     height: 180px;
+    padding: 0.1rem !important;
+    width: 200px;
 }
 
 .ng-touched.ng-invalid {
     border-color: #dc3545 !important;
+}
+
+.p-rel {
+    position: relative;
 }
