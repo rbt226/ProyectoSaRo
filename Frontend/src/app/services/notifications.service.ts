@@ -1,28 +1,28 @@
 import { Injectable } from '@angular/core';
-
 import * as alertify from 'alertifyjs';
 
+
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class NotificationService {
-  constructor() {}
+    constructor() { } 
 
-  showSuccess(message) {
-    alertify.success(message);
-  }
+    showSuccess(message) {
+        alertify.success(message);
+    }
 
-  showError(message) {
-    alertify.error(message);
-  }
-  showInfo(message) {
-    alertify.notify(message);
-  }
-  showWarning(message) {
-    alertify.warning(message);
-  }
+    showError(message) {
+        alertify.error(message);
+    }
+    showInfo(message) {
+        alertify.notify(message);
+    }
+    showWarning(message) {
+        alertify.warning(message);
+    }
 
-  showMessage(message) {
-    alertify.message(message);
-  }
+    showMessage(message) {
+        alertify.message(message);
+    }
 }
