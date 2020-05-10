@@ -1,9 +1,9 @@
 const userModel = require("../models/user.model");
 const utils = require("../common/utils");
 
-exports.signIn = (mail, password, result) => {
+exports.signIn = (email, password, result) => {
   userModel
-    .findOne({ where: { mail: mail } })
+    .findOne({ where: { email: email } })
     .then((us) => {
       console.log("qiuen es us ", us);
       if (us && us.password === password) {
@@ -20,6 +20,19 @@ exports.signIn = (mail, password, result) => {
 
 exports.create = (req, result) => {
   const userCreate = createUserModel(req);
+  userModel
+    .create(userCreate)
+    .then((newUser) => {
+      result(null, newUser);
+    })
+    .catch((error) => {
+      utils.handleError(error, result);
+    });
+};
+exports.signUp = (req, result) => {
+  const userCreate = createUserModel(req);
+  userCreate.active_user = 0;
+  userCreate.id_role = 1;
   userModel
     .create(userCreate)
     .then((newUser) => {
@@ -103,7 +116,7 @@ exports.updateById = (id, req, result) => {
 
 createUserModel = (req) => {
   return {
-    mail: req.body.mail,
+    email: req.body.email,
     user_name: req.body.userName,
     mobile_phone: req.body.mobilePhone,
     password: req.body.password,

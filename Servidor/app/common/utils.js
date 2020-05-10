@@ -9,36 +9,18 @@ exports.handleError = (err, result) => {
   }
 */
 
-    if (err instanceof Sequelize.UniqueConstraintError) {
-        let values = "";
-        let message = "";
+  if (err instanceof Sequelize.UniqueConstraintError) {
+    let values = "";
+    let message = "";
 
-        if (err.errors.length > 1) {
-            err.errors.forEach((element) => {
-                values = values + element.value + " ";
-            });
-            message = "Los siguientes valores ingresados deben ser unicos: " + values;
-        } else {
-            values = err.errors[0].value;
-            message = "El siguiente valor ingresado debe ser unico: " + values;
-        }
-        error = {
-            errorType: "UniqueConstraintError",
-            message: message,
-        };
-    } else if (err instanceof Sequelize.ValidationError) {
-        /** Array of ValidationErrorItem objects describing the validation errors
-          public readonly  errors: ValidationErrorItem[];
-        */
-        let messages = "";
-        err.errors.forEach((element) => {
-            messages = messages + element.message + " ";
-        });
-
-        error = {
-            errorType: "ValidationError",
-            message: messages,
-        };
+    if (err.errors.length > 1) {
+      err.errors.forEach((element) => {
+        values = values + element.value + " ";
+      });
+      message = "Los siguientes valores ingresados deben ser unicos: " + values;
+    } else {
+      values = err.errors[0].value;
+      message = "El siguiente valor ingresado debe ser unico: " + values;
     }
 
     /**
@@ -169,8 +151,13 @@ exports.handleError = (err, result) => {
         };
     }
 
+<<<<<<< HEAD
     console.log("error: ", error);
     result(error, null);
+=======
+  console.log("error del utils: ", error);
+  result(error, null);
+>>>>>>> Se agrega cloudinary, se cambia el tipo de documento (ahora es string) y se hace el signUp contemplando errores
 };
 
 exports.verifyToken = (req, res, next) => {

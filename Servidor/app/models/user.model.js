@@ -13,7 +13,7 @@ User.init(
         primaryKey: true,
         autoIncrement: true,
       },
-    mail: {
+    email: {
       type: Sequelize.STRING,
       allowNull: false,
     },

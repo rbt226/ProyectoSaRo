@@ -1,9 +1,10 @@
 var createError = require("http-errors");
 var express = require("express");
-const cors = require('cors');
+const cors = require("cors");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var cloudinary = require("cloudinary").v2;
 
 var roleRouter = require("./app/routes/role");
 var permissionRouter = require("./app/routes/permission");
@@ -49,6 +50,13 @@ app.use(function(err, req, res, next) {
     // render the error page
     res.status(err.status || 500);
     res.json({ error: err });
+});
+
+// cloudinary configuration
+cloudinary.config({
+  cloud_name: "djbmfd9y6",
+  api_key: "771838748496195",
+  api_secret: "yn9HS_biy7UuFGtTZVxhIytA7kg",
 });
 
 module.exports = app;
