@@ -10,7 +10,7 @@ export class AuthService {
     private URL = 'http://localhost:3300/users';
     public userName: any;
 
-    constructor(private http: HttpClient, private router: Router) {}
+    constructor(private http: HttpClient, private router: Router) { }
 
     signUp(user) {
         return this.http.post<any>(this.URL + '/signUp', user);
@@ -18,8 +18,7 @@ export class AuthService {
     signIn(user) {
         this.http.post<User>(this.URL + '/byEmail', user).subscribe((res) => {
             localStorage.setItem('userName', res.user_name);
-            //localStorage.setItem('userImg', res.image_user);
-            localStorage.setItem('userImg', "Capture_v3zpxe");
+            localStorage.setItem('userImg', res.image_user);
         });
         return this.http.post<any>(this.URL + '/signIn', user);
     }
