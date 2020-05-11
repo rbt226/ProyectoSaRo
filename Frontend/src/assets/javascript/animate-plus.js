@@ -451,8 +451,6 @@
      * This starts moving things around!
      */
     AnimatePlus.prototype.start = function() {
-        console.log("start");
-
         //For each group
         for (var group in this.map) {
             if (!this.map.hasOwnProperty(group)) {
@@ -473,7 +471,6 @@
      * This starts moving things around!
      */
     AnimatePlus.prototype.reset = function() {
-        console.log("reset");
         for (var groupName in this.map) {
             if (!this.map.hasOwnProperty(groupName)) {
                 continue;
