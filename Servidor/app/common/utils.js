@@ -162,7 +162,7 @@ exports.handleError = (err, result) => {
     if (err instanceof Sequelize.ValidationError) {
       error = {
         errorType: "ValidationError",
-        message: err,
+        message: JSON.stringify(err),
       };
     }
 

@@ -6,11 +6,11 @@ exports.create = (req, result) => {
   clientModel
     .create(clientCreate)
     .then((newClient) => {
-      console.log("Se ha creado el cliente");
+      console.log("Se ha creado el cliente satisfactoriamente");
       result(null, newClient);
     })
     .catch((error) => {
-      console.log("Error al crear cliente ", error);
+      console.log("Error al crear cliente");
       utils.handleError(error, result);
     });
 };
@@ -19,10 +19,11 @@ exports.getAll = (result) => {
   clientModel
     .findAll()
     .then((clients) => {
-      console.log("clients: ", clients);
+      console.log("Se han obtenidos todos los clientes satisfactoriamente");
       result(null, clients);
     })
     .catch((error) => {
+      console.log("Error al obtener todos los clientes");
       utils.handleError(error, result);
     });
 };
@@ -34,10 +35,11 @@ exports.getClientById = (id, result) => {
       if (!client) {
         return result({ kind: "not_found" }, null);
       }
-      console.log("client: ", client);
+      console.log("Se ha obtenido el cliente con id: ", id, " satisfactoriamente");
       result(null, client);
     })
     .catch((error) => {
+      console.log("Error al obtener cliente con id: ", id);
       utils.handleError(error, result);
     });
 };
@@ -49,11 +51,11 @@ exports.deleteById = (id, result) => {
       if (!clientModel) {
         return result({ kind: "not_found" }, null);
       }
-      console.log("deleted client with clientId" + id);
-
+      console.log("Se elimino exitosamente el cliente con id: " + id);
       result(null, clientModel);
     })
     .catch((error) => {
+      console.log("Error al eliminar cliente con id ", id);
       utils.handleError(error, result);
     });
 };
@@ -61,10 +63,11 @@ exports.deleteAll = (result) => {
   clientModel
     .destroy({ where: {} })
     .then((clients) => {
-      console.log(`deleted ${clients} clients`);
+      console.log("Se eliminaron todos los clientes correctamente :  ", clients);
       result(null, clients);
     })
     .catch((error) => {
+      console.log("Error al eliminar todos los usuarios ");
       utils.handleError(error, result);
     });
 };
@@ -81,7 +84,7 @@ exports.updateById = (id, req, result) => {
           if (!client) {
             return result({ kind: "not_found" }, null);
           }
-          console.log("Clients updated: ", client);
+          console.log("Se modifico el cliente con id :", id, "satisfactoriamente");
           result(null, client);
         })
         .catch((error) => {
@@ -90,6 +93,7 @@ exports.updateById = (id, req, result) => {
         });
     })
     .catch((error) => {
+      console.log("Error al modificar cliente con id :", id);
       utils.handleError(error, result);
     });
 };

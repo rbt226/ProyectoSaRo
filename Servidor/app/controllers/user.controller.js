@@ -46,99 +46,72 @@ exports.signIn = (req, res) => {
 exports.signUp = (req, res) => {
   // Validate request
   if (!req.body) {
-    res.status(400).send({
+    return res.status(400).send({
       error: { message: "Content can not be empty!" },
     });
   }
-
   const form = new IncomingForm();
-  let defaultImage = true;
-  let file;
+  let file = null;
   form.parse(req, function (err, fields, files) {
     if (files.file) {
-      defaultImage = false;
       file = files.file;
+      req.body.image = req.body.userName; //si viene una imagen el publicId de cloudinary es el userName
+      console.log("------ El usuario ha seleccionado una imagen ------");
     }
     req.body = fields;
-    req.body.image = null;
-    userDao.signUp(req, (error, data) => {
-      let isError = false;
+    userDao.signUp(req, async function create(error, data) {
       if (error) {
-        isError = true;
-      } else {
-        const idUser = data.id_user; //me quedo con el id del nuevo usuario
-        req.body.idUser = idUser; // para pasarle al client
-        req.body.idOccupation = 1; // TODO
-        clientDao.create(req, (error, data) => {
-          if (error) {
-            console.log("Error al crear cliente ", idUser);
-            // si da error al crear cliente , se elimina el usuario
-            isError = true;
-            userDao.deleteById(idUser, (error, data) => {
-              if (error) {
-                console.log(
-                  "Error al eliminar usuario con idUser : ",
-                  idUser,
-                  error
-                );
-              } else
-                console.log(
-                  "Se elimino exitosamente al usuario con idUser : ",
-                  idUser
-                );
-            });
-          } else {
-            console.log("Se ha creado el cliente satisfactoriamente");
-            const token = jwt.sign({ _id: idUser }, "secretKey");
-            // si no eligio la imagen por defecto
-            if (!defaultImage) {
-              const reader = new FileReader();
-              reader.readAsDataURL(file);
-              reader.onload = () => {
-                const dataUri = reader.result;
-                const userName = req.body.userName;
-                if (dataUri) {
-                  cloudinary.uploader.upload(
-                    dataUri,
-                    { public_id: userName },
-                    function (err, res) {
-                      if (err) {
-                        console.log(
-                          "error en cloudinary al dar de alta la imagen :",
-                          err
-                        );
-                      } else {
-                        req.body.image = userName;
-                        userDao.updateById(idUser, req, (error, data) => {
-                          if (error) {
-                            console.log(
-                              "Error al modificar la imagen del usuario con id  : ",
-                              idUser,
-                              error
-                            );
-                          } else
-                            console.log(
-                              "Se ha modificado la imagen del usuario con id correctamente  : ",
-                              idUser
-                            );
-                        });
-                      }
-                      console.log("Respuesta de cloudinary", res);
-                    }
-                  );
-                }
-              };
-            }
-            res.json({ token });
-          }
-        });
-      }
-      if (isError)
-        res.status(500).send({
+        return res.status(500).send({
           error: { message: "Error al crear usuario" },
         });
+      }
+      const idUser = data.id_user; //me quedo con el id del nuevo usuario
+      req.body.idUser = idUser; // para pasarle al client
+      req.body.idOccupation = 1; // TODO
+      isError = createClientSignUp(idUser, req, file, res);
     });
   });
+};
+
+createClientSignUp = (idUser, req, file, res) => {
+  clientDao.create(req, (error, data) => {
+    if (error) {
+      // Si da error al crear cliente , se elimina el usuario
+      userDao.deleteById(idUser, (error, data) => {
+        return res.status(500).send({
+          error: { message: "Error al crear usuario" },
+        });
+      });
+    } else {
+      // Si no eligio la imagen por defecto por lo que vino un file
+      if (file) {
+        const userName = req.body.userName;
+        uploadImageCloudinary(file, userName, req, idUser);
+      }
+      console.log("------ Se termino el proceso de registro exitosamente, se le asigna un token al usuario con id ", idUser, " ------");
+      const token = jwt.sign({ _id: idUser }, "secretKey");
+      return res.json({ token });
+    }
+  });
+};
+
+uploadImageCloudinary = (file, userName, req, idUser) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => {
+    const dataUri = reader.result;
+    if (dataUri) {
+      cloudinary.uploader.upload(dataUri, { public_id: userName }, function (err, res) {
+        if (err) {
+          console.log("Error en cloudinary al dar de alta la imagen :", err);
+          req.body.image = "Site/default_ghidmx";
+          userDao.updateById(idUser, req, (error, data) => {});
+        } else {
+          console.log("Se ha creado la imagen en cloudinary exitosamente ", JSON.stringify(res));
+        }
+      });
+    }
+  };
 };
 
 exports.create = (req, res) => {
@@ -212,8 +185,7 @@ exports.deleteAll = (req, res) => {
       res.status(500).send({
         error,
       });
-    else
-      res.send({ message: `All users were deleted successfully! - ${data}` });
+    else res.send({ message: `All users were deleted successfully! - ${data}` });
   });
 };
 
