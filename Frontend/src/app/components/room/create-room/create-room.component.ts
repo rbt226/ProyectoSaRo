@@ -35,7 +35,7 @@ export class CreateRoomComponent implements OnInit {
         this.formCreateRoom = this.formBuilder.group({
             name: ['', Validators.required],
             description: ['', Validators.required],
-            images: [''],
+            images: ['', Validators.required],
         });
     }
 
@@ -56,6 +56,8 @@ export class CreateRoomComponent implements OnInit {
                     'La sala se ha dado de alta correctamente'
                 );
             });
+        } else {
+            this.formCreateRoom.markAllAsTouched();
         }
 
     }

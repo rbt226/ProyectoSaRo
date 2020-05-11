@@ -17,13 +17,13 @@
                                 <input [ngClass]="{ 'is-required': form.name.errors?.required && form.name.untouched }" formControlName="name" type="text" name="message-name"
                                     class="form-control mt-30" placeholder="Nombre" />
                                 <small *ngIf="form.name.touched && form.name.invalid" class="text-danger">
-                                    <div *ngIf="form.name.errors.required">El nombre es requerido</div>
+                                    <div *ngIf="form.name.errors?.required">El nombre es requerido</div>
                                 </small>
                             </div>
                             <div class="col-12">
                                 <textarea formControlName="description" name="message" class="form-control mt-30" placeholder="Descripción"></textarea>
                                 <small *ngIf="form.description.touched && form.description.invalid" class="text-danger">
-                                    <div *ngIf="form.description.errors.required">La descripcion es requerida</div>
+                                    <div *ngIf="form.description.errors?.required">La descripcion es requerida</div>
                                 </small>
                             </div>
                             <div class="col-lg-6 col-md-12 col-xs-12">
@@ -32,13 +32,13 @@
                                         (change)="preview($event)" />
                                     <label class="custom-file-label" for="customFileLang">Seleccionar Imagen</label>
                                 </div>
+                                <small *ngIf="form.images.touched && form.images.invalid" class="text-danger">
+                                    <div *ngIf="form.images.errors?.required">Se debe seleccionar al menos una imagen</div>
+                                </small>
                                 <small class="text-danger" *ngIf="errorImagen">
                                     {{ errorImagen }}
                                 </small>
 
-                                <!-- <div class="text-danger" *ngIf=" form.images.errors && form.images.errors.incorrect">
-                                    {{ errorImages }}
-                                </div> -->
                             </div>
                             <!-- GALERY -->
                             <div class="container" *ngIf="urls.length >0">
