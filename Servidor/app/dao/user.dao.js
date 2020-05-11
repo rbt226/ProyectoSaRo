@@ -22,7 +22,7 @@ exports.create = (req, result) => {
   userModel
     .create(userCreate)
     .then((newUser) => {
-      console.log("Se ha creado el usuario satisfactoriamente");
+      console.log("Se ha creado el usuario correctamente");
       result(null, newUser);
     })
     .catch((error) => {
@@ -37,7 +37,7 @@ exports.signUp = (req, result) => {
   userModel
     .create(userCreate)
     .then((newUser) => {
-      console.log("Se ha registrado el usuario satisfactoriamente");
+      console.log("Se ha registrado el usuario correctamente");
       result(null, newUser);
     })
     .catch((error) => {
@@ -50,7 +50,7 @@ exports.getAll = (result) => {
   userModel
     .findAll()
     .then((users) => {
-      console.log("Se han obtenidos todos los usuarios satisfactoriamente");
+      console.log("Se han obtenidos todos los usuarios correctamente");
       result(null, users);
     })
     .catch((error) => {
@@ -66,7 +66,7 @@ exports.getUserById = (id, result) => {
       if (!userModel) {
         return result({ kind: "not_found" }, null);
       }
-      console.log("Se ha obtenido el usuario con id: ", id, " satisfactoriamente");
+      console.log("Se ha obtenido el usuario con id: ", id, " correctamente");
       result(null, userModel);
     })
     .catch((error) => {
@@ -85,7 +85,7 @@ exports.deleteById = (id, result) => {
       userModel
         .destroy({ where: { id_user: id } })
         .then((userDeleted) => {
-          console.log("Se elimino exitosamente el usuario con id: " + id);
+          console.log("Se elimino correctamente el usuario con id: " + id);
           result(null, user);
         })
         .catch((error) => {
@@ -98,6 +98,7 @@ exports.deleteById = (id, result) => {
       utils.handleError(error, result);
     });
 };
+
 exports.deleteAll = (result) => {
   userModel
     .destroy({ where: {} })
@@ -119,7 +120,7 @@ exports.updateById = (id, req, result) => {
       if (us[0] == 0) {
         return result({ kind: "not_found" }, null);
       }
-      console.log("Se modifico el usuario con id :", id, "satisfactoriamente");
+      console.log("Se modifico el usuario con id :", id, "correctamente");
       result(null, null);
     })
     .catch((error) => {
@@ -147,7 +148,7 @@ exports.getUserByEmail = (email, result) => {
       if (!userModel) {
         return result({ kind: "not_found" }, null);
       }
-      console.log("Se ha obtenido el usuario con email : ", email, " satisfactoriamente");
+      console.log("Se ha obtenido el usuario con email : ", email, " correctamente");
       result(null, userModel);
     })
     .catch((error) => {

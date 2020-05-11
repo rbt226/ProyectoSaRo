@@ -41,19 +41,28 @@ exports.getRoomById = (id, result) => {
 
 exports.deleteById = (id, result) => {
   roomModel
-    .destroy({ where: { id_room: id } })
-    .then((roomModel) => {
-      if (!roomModel) {
+    .findOne({ where: { id_room: id } })
+    .then((room) => {
+      if (!room) {
         return result({ kind: "not_found" }, null);
       }
-      console.log("deleted room with roomId" + id);
-
-      result(null, roomModel);
+      roomModel
+        .destroy({ where: { id_room: id } })
+        .then(() => {
+          console.log("Se elimino correctamente la Sala con id: " + id);
+          result(null, room);
+        })
+        .catch((error) => {
+          console.log("Error al eliminar sala con id ", id);
+          utils.handleError(error, result);
+        });
     })
     .catch((error) => {
+      console.log("Error al eliminar sala con id ", id);
       utils.handleError(error, result);
     });
 };
+
 exports.deleteAll = (result) => {
   roomModel
     .destroy({ where: {} })
@@ -68,7 +77,6 @@ exports.deleteAll = (result) => {
 
 exports.updateById = (id, req, result) => {
   const roomUpdate = createRoomModel(req);
-
   roomModel
     .update(roomUpdate, { where: { id_room: id } })
     .then(() => {
@@ -78,14 +86,16 @@ exports.updateById = (id, req, result) => {
           if (!room) {
             return result({ kind: "not_found" }, null);
           }
-          console.log("Rooms updated: ", room);
+          console.log("Se modifico la sala con id :", id, "correctamente");
           result(null, room);
         })
         .catch((error) => {
+          console.log("Error al modificar la sala con id :", id);
           utils.handleError(error, result);
         });
     })
     .catch((error) => {
+      console.log("Error al modificar la sala con id :", id);
       utils.handleError(error, result);
     });
 };

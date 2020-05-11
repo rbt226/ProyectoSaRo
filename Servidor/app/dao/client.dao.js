@@ -6,7 +6,7 @@ exports.create = (req, result) => {
   clientModel
     .create(clientCreate)
     .then((newClient) => {
-      console.log("Se ha creado el cliente satisfactoriamente");
+      console.log("Se ha creado el cliente correctamente");
       result(null, newClient);
     })
     .catch((error) => {
@@ -19,7 +19,7 @@ exports.getAll = (result) => {
   clientModel
     .findAll()
     .then((clients) => {
-      console.log("Se han obtenidos todos los clientes satisfactoriamente");
+      console.log("Se han obtenidos todos los clientes correctamente");
       result(null, clients);
     })
     .catch((error) => {
@@ -35,7 +35,7 @@ exports.getClientById = (id, result) => {
       if (!client) {
         return result({ kind: "not_found" }, null);
       }
-      console.log("Se ha obtenido el cliente con id: ", id, " satisfactoriamente");
+      console.log("Se ha obtenido el cliente con id: ", id, " correctamente");
       result(null, client);
     })
     .catch((error) => {
@@ -51,7 +51,7 @@ exports.deleteById = (id, result) => {
       if (!clientModel) {
         return result({ kind: "not_found" }, null);
       }
-      console.log("Se elimino exitosamente el cliente con id: " + id);
+      console.log("Se elimino correctamente el cliente con id: " + id);
       result(null, clientModel);
     })
     .catch((error) => {
@@ -67,7 +67,7 @@ exports.deleteByUserId = (idUser, result) => {
       if (!clientModel) {
         return result({ kind: "not_found" }, null);
       }
-      console.log("Se elimino exitosamente el cliente con idUser: " + idUser);
+      console.log("Se elimino correctamente el cliente con idUser: " + idUser);
       result(null, clientModel);
     })
     .catch((error) => {
@@ -101,7 +101,7 @@ exports.updateById = (id, req, result) => {
           if (!client) {
             return result({ kind: "not_found" }, null);
           }
-          console.log("Se modifico el cliente con id :", id, "satisfactoriamente");
+          console.log("Se modifico el cliente con id :", id, "correctamente");
           result(null, client);
         })
         .catch((error) => {

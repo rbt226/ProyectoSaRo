@@ -62,7 +62,7 @@ exports.deleteById = (req, res) => {
           error,
         });
       }
-    } else res.send({ message: `El cliente fue eliminado satisfactoriamente` });
+    } else res.send({ message: `El cliente fue eliminado correctamente` });
   });
 };
 

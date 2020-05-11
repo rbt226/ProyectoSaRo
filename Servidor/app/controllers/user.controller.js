@@ -72,7 +72,7 @@ createClientSignUp = (idUser, req, file, res) => {
         const userName = req.body.userName;
         uploadImageCloudinary(file, userName, req, idUser);
       }
-      console.log("------ Se termino el proceso de registro exitosamente, se le asigna un token al usuario con id ", idUser, " ------");
+      console.log("------ Se termino el proceso de registro correctamente, se le asigna un token al usuario con id ", idUser, " ------");
       const token = jwt.sign({ _id: idUser }, "secretKey");
       return res.json({ token });
     }
@@ -91,7 +91,7 @@ uploadImageCloudinary = (file, userName, req, idUser) => {
           req.body.image = "Site/default_ghidmx";
           userDao.updateById(idUser, req, (error, data) => {});
         } else {
-          console.log("Se ha creado la imagen en cloudinary exitosamente ", JSON.stringify(res));
+          console.log("Se ha creado la imagen en cloudinary correctamente ", JSON.stringify(res));
         }
       });
     }
@@ -166,7 +166,7 @@ exports.deleteById = (req, res) => {
         // Se elimina la imagen de cloudinary si la imagen no es la default
         cloudinary.api.delete_resources(userName, { invalidate: true, resource_type: "image" }, function (err, res) {
           if (err) {
-            console.log("Error en cloudninary :", err);
+            console.log("Error en cloudinary :", err);
           }
           console.log("Respuesta De cloudinary: ", res);
         });
@@ -183,7 +183,7 @@ exports.deleteAll = (req, res) => {
       res.status(500).send({
         error,
       });
-    else res.send({ message: `All users were deleted successfully! - ${data}` });
+    else res.send({ message: `Todos los usuarios fueron eliminados correctamente - ${data}` });
   });
 };
 
