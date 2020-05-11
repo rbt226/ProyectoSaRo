@@ -13,7 +13,7 @@ exports.create = (req, res) => {
   const form = new IncomingForm({ multiples: true });
   form.parse(req, function (err, fields, files) {
     req.body = fields;
-    req.body.images = ["default"];
+    req.body.images = ["Site/noImage"];
     // Save Room in the database
     roomDao.create(req, async (error, data) => {
       if (error)
@@ -26,6 +26,7 @@ exports.create = (req, res) => {
           //Si solamente viene un file, lo convierto en un array para poder recorrerlo
           files.file = [files.file];
         }
+        let index = 1;
         const upload_res = files.file.map(
           (f) =>
             new Promise((resolve, reject) => {
@@ -33,8 +34,10 @@ exports.create = (req, res) => {
               reader.readAsDataURL(f);
               reader.onload = () => {
                 const dataUri = reader.result;
+                const publicId = req.body.name + "_" + index;
+                index++;
                 if (dataUri) {
-                  cloudinary.uploader.upload(dataUri, { tags: "Salas", folder: "Salas" }, function (err, res) {
+                  cloudinary.uploader.upload(dataUri, { public_id: publicId, tags: "Salas", folder: "Salas" }, function (err, res) {
                     if (err) {
                       console.log("Error en cloudinary al dar de alta la imagen :", err);
                       reject(error);
@@ -51,7 +54,6 @@ exports.create = (req, res) => {
         // Promise.all will fire when all promises are resolved
         Promise.all(upload_res)
           .then((result) => {
-            console.log("publicsId ", publicIds);
             req.body.images = publicIds;
             const idRoom = data.id_room;
             roomDao.updateById(idRoom, req, (error, data) => {
