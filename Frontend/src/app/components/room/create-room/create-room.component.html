@@ -2,8 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="animate-plus section-heading text-center  fadeInUp" data-animations="fadeInUp" data-animation-delay="200ms" data-animation-when-visible="true"
-                    data-animation-reset-offscreen="true">
+                <div class="section-heading text-center" data-animation-delay="200ms">
                     <h6>SALAS</h6>
                     <h2>Nueva Sala</h2>
                 </div>
@@ -14,23 +13,20 @@
                 <div class="consultorio-contact-form">
                     <form [formGroup]="formCreateRoom" (ngSubmit)="create()" novalidate>
                         <div class="row">
-                            <div class="animate-plus col-12 col-lg-12  fadeInUp" data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true"
-                                data-animation-reset-offscreen="true">
+                            <div class="col-12 col-lg-12">
                                 <input [ngClass]="{ 'is-required': form.name.errors?.required && form.name.untouched }" formControlName="name" type="text" name="message-name"
                                     class="form-control mt-30" placeholder="Nombre" />
                                 <small *ngIf="form.name.touched && form.name.invalid" class="text-danger">
                                     <div *ngIf="form.name.errors.required">El nombre es requerido</div>
                                 </small>
                             </div>
-                            <div class="animate-plus col-12  fadeInUp" data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true"
-                                data-animation-reset-offscreen="true">
-                                <textarea formControlName="description" name="message" class="form-control mt-30" placeholder="Descripcion"></textarea>
+                            <div class="col-12">
+                                <textarea formControlName="description" name="message" class="form-control mt-30" placeholder="Descripción"></textarea>
                                 <small *ngIf="form.description.touched && form.description.invalid" class="text-danger">
                                     <div *ngIf="form.description.errors.required">La descripcion es requerida</div>
                                 </small>
                             </div>
-                            <div class="animate-plus col-lg-6 col-md-12 col-xs-12  fadeInUp" data-animations="fadeInUp" data-animation-delay="700ms"
-                                data-animation-when-visible="true" data-animation-reset-offscreen="true">
+                            <div class="col-lg-6 col-md-12 col-xs-12">
                                 <div class="custom-file mt-30">
                                     <input #file type="file" multiple class="custom-file-input " id="customFileLang" lang="es" formControlName="images" accept='image/*'
                                         (change)="preview($event)" />
@@ -56,8 +52,7 @@
                             </div>
                             <!-- GALERY -->
 
-                            <div class="animate-plus col-12 text-center  fadeInUp" data-animations="fadeInUp" data-animation-delay="1000ms" data-animation-when-visible="true"
-                                data-animation-reset-offscreen="true">
+                            <div class="col-12 text-center" data-animation-delay="1000ms">
                                 <button type="submit" class="btn consultorio-btn mt-15">
                                     Crear Sala
                                 </button>

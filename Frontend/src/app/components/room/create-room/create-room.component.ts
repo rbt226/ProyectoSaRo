@@ -20,11 +20,7 @@ export class CreateRoomComponent implements OnInit {
     imgURL: any = 'assets/images/default.jpg';
     maxImages = 5;
     urls = [];
-
-    // images = [];
-    // public errorImages = '';
-    // files: FileItem[] = [];
-
+    files = [];
 
     constructor(
         private roomService: RoomService,
@@ -46,8 +42,10 @@ export class CreateRoomComponent implements OnInit {
     create() {
         const formData = new FormData();
         formData.append('name', this.formCreateRoom.get('name').value);
-        formData.append('description', this.formCreateRoom.get('lastName').value);
-        formData.append('file', this.formCreateRoom.get('fileSource').value);
+        formData.append('description', this.formCreateRoom.get('description').value);
+        for (const fileImage of this.files) {
+            formData.append('file', fileImage);
+        }
 
         if (this.formCreateRoom.valid) {
             this.spinnerSevice.showSpinner();
@@ -74,7 +72,8 @@ export class CreateRoomComponent implements OnInit {
         }
 
         if (this.urls.length >= this.maxImages) {
-            this.errorImagen = 'Ha superado el maximo de imagenes permitidas';
+            this.errorImagen = 'Ha superado el máximo de imagenes permitidas';
+            console.log('Ha superado el máximo de imagenes permitidas');
             return;
         }
 
@@ -87,7 +86,7 @@ export class CreateRoomComponent implements OnInit {
             return;
         }
         if (mimeType.match(/image\/*/) == null) {
-            console.log('\'Solo se soportan imagenes.\'');
+            console.log('Solo se soportan imagenes');
             this.errorImagen = 'Solo se soportan imagenes.';
             return;
         }
@@ -98,12 +97,13 @@ export class CreateRoomComponent implements OnInit {
             const reader = new FileReader();
 
             reader.onload = () => {
-                console.log('this.urls.length ', this.urls.length);
                 if (this.urls.length >= this.maxImages) {
-                    this.errorImagen = 'Ha superado el maximo de imagenes permitidas';
+                    this.errorImagen = 'Ha superado el máximo de imagenes permitidas';
+                    console.log('Ha superado el máximo de imagenes permitidas');
                     return;
                 }
                 this.urls.push(reader.result);
+                this.files.push(fileImage);
             };
             reader.readAsDataURL(fileImage);
         }
@@ -116,13 +116,4 @@ export class CreateRoomComponent implements OnInit {
             this.urls.splice(index, 1);
         }
     }
-
-    // removeImage(url) {
-    //     const index = this.urls.indexOf(url);
-    //     if (index > -1) {
-    //         this.urls.splice(index, 1);
-    //         this.uploader.removeFromQueue(this.files[index]);
-    //         this.files.splice(index, 1);
-    //     }
-    // }
 }
