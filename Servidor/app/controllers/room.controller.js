@@ -34,7 +34,7 @@ exports.create = (req, res) => {
               reader.onload = () => {
                 const dataUri = reader.result;
                 if (dataUri) {
-                  cloudinary.uploader.upload(dataUri, function (err, res) {
+                  cloudinary.uploader.upload(dataUri, { tags: "Salas", folder: "Salas" }, function (err, res) {
                     if (err) {
                       console.log("Error en cloudinary al dar de alta la imagen :", err);
                       reject(error);

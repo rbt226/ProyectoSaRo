@@ -40,7 +40,7 @@ exports.signUp = (req, res) => {
 
     if (files.file) {
       file = files.file;
-      req.body.image = req.body.userName; //si viene una imagen el publicId de cloudinary es el userName
+      req.body.image = "Usuarios/" + req.body.userName; //si viene una imagen el publicId de cloudinary es el userName
       console.log("------ El usuario ha seleccionado una imagen ------");
     }
     userDao.signUp(req, async function create(error, data) {
@@ -85,7 +85,7 @@ uploadImageCloudinary = (file, userName, req, idUser) => {
   reader.onload = () => {
     const dataUri = reader.result;
     if (dataUri) {
-      cloudinary.uploader.upload(dataUri, { public_id: userName }, function (err, res) {
+      cloudinary.uploader.upload(dataUri, { public_id: userName, tags: "Usuarios", folder: "Usuarios" }, function (err, res) {
         if (err) {
           console.log("Error en cloudinary al dar de alta la imagen :", err);
           req.body.image = "Site/default_ghidmx";
