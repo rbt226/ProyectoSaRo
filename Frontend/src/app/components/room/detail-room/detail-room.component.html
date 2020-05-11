@@ -1,16 +1,26 @@
-<div class="row" *ngIf="room">
-    <div class="col-12 col-lg-12">
-        <div class="room-thumbnail" *ngIf="room">
-            <ngu-carousel #myCarousel [inputs]="carouselConfig" [dataSource]="room.images">
-                <ngu-tile *nguCarouselDef="let item; let j = index" class="tile">
-                    <cl-image [public-id]="item" [style.width]="getWidthImg()">
-                        <cl-transformation width="400" height="225" crop="thumb">
-                        </cl-transformation>
-                    </cl-image>
-                </ngu-tile>
-                <button NguCarouselNext class="rightRs">></button>
-                <button NguCarouselPrev class="leftRs"></button>
-            </ngu-carousel>
+<div class="content-photos">
+    <div class="row" *ngIf="room">
+        <div class="col-12 col-lg-12">
+            <div class="room-thumbnail" *ngIf="room">
+                <ngu-carousel #myCarousel [inputs]="carouselConfig" [dataSource]="room.images">
+                    <ngu-tile *nguCarouselDef="let item; let j = index" class="tile">
+                        <cl-image [public-id]="item" [style.width]="getWidthImg()">
+                            <cl-transformation width="400" height="225" crop="thumb">
+                            </cl-transformation>
+                        </cl-image>
+                    </ngu-tile>
+                    <button NguCarouselNext class="rightRs">></button>
+                    <button NguCarouselPrev class="leftRs"><</button>
+                        <ul class="myPoint" NguCarouselPoint>
+                            <li *ngFor="let i of myCarousel.pointNumbers; let z = index" [class.active]="i==myCarousel.activePoint" (click)="myCarousel.moveTo(i)">
+                                <cl-image [public-id]="room.images[i]">
+                                    <cl-transformation width="50" height="50" crop="thumb">
+                                    </cl-transformation>
+                                </cl-image>
+                            </li>
+                        </ul>
+                </ngu-carousel>
+            </div>
         </div>
     </div>
 </div>
