@@ -13,7 +13,6 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(
-            retry(1),
             catchError((error: HttpErrorResponse) => {
                 this.spinnerService.hideSpinner();
                 if (error.status === 401) {

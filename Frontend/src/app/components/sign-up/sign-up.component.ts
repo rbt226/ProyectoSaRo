@@ -88,6 +88,7 @@ export class SignUpComponent implements OnInit {
             this.userService.signUp(formData).subscribe((res) => {
                 this.route.navigate(['/']);
                 this.spinnerSevice.hideSpinner();
+                this.removeImage();
                 this.formCreateClient.reset();
                 this.modalService.hideModal();
                 this.notification.showSuccess('Se ha registrado satisfactoriamente');
