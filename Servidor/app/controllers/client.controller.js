@@ -1,4 +1,5 @@
 const clientDao = require("../dao/client.dao");
+const userController = require("./user.controller");
 
 exports.create = (req, res) => {
   // Validate request
@@ -61,7 +62,28 @@ exports.deleteById = (req, res) => {
           error,
         });
       }
-    } else res.send({ message: `Client was deleted successfully!` });
+    } else res.send({ message: `El cliente fue eliminado satisfactoriamente` });
+  });
+};
+
+exports.deleteByUserId = (req, res) => {
+  clientDao.deleteByUserId(req.params.id, (error, data) => {
+    if (error) {
+      if (error.kind === "not_found") {
+        res.status(404).send({
+          error: {
+            message: `No se encontro Client con idUser ${req.params.id}.`,
+          },
+        });
+      } else {
+        res.status(500).send({
+          error,
+        });
+      }
+    } else {
+      // Al eliminar el cliente se debe eliminar el usuario
+      userController.deleteById(req, res);
+    }
   });
 };
 
@@ -71,8 +93,7 @@ exports.deleteAll = (req, res) => {
       res.status(500).send({
         error,
       });
-    else
-      res.send({ message: `All Clients were deleted successfully! - ${data}` });
+    else res.send({ message: `All Clients were deleted successfully! - ${data}` });
   });
 };
 

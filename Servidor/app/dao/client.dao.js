@@ -59,6 +59,23 @@ exports.deleteById = (id, result) => {
       utils.handleError(error, result);
     });
 };
+
+exports.deleteByUserId = (idUser, result) => {
+  clientModel
+    .destroy({ where: { id_user: idUser } })
+    .then((clientModel) => {
+      if (!clientModel) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("Se elimino exitosamente el cliente con idUser: " + idUser);
+      result(null, clientModel);
+    })
+    .catch((error) => {
+      console.log("Error al eliminar cliente con idUser ", idUser);
+      utils.handleError(error, result);
+    });
+};
+
 exports.deleteAll = (result) => {
   clientModel
     .destroy({ where: {} })

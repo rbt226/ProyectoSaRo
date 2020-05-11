@@ -151,7 +151,7 @@ exports.deleteById = (req, res) => {
       if (error.kind === "not_found") {
         res.status(404).send({
           error: {
-            message: `No se encontro user con el identificador ${req.params.id}.`,
+            message: `No se encontro usuario con id ${req.params.id}.`,
           },
         });
       } else {
@@ -164,7 +164,7 @@ exports.deleteById = (req, res) => {
       const image = data.dataValues.image_user;
       if (image === userName) {
         // Se elimina la imagen de cloudinary si la imagen no es la default
-        cloudinary.api.delete_resources(user_name, { invalidate: true, resource_type: "image" }, function (err, res) {
+        cloudinary.api.delete_resources(userName, { invalidate: true, resource_type: "image" }, function (err, res) {
           if (err) {
             console.log("Error en cloudninary :", err);
           }
