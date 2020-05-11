@@ -6,7 +6,8 @@
                 <h2 class="animate-plus" data-animations="fadeInUp" data-animation-delay="100ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
                     {{ room.name_room }}
                 </h2>
-                <ul class="room-feature animate-plus" data-animations="fadeInUp" data-animation-delay="500ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
+                <ul class="room-feature animate-plus" data-animations="fadeInUp" data-animation-delay="500ms" data-animation-when-visible="true"
+                    data-animation-reset-offscreen="true">
                     <li>
                         <span><i class="fa fa-check"></i> Escritorio</span>
                     </li>
@@ -24,16 +25,17 @@
                     </li>
                 </ul>
                 <span class="description">{{ room.description }}</span>
-                <a (click)="ngShow('roomDetail', room.id_room)" class="btn rooms-btn animate-plus detailButton" data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true" data-animation-reset-offscreen="true" style="cursor: pointer;">View Details</a>
+                <a (click)="ngShow('roomDetail', room.id_room)" class="btn rooms-btn animate-plus detailButton" data-animations="fadeInUp" data-animation-delay="700ms"
+                    data-animation-when-visible="true" data-animation-reset-offscreen="true" style="cursor: pointer;">Ver mas fotos</a>
             </div>
         </div>
     </ngu-tile>
 
     <button NguCarouselPrev class="owl-prev" (click)="resetAnimation()">
-    <i class="fa fa-long-arrow-left" aria-hidden="true"></i> Anterior
-  </button>
+        <i class="fa fa-long-arrow-left" aria-hidden="true"></i> Anterior
+    </button>
     <button NguCarouselNext class="owl-next" (click)="resetAnimation()">
-    Siguiente
-    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-  </button>
+        Siguiente
+        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+    </button>
 </ngu-carousel>

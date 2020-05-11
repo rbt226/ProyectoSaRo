@@ -15,7 +15,7 @@
     vertical-align: middle;
 }
 
-.text-medium {
+.text-medium > a {
     color: #afb4bf;
     font-size: medium;
     text-align: center;
