@@ -26,23 +26,6 @@ exports.signIn = (req, res) => {
   });
 };
 
-// console.log("LLamo a cloudinary ", JSON.stringify(cloudinary));
-// cloudinary.api.delete_resources(
-//   "uciuilekbmhwlzzjfvyf",
-//   { invalidate: true, resource_type: "image" },
-//   function (err, res) {
-//     if (err) {
-//       console.log("error en cloudninary :", err);
-//       return res.status(400).json({
-//         ok: false,
-//         menssage: "Error deleting file",
-//         errors: err,
-//       });
-//     }
-//     console.log("respuesta", res);
-//   }
-// );
-
 exports.signUp = (req, res) => {
   // Validate request
   if (!req.body) {
@@ -53,12 +36,13 @@ exports.signUp = (req, res) => {
   const form = new IncomingForm();
   let file = null;
   form.parse(req, function (err, fields, files) {
+    req.body = fields;
+
     if (files.file) {
       file = files.file;
       req.body.image = req.body.userName; //si viene una imagen el publicId de cloudinary es el userName
       console.log("------ El usuario ha seleccionado una imagen ------");
     }
-    req.body = fields;
     userDao.signUp(req, async function create(error, data) {
       if (error) {
         return res.status(500).send({
@@ -175,7 +159,21 @@ exports.deleteById = (req, res) => {
           error,
         });
       }
-    } else res.send({ message: `user was deleted successfully!` });
+    } else {
+      const userName = data.dataValues.user_name;
+      const image = data.dataValues.image_user;
+      if (image === userName) {
+        // Se elimina la imagen de cloudinary si la imagen no es la default
+        cloudinary.api.delete_resources(user_name, { invalidate: true, resource_type: "image" }, function (err, res) {
+          if (err) {
+            console.log("Error en cloudninary :", err);
+          }
+          console.log("Respuesta De cloudinary: ", res);
+        });
+      }
+
+      res.send({ message: `Usuario eliminado satisafactoriamente` });
+    }
   });
 };
 

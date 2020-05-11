@@ -77,13 +77,21 @@ exports.getUserById = (id, result) => {
 
 exports.deleteById = (id, result) => {
   userModel
-    .destroy({ where: { id_user: id } })
-    .then((userModel) => {
-      if (!userModel) {
+    .findOne({ where: { id_user: id } })
+    .then((user) => {
+      if (!user) {
         return result({ kind: "not_found" }, null);
       }
-      console.log("Se elimino exitosamente el usuario con id: " + id);
-      result(null, userModel);
+      userModel
+        .destroy({ where: { id_user: id } })
+        .then((userDeleted) => {
+          console.log("Se elimino exitosamente el usuario con id: " + id);
+          result(null, user);
+        })
+        .catch((error) => {
+          console.log("Error al eliminar usuario con idUser ", id);
+          utils.handleError(error, result);
+        });
     })
     .catch((error) => {
       console.log("Error al eliminar usuario con idUser ", id);
