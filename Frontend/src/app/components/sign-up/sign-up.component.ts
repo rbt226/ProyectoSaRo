@@ -33,19 +33,12 @@ export class SignUpComponent implements OnInit {
     ) {
     }
     ngOnInit() {
-
         this.formCreateClient = this.formBuilder.group(
             {
                 name: ['', Validators.required],
                 lastName: ['', Validators.required],
                 document: [''],
-                email: [
-                    '',
-                    [
-                        Validators.required,
-                        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
-                    ],
-                ],
+                email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),],],
                 userName: ['', Validators.required],
                 mobilePhone: ['', Validators.required],
                 password: ['', Validators.required],
@@ -53,7 +46,6 @@ export class SignUpComponent implements OnInit {
                 documentType: ['CI'],
                 image: [''],
                 fileSource: [''],
-
             },
             {
                 validator: [
@@ -63,15 +55,14 @@ export class SignUpComponent implements OnInit {
             }
         );
         this.formCreateClient.reset();
-
     }
 
     get form() {
         return this.formCreateClient.controls;
     }
+
     create() {
         const formData = new FormData();
-        formData.append('file', this.formCreateClient.get('fileSource').value);
         formData.append('name', this.formCreateClient.get('name').value);
         formData.append('lastName', this.formCreateClient.get('lastName').value);
         formData.append('email', this.formCreateClient.get('email').value);
@@ -97,6 +88,7 @@ export class SignUpComponent implements OnInit {
             this.formCreateClient.markAllAsTouched();
         }
     }
+
     preview(event) {
         if (event.target.files.length === 0) {
             return;
@@ -118,7 +110,6 @@ export class SignUpComponent implements OnInit {
         const reader = new FileReader();
         this.imagePath = event.target.files;
         const file = event.target.files[0];
-        console.log('filee', file);
         reader.readAsDataURL(event.target.files[0]);
         this.formCreateClient.patchValue({
             fileSource: file

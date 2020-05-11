@@ -1,130 +1,71 @@
 <div class="consultorio-contact-form-area section-padding-50-100">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <div
-          class="animate-plus section-heading text-center wow fadeInUp"
-          data-animations="fadeInUp"
-          data-animation-delay="200ms"
-          data-animation-when-visible="true"
-          data-animation-reset-offscreen="true"
-        >
-          <h6>SALAS</h6>
-          <h2>Nueva Sala</h2>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="consultorio-contact-form">
-          <form
-            [formGroup]="formCreateRoom"
-            (ngSubmit)="create(formCreateRoom.value)"
-            novalidate
-          >
-            <div class="row">
-              <div
-                class="animate-plus col-12 col-lg-6 wow fadeInUp"
-                data-animations="fadeInUp"
-                data-animation-delay="700ms"
-                data-animation-when-visible="true"
-                data-animation-reset-offscreen="true"
-              >
-                <input
-                  formControlName="name"
-                  type="text"
-                  name="message-name"
-                  class="form-control mb-30"
-                  placeholder="Nombre"
-                />
-              </div>
-
-              <div
-                class="animate-plus col-12 wow fadeInUp"
-                data-animations="fadeInUp"
-                data-animation-delay="700ms"
-                data-animation-when-visible="true"
-                data-animation-reset-offscreen="true"
-              >
-                <textarea
-                  formControlName="description"
-                  name="message"
-                  class="form-control mb-30"
-                  placeholder="Descripcion"
-                ></textarea>
-              </div>
-              <div
-                class="animate-plus col-lg-6 col-md-12 col-xs-12 wow fadeInUp"
-                data-animations="fadeInUp"
-                data-animation-delay="700ms"
-                data-animation-when-visible="true"
-                data-animation-reset-offscreen="true"
-              >
-                <div class="custom-file">
-                  <input
-                    type="file"
-                    class="custom-file-input"
-                    id="customFileLang"
-                    lang="es"
-                    formControlName="images"
-                    ng2FileSelect
-                    [uploader]="uploader"
-                    multiple
-                  />
-                  <label class="custom-file-label" for="customFileLang"
-                    >Seleccionar Imagenes</label
-                  >
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="animate-plus section-heading text-center  fadeInUp" data-animations="fadeInUp" data-animation-delay="200ms" data-animation-when-visible="true"
+                    data-animation-reset-offscreen="true">
+                    <h6>SALAS</h6>
+                    <h2>Nueva Sala</h2>
                 </div>
-                <div
-                  class="text-danger"
-                  *ngIf="
-                    formCreateRoom.controls.images.errors &&
-                    formCreateRoom.controls.images.errors.incorrect
-                  "
-                >
-                  {{ errorImages }}
-                </div>
-              </div>
-              <!-- GALERY -->
-              <div class="container" *ngIf="uploader?.queue?.length > 0">
-                <hr class="mt-2 mb-5" />
-                <div class="row text-center text-lg-left">
-                  <div
-                    *ngFor="let url of urls"
-                    class="col-lg-3 col-md-4 col-6 d-block mb-4"
-                  >
-                    <img
-                      class="img-fluid img-thumbnail"
-                      [src]="sanitizer.bypassSecurityTrustUrl(url)"
-                    />
-                    <a
-                      (click)="removeImage(url)"
-                      class="fa fa-close fa-lg remove"
-                    ></a>
-                  </div>
-                </div>
-              </div>
-              <!-- GALERY -->
-
-              <div
-                class="animate-plus col-12 text-center wow fadeInUp"
-                data-animations="fadeInUp"
-                data-animation-delay="1000ms"
-                data-animation-when-visible="true"
-                data-animation-reset-offscreen="true"
-              >
-                <button
-                  type="submit"
-                  class="btn consultorio-btn mt-15"
-                  [disabled]="!formCreateRoom.valid || urls.length == 0"
-                >
-                  Crear Sala
-                </button>
-              </div>
             </div>
-          </form>
         </div>
-      </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="consultorio-contact-form">
+                    <form [formGroup]="formCreateRoom" (ngSubmit)="create()" novalidate>
+                        <div class="row">
+                            <div class="animate-plus col-12 col-lg-12  fadeInUp" data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true"
+                                data-animation-reset-offscreen="true">
+                                <input [ngClass]="{ 'is-required': form.name.errors?.required && form.name.untouched }" formControlName="name" type="text" name="message-name"
+                                    class="form-control mt-30" placeholder="Nombre" />
+                                <small *ngIf="form.name.touched && form.name.invalid" class="text-danger">
+                                    <div *ngIf="form.name.errors.required">El nombre es requerido</div>
+                                </small>
+                            </div>
+                            <div class="animate-plus col-12  fadeInUp" data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true"
+                                data-animation-reset-offscreen="true">
+                                <textarea formControlName="description" name="message" class="form-control mt-30" placeholder="Descripcion"></textarea>
+                                <small *ngIf="form.description.touched && form.description.invalid" class="text-danger">
+                                    <div *ngIf="form.description.errors.required">La descripcion es requerida</div>
+                                </small>
+                            </div>
+                            <div class="animate-plus col-lg-6 col-md-12 col-xs-12  fadeInUp" data-animations="fadeInUp" data-animation-delay="700ms"
+                                data-animation-when-visible="true" data-animation-reset-offscreen="true">
+                                <div class="custom-file mt-30">
+                                    <input #file type="file" multiple class="custom-file-input " id="customFileLang" lang="es" formControlName="images" accept='image/*'
+                                        (change)="preview($event)" />
+                                    <label class="custom-file-label" for="customFileLang">Seleccionar Imagen</label>
+                                </div>
+                                <small class="text-danger" *ngIf="errorImagen">
+                                    {{ errorImagen }}
+                                </small>
+
+                                <!-- <div class="text-danger" *ngIf=" form.images.errors && form.images.errors.incorrect">
+                                    {{ errorImages }}
+                                </div> -->
+                            </div>
+                            <!-- GALERY -->
+                            <div class="container" *ngIf="urls.length >0">
+                                <hr class="mt-2 mb-5" />
+                                <div class="row text-center text-lg-left">
+                                    <div *ngFor="let url of urls" class="col-lg-3 col-md-4 col-6 d-block mb-4">
+                                        <img class="gallery-image img-fluid img-thumbnail" [src]="url" />
+                                        <a (click)="removeImage(url)" class="fa fa-close fa-lg remove"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- GALERY -->
+
+                            <div class="animate-plus col-12 text-center  fadeInUp" data-animations="fadeInUp" data-animation-delay="1000ms" data-animation-when-visible="true"
+                                data-animation-reset-offscreen="true">
+                                <button type="submit" class="btn consultorio-btn mt-15">
+                                    Crear Sala
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

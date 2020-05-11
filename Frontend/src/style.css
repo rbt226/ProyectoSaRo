@@ -872,38 +872,10 @@ input:focus {
     color: #2a303b;
 }
 
-.classy-nav-container
-    .classy-navbar
-    .classynav
-    ul
-    li.cn-dropdown-item
-    ul
-    li
-    a:focus,
-.classy-nav-container
-    .classy-navbar
-    .classynav
-    ul
-    li.cn-dropdown-item
-    ul
-    li
-    a:hover,
-.classy-nav-container
-    .classy-navbar
-    .classynav
-    ul
-    li.megamenu-item
-    ul
-    li
-    a:focus,
-.classy-nav-container
-    .classy-navbar
-    .classynav
-    ul
-    li.megamenu-item
-    ul
-    li
-    a:hover {
+.classy-nav-container .classy-navbar .classynav ul li.cn-dropdown-item ul li a:focus,
+.classy-nav-container .classy-navbar .classynav ul li.cn-dropdown-item ul li a:hover,
+.classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a:focus,
+.classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a:hover {
     color: #1cc3b2;
 }
 
@@ -1575,11 +1547,7 @@ input:focus {
     margin-bottom: 10px;
 }
 
-.consultorio-testimonials-area
-    .single-testimonial-slide
-    .rating-title
-    .rating
-    i {
+.consultorio-testimonials-area .single-testimonial-slide .rating-title .rating i {
     color: #f5b917;
     font-size: 14px;
 }
@@ -2164,11 +2132,7 @@ html .ui-button.ui-state-disabled:active {
     margin-bottom: 10px;
 }
 
-.room-review-area
-    .single-room-review-area
-    .reviwer-content
-    .reviwer-title
-    span {
+.room-review-area .single-room-review-area .reviwer-content .reviwer-title span {
     font-size: 14px;
     display: block;
     margin-bottom: 10px;
@@ -2176,11 +2140,7 @@ html .ui-button.ui-state-disabled:active {
 }
 
 @media only screen and (max-width: 767px) {
-    .room-review-area
-        .single-room-review-area
-        .reviwer-content
-        .reviwer-title
-        span {
+    .room-review-area .single-room-review-area .reviwer-content .reviwer-title span {
         font-size: 12px;
     }
 }
@@ -2191,11 +2151,7 @@ html .ui-button.ui-state-disabled:active {
 }
 
 @media only screen and (max-width: 767px) {
-    .room-review-area
-        .single-room-review-area
-        .reviwer-content
-        .reviwer-title
-        h6 {
+    .room-review-area .single-room-review-area .reviwer-content .reviwer-title h6 {
         font-size: 14px;
     }
 }
@@ -2206,11 +2162,7 @@ html .ui-button.ui-state-disabled:active {
 }
 
 @media only screen and (max-width: 767px) {
-    .room-review-area
-        .single-room-review-area
-        .reviwer-content
-        .reviwer-rating
-        i {
+    .room-review-area .single-room-review-area .reviwer-content .reviwer-rating i {
         font-size: 12px;
     }
 }
@@ -3580,4 +3532,8 @@ html .ui-button.ui-state-disabled:active {
     padding-right: 2.25rem;
     background-position: center right calc(2.25rem / 4);
     background-size: calc(1.25rem / 2) calc(1.25rem / 2);
+}
+
+.ng-touched.ng-invalid {
+    border-color: #dc3545 !important;
 }
