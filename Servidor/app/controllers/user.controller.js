@@ -88,7 +88,7 @@ uploadImageCloudinary = (file, userName, req, idUser) => {
       cloudinary.uploader.upload(dataUri, { public_id: userName, tags: "Usuarios", folder: "Usuarios" }, function (err, res) {
         if (err) {
           console.log("Error en cloudinary al dar de alta la imagen :", err);
-          req.body.image = "Site/default_ghidmx";
+          req.body.image = "Site/defaultUser";
           userDao.updateById(idUser, req, (error, data) => {});
         } else {
           console.log("Se ha creado la imagen en cloudinary correctamente ", JSON.stringify(res));

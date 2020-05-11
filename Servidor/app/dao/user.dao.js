@@ -135,7 +135,7 @@ createUserModel = (req) => {
     user_name: req.body.userName,
     mobile_phone: req.body.mobilePhone,
     password: req.body.password,
-    image_user: req.body.image ? req.body.image : "Site/default_ghidmx",
+    image_user: req.body.image ? req.body.image : "Site/defaultUser",
     active_user: req.body.active,
     id_role: req.body.idRole,
   };
