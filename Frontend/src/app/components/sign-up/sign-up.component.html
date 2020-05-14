@@ -90,7 +90,7 @@
 
                             <div class="col-12 mt-30">
                                 <div class="custom-file">
-                                    <input #file type="file" class="custom-file-input " id="customFileLang" lang="es" formControlName="image" accept='image/*'
+                                    <input #file type="file" class="custom-file-input mt-30" id=" customFileLang" lang="es" formControlName="image" accept='image/*'
                                         (change)="preview($event)" />
                                     <label class="custom-file-label" for="customFileLang">Seleccionar Imagen</label>
                                 </div>
@@ -102,7 +102,6 @@
                             </div>
                             <!-- PHOTO -->
                             <div class="container">
-                                <hr class="mt-2" />
                                 <div class="row justify-content-center">
                                     <div class="d-block p-rel">
                                         <img [ngClass]="{'gallery-image': imageSelected}" class="img-fluid img-thumbnail" [src]="imgURL" />
