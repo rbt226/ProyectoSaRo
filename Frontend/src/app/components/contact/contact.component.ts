@@ -47,6 +47,7 @@ export class ContactComponent implements OnInit {
             this.spinnerSevice.showSpinner();
             this.emailService
                 .sendEmail({
+                    action:"contact",m     5
                     mail: data.email,
                     name: data.name,
                     msg: data.message,

@@ -5,7 +5,12 @@
                 <div class="col-12">
                     <div class="animate-plus section-heading text-center" data-animation-delay="200ms " data-animation-when-visible="true ">
                         <h6>Usuario</h6>
-                        <h3>Iniciar Sesión</h3>
+                        <div *ngIf="!forgotPass; else forgotTitle">
+                            <h3>Iniciar Sesión</h3>
+                        </div>
+                        <ng-template #forgotTitle>
+                            <h3>Resetear Contraseña</h3>
+                        </ng-template>
                     </div>
                 </div>
             </div>
@@ -17,13 +22,24 @@
                             <div *ngIf="form.email.errors?.pattern">Por favor ingrese una direccion de email correcta</div>
                         </small>
                     </div>
-                    <div class="form-group">
-                        <input type="password" formControlName="password" placeholder="Contraseña" class="form-control"
-                            [ngClass]="{'is-required': form.password.errors?.required}" />
+                    <div *ngIf="!forgotPass; else forgotBtn">
+                        <div class="form-group">
+                            <input type="password" formControlName="password" placeholder="Contraseña" class="form-control"
+                                [ngClass]="{'is-required': form.password.errors?.required}" />
+                        </div>
+                        <button type="submit " class="form-control btn consultorio-btn w-100 ">
+                            Iniciar Sesión
+                        </button>
                     </div>
-                    <button type="submit " class="form-control btn consultorio-btn w-100">
-                        SignIn
-                    </button>
+                    <ng-template #forgotBtn>
+                        <button type="submit " class="form-control btn consultorio-btn w-100 ">
+                            Enviar correo
+                        </button>
+                        <small>Se le enviará un correo con la nueva contraseña, por favor modifíquela lo antes posible.</small>
+                    </ng-template>
+                    <div class="mt-40">
+                        <a (click)="forgotPass=true" style="cursor: pointer;">¿Olvidaste tu Contraseña?</a>
+                    </div>
                 </form>
             </div>
         </div>
