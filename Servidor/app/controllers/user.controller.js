@@ -33,10 +33,23 @@ exports.signUp = (req, res) => {
       error: { message: "Content can not be empty!" },
     });
   }
+
   const form = new IncomingForm();
   let file = null;
-  form.parse(req, function (err, fields, files) {
+  form.parse(req, async function (err, fields, files) {
     req.body = fields;
+    const email = req.body.email;
+    const userName = req.body.userName;
+
+    const message = await validateUser(email, userName);
+    if (message === null) {
+      return res.status(500).send({
+        error: { message: "Error al crear usuario" },
+      });
+    }
+    if (message.userName || message.email) {
+      return res.send(message);
+    }
 
     if (files.file) {
       file = files.file;
@@ -113,6 +126,30 @@ exports.create = (req, res) => {
         error,
       });
     else res.send(data);
+  });
+};
+
+validateUser = (email, userName) => {
+  return new Promise((resolve, reject) => {
+    // Validate email, username and document
+    userDao.validate(email, userName, (error, data) => {
+      if (error) reject(error);
+      else {
+        let message = {
+          email: undefined,
+          userName: undefined,
+        };
+        data.forEach((user) => {
+          if (user.user_name === userName) {
+            message.userName = "Ya existe un usuario con ese userName";
+          }
+          if (user.email === email) {
+            message.email = "Ya existe un usuario con ese email";
+          }
+        });
+        resolve(message);
+      }
+    });
   });
 };
 

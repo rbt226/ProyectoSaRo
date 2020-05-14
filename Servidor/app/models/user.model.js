@@ -9,10 +9,10 @@ User.init(
   {
     // attributes
     id_user: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
     email: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -47,4 +47,5 @@ User.init(
     // options
   }
 );
+User.operator = Sequelize.Op;
 module.exports = User;

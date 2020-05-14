@@ -75,6 +75,28 @@ exports.getUserById = (id, result) => {
     });
 };
 
+exports.validate = (email, userName, result) => {
+  console.log("validate ", email, userName);
+  userModel
+    .findAll({
+      where: {
+        [userModel.operator.or]: [{ email: email }, { user_name: userName }],
+      },
+    })
+    .then((users) => {
+      if (!users) {
+        console.log("No se han encontrado usuarios con email: ", email, " o con userName ", userName);
+        return result(null, null);
+      }
+      
+      result(null, users);
+    })
+    .catch((error) => {
+      console.log("Error al obtener usuario con email: ", email, " o con userName ", userName);
+      utils.handleError(error, result);
+    });
+};
+
 exports.deleteById = (id, result) => {
   userModel
     .findOne({ where: { id_user: id } })
