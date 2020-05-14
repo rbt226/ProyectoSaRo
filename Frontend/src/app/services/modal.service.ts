@@ -16,6 +16,8 @@ export class ModalService {
     }
     hideModal() {
         this.show = false;
+        this.type = null;
+        this.data = null;
     }
 
     getShow() {
