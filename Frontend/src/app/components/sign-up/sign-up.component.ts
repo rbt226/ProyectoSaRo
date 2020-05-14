@@ -35,17 +35,18 @@ export class SignUpComponent implements OnInit {
     ) {
     }
     ngOnInit() {
+
         this.formCreateClient = this.formBuilder.group(
             {
-                name: ['', Validators.required],
-                lastName: ['', Validators.required],
-                document: [''],
-                email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),],],
-                userName: ['', Validators.required],
-                mobilePhone: ['', Validators.required],
-                password: ['', Validators.required],
-                passwordConfirm: ['', Validators.required],
-                documentType: ['CI'],
+                name: ['Nomfsdhkjdfkjbre', Validators.required],
+                lastName: ['Apelsjddfsdsfido', Validators.required],
+                document: ['1233'],
+                email: ['mail@mail', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')]],
+                userName: ['userName', Validators.required],
+                mobilePhone: ['1234', Validators.required],
+                password: ['123', Validators.required],
+                passwordConfirm: ['123', Validators.required],
+                documentType: ['passport'],
                 image: [''],
                 fileSource: [''],
             },
@@ -56,11 +57,18 @@ export class SignUpComponent implements OnInit {
                 ],
             }
         );
-        this.formCreateClient.reset();
     }
 
     get form() {
         return this.formCreateClient.controls;
+    }
+
+    resetErrorEmail() {
+        this.uniqueEmailError = false;
+    }
+
+    resetErrorUserName() {
+        this.uniqueUserNameError = false;
     }
 
     create() {
@@ -80,8 +88,9 @@ export class SignUpComponent implements OnInit {
 
         if (this.formCreateClient.valid) {
             this.spinnerSevice.showSpinner();
+
             this.userService.signUp(formData).subscribe((res) => {
-                console.log('res ', res);
+                this.spinnerSevice.hideSpinner();
                 if (res.email || res.userName) {
                     if (res.email) {
                         this.uniqueEmailError = true;
@@ -91,7 +100,6 @@ export class SignUpComponent implements OnInit {
                     }
                 } else {
                     this.route.navigate(['/']);
-                    this.spinnerSevice.hideSpinner();
                     this.removeImage();
                     this.formCreateClient.reset();
                     this.modalService.hideModal();
