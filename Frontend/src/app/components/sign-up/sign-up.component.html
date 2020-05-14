@@ -50,19 +50,26 @@
                                 </small>
                             </div>
                             <div class="col-12 col-lg-6">
-                                <input [ngClass]="{ 'is-required': form.email.errors?.required  && form.email.untouched }" formControlName="email" type="email"
-                                    class="form-control mt-30" placeholder="Email" />
+                                <input [ngClass]="{ 'is-required': form.email.errors?.required  && form.email.untouched }" [ngClass]="{ 'is-invalid': uniqueEmailError }"
+                                    formControlName="email" type="email" class="form-control mt-30" placeholder="Email" />
                                 <small *ngIf="form.email.touched && form.email.invalid" class="text-danger">
                                     <div *ngIf="form.email.errors?.pattern">Por favor ingrese una direccion de email correcta</div>
                                     <div *ngIf="form.email.errors?.required">La direccion de email es requerida</div>
+                                    <div *ngIf="form.email.errors?.unique">Ya existe un usuario con este email</div>
+                                </small>
+                                <small *ngIf="uniqueEmailError" class="text-danger">
+                                    <div>Ya existe un usuario con este email</div>
                                 </small>
                             </div>
 
                             <div class="col-12 col-lg-6">
-                                <input [ngClass]="{ 'is-required': form.userName.errors?.required && form.userName.untouched }" formControlName="userName" type="text"
-                                    class="form-control mt-30" placeholder="Usuario" />
+                                <input [ngClass]="{ 'is-required': form.userName.errors?.required && form.userName.untouched }" [ngClass]="{ 'is-invalid': uniqueUserNameError }"
+                                    formControlName="userName" type="text" class="form-control mt-30" placeholder="Usuario" />
                                 <small *ngIf="form.userName.touched && form.userName.invalid" class="text-danger">
                                     <div *ngIf="form.userName.errors?.required">El username es requerido</div>
+                                </small>
+                                <small *ngIf="uniqueUserNameError" class="text-danger">
+                                    <div>Ya existe un usuario con este userName</div>
                                 </small>
                             </div>
                             <div class="form-group col-12 col-lg-6">

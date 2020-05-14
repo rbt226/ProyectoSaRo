@@ -21,6 +21,8 @@ export class SignUpComponent implements OnInit {
     public imagePath;
     imgURL: any = 'assets/images/default.jpg';
     imageSelected = false;
+    uniqueUserNameError;
+    uniqueEmailError;
 
     constructor(
         private userService: UserService,
@@ -62,6 +64,8 @@ export class SignUpComponent implements OnInit {
     }
 
     create() {
+        this.uniqueEmailError = false;
+        this.uniqueUserNameError = false;
         const formData = new FormData();
         formData.append('name', this.formCreateClient.get('name').value);
         formData.append('lastName', this.formCreateClient.get('lastName').value);
@@ -77,12 +81,22 @@ export class SignUpComponent implements OnInit {
         if (this.formCreateClient.valid) {
             this.spinnerSevice.showSpinner();
             this.userService.signUp(formData).subscribe((res) => {
-                this.route.navigate(['/']);
-                this.spinnerSevice.hideSpinner();
-                this.removeImage();
-                this.formCreateClient.reset();
-                this.modalService.hideModal();
-                this.notification.showSuccess('Se ha registrado satisfactoriamente');
+                console.log('res ', res);
+                if (res.email || res.userName) {
+                    if (res.email) {
+                        this.uniqueEmailError = true;
+                    }
+                    if (res.userName) {
+                        this.uniqueUserNameError = true;
+                    }
+                } else {
+                    this.route.navigate(['/']);
+                    this.spinnerSevice.hideSpinner();
+                    this.removeImage();
+                    this.formCreateClient.reset();
+                    this.modalService.hideModal();
+                    this.notification.showSuccess('Se ha registrado satisfactoriamente');
+                }
             });
         } else {
             this.formCreateClient.markAllAsTouched();
