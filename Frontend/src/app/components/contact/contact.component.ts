@@ -18,7 +18,7 @@ export class ContactComponent implements OnInit {
         private spinnerSevice: SpinnerService,
         private emailService: EmailService,
         private notification: NotificationService
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.formContact = this.formBuilder.group({
@@ -47,7 +47,7 @@ export class ContactComponent implements OnInit {
             this.spinnerSevice.showSpinner();
             this.emailService
                 .sendEmail({
-                    action:"contact",m     5
+                    action: 'contact',
                     mail: data.email,
                     name: data.name,
                     msg: data.message,
