@@ -12,6 +12,11 @@ exports.createWarningResponse = (code, message, data) => {
   return resp;
 };
 
+exports.createErrorResponse = (code, message, data) => {
+  const resp = new Response(code + "E", message, data);
+  return resp;
+};
+
 exports.handleError = (err, result, errorType) => {
   let error = err;
   if (err instanceof Sequelize.UniqueConstraintError) {
