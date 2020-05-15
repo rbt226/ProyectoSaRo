@@ -1,6 +1,9 @@
 const userDao = require("../dao/user.dao");
 const clientDao = require("../dao/client.dao");
-var cloudinary = require("cloudinary").v2;
+const cloudinary = require("cloudinary").v2;
+const IncomingForm = require("formidable").IncomingForm;
+const FileReader = require("filereader");
+const jwt = require("jsonwebtoken");
 
 exports.create = (req, res) => {
   // Save User in the database
@@ -70,23 +73,10 @@ exports.deleteById = (req, res) => {
         });
       }
 
-                            exports.deleteById = (req, res) => {
-                                userDao.deleteById(req.params.id, (error, data) => {
-                                    if (error) {
-                                        if (error.kind === "not_found") {
-                                            res.status(404).send({
-                                                error: {
-                                                    message: `No se encontro user con el identificador ${req.params.id}.`,
-                                                },
-                                            });
-                                        } else {
-                                            res.status(500).send({
-                                                error,
-                                            });
-                                        }
-                                    } else res.send({ message: `user was deleted successfully!` });
-                                });
-                            };
+      res.send({ message: `Usuario eliminado satisafactoriamente` });
+    }
+  });
+};
 
 exports.getAll = (req, res) => {
   userDao.getAll((error, data) => {
