@@ -1,13 +1,6 @@
 const permissionDao = require("../dao/permission.dao");
 
 exports.create = (req, res) => {
-  // Validate request
-  if (!req.body) {
-    res.status(400).send({
-      error: { message: "Content can not be empty!" },
-    });
-  }
-
   // Save Permission in the database
   permissionDao.create(req, (error, data) => {
     if (error)
@@ -39,9 +32,7 @@ exports.getPermissionById = (req, res) => {
           },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else res.send(data);
   });
@@ -57,9 +48,7 @@ exports.deleteById = (req, res) => {
           },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else res.send({ message: `Permission was deleted successfully!` });
   });
@@ -79,12 +68,6 @@ exports.deleteAll = (req, res) => {
 };
 
 exports.updateById = (req, res) => {
-  // Validate Request
-  if (!req.body) {
-    res.status(400).send({
-      error: { message: "Content can not be empty!" },
-    });
-  }
   const id = req.params.id;
   permissionDao.updateById(id, req, (error, data) => {
     if (error) {
@@ -95,9 +78,7 @@ exports.updateById = (req, res) => {
           },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else res.send({ message: `Permission was updated successfully!` });
   });

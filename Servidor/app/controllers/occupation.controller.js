@@ -1,13 +1,6 @@
 const occupationDao = require("../dao/occupation.dao");
 
 exports.create = (req, res) => {
-  // Validate request
-  if (!req.body) {
-    res.status(400).send({
-      error: { message: "Content can not be empty!" },
-    });
-  }
-
   // Save Occupation in the database
   occupationDao.create(req, (error, data) => {
     if (error)
@@ -38,8 +31,7 @@ exports.getOccupationById = (req, res) => {
         });
       } else {
         res.status(500).send({
-          message:
-            "Error retrieving Occupation con el identificador " + req.params.id,
+          message: "Error retrieving Occupation con el identificador " + req.params.id,
         });
       }
     } else res.send(data);
@@ -55,8 +47,7 @@ exports.deleteById = (req, res) => {
         });
       } else {
         res.status(500).send({
-          message:
-            "Could not delete Occupation con el identificador " + req.params.id,
+          message: "Could not delete Occupation con el identificador " + req.params.id,
         });
       }
     } else res.send({ message: `Occupation was deleted successfully!` });
@@ -77,12 +68,6 @@ exports.deleteAll = (req, res) => {
 };
 
 exports.updateById = (req, res) => {
-  // Validate Request
-  if (!req.body) {
-    res.status(400).send({
-      error: { message: "Content can not be empty!" },
-    });
-  }
   const id = req.params.id;
   occupationDao.updateById(id, req, (error, data) => {
     if (error) {

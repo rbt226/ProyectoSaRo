@@ -2,13 +2,6 @@ const clientDao = require("../dao/client.dao");
 const userController = require("./user.controller");
 
 exports.create = (req, res) => {
-  // Validate request
-  if (!req.body) {
-    res.status(400).send({
-      error: { message: "Content can not be empty!" },
-    });
-  }
-
   // Save Client in the database
   clientDao.create(req, (error, data) => {
     if (error)
@@ -40,9 +33,7 @@ exports.getClientById = (req, res) => {
           },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else res.send(data);
   });
@@ -58,9 +49,7 @@ exports.deleteById = (req, res) => {
           },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else res.send({ message: `El cliente fue eliminado correctamente` });
   });
@@ -76,9 +65,7 @@ exports.deleteByUserId = (req, res) => {
           },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else {
       // Al eliminar el cliente se debe eliminar el usuario
@@ -98,12 +85,6 @@ exports.deleteAll = (req, res) => {
 };
 
 exports.updateById = (req, res) => {
-  // Validate Request
-  if (!req.body) {
-    res.status(400).send({
-      error: { message: "Content can not be empty!" },
-    });
-  }
   const id = req.params.id;
   clientDao.updateById(id, req, (error, data) => {
     if (error) {
@@ -114,9 +95,7 @@ exports.updateById = (req, res) => {
           },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else res.send({ message: `Client was updated successfully!` });
   });

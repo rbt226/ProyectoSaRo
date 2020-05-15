@@ -1,13 +1,6 @@
 const bookingDao = require("../dao/booking.dao");
 
 exports.create = (req, res) => {
-  // Validate request
-  if (!req.body) {
-    res.status(400).send({
-      error: { message: "Content can not be empty!" },
-    });
-  }
-
   // Save Booking in the database
   bookingDao.create(req, (error, data) => {
     if (error)
@@ -39,9 +32,7 @@ exports.getBookingById = (req, res) => {
           },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else res.send(data);
   });
@@ -56,9 +47,7 @@ exports.getBookingsByDate = (req, res) => {
           error: { message: `No se encontro Bookings for the date  ${date}.` },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else res.send(data);
   });
@@ -75,9 +64,7 @@ exports.getBookingsByRoom = (req, res) => {
           },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else res.send(data);
   });
@@ -92,9 +79,7 @@ exports.getBookingsByUser = (req, res) => {
           error: { message: `No se encontro Booking for the user  ${idUser}.` },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else res.send(data);
   });
@@ -110,9 +95,7 @@ exports.deleteById = (req, res) => {
           },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else res.send({ message: `Booking was deleted successfully!` });
   });
@@ -132,12 +115,6 @@ exports.deleteAll = (req, res) => {
 };
 
 exports.updateById = (req, res) => {
-  // Validate Request
-  if (!req.body) {
-    res.status(400).send({
-      error: { message: "Content can not be empty!" },
-    });
-  }
   const id = req.params.id;
   bookingDao.updateById(id, req, (error, data) => {
     if (error) {
@@ -148,9 +125,7 @@ exports.updateById = (req, res) => {
           },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else res.send({ message: `Booking was updated successfully!` });
   });
