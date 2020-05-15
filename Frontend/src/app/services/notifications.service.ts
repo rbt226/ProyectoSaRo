@@ -6,7 +6,7 @@ import * as alertify from 'alertifyjs';
     providedIn: 'root',
 })
 export class NotificationService {
-    constructor() { } 
+    constructor() { }
 
     showSuccess(message) {
         alertify.success(message);

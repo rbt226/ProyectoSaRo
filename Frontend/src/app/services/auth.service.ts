@@ -17,14 +17,7 @@ export class AuthService {
     }
 
     signIn(user) {
-        this.usrService.saveUserStorage(user);
         return this.http.post<any>(this.URL + '/signIn', user);
-    }
-
-
-    setUserData(userName, imageUser) {
-        localStorage.setItem('userName', userName);
-        localStorage.setItem('userImg', imageUser);
     }
 
     getUserName() {

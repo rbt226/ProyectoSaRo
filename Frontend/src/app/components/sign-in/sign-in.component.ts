@@ -24,7 +24,7 @@ export class SignInComponent implements OnInit {
         private emailService: EmailService,
         private notification: NotificationService,
         private usrService: UserService
-    ) {}
+    ) { }
 
     formSignIn: FormGroup;
     formSubmitted = false;
@@ -50,7 +50,7 @@ export class SignInComponent implements OnInit {
                 this.autService.signIn(data).subscribe((res) => {
                     this.spinnerService.hideSpinner();
                     if (Utils.isOkResponse(res)) {
-                        this.autService.setUserData(res.data.user_name, res.data.image_user);
+                        this.usrService.setUserData(res.data.user_name, res.data.image_user);
                         localStorage.setItem('token', res.token);
                         this.router.navigate(['/']);
                         this.formSignIn.reset();
@@ -62,22 +62,23 @@ export class SignInComponent implements OnInit {
             }
         } else {
             this.usrService.getUserByEmail(data).subscribe((res) => {
-                if (res !== null) {
+                if (Utils.isOkResponse(res)) {
                     this.emailService
                         .sendEmail({
                             action: 'forgot',
                             to: data.email,
                         })
-                        .subscribe((res) => {
-                            this.notification.showSuccess('El correo ha sido enviado');
+                        .subscribe((resEmail) => {
+                            this.spinnerService.hideSpinner();
+                            this.notification.showSuccess(resEmail.message);
                             this.router.navigate(['/']);
                             this.formSignIn.reset();
                             this.modalService.hideModal();
-                            this.spinnerService.hideSpinner();
                         });
                 }
-                else{
-                    this.notification.showError(`El email ${data.email} no está registrado.` );
+                else {
+                    this.spinnerService.hideSpinner();
+                    this.notification.showError(res.message);
                 }
             });
         }
