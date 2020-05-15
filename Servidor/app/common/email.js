@@ -3,6 +3,11 @@ Envío de Mails utilizando librería Nodemailer
  */
 
 var nodemailer = require("nodemailer");
+var from = "consultorios.del.parque2020@gmail.com";
+var to = null;
+var subject = null;
+var msg = null;
+var newPass = null;
 
 exports.sendEmail = (req, res) => {
 
@@ -19,11 +24,22 @@ exports.sendEmail = (req, res) => {
         },
     });
 
+    if (req.body.action == "contact") {
+        to = "consultorios.del.parque2020@gmail.com";
+        subject = "Nuevo Contacto de: " + req.body.name;
+        msg = '<p>' + req.body.msg + '</p><p>&nbsp;</p><p>Firma:&nbsp;<strong>' + req.body.name + '</strong>&nbsp;</p><p>Email:&nbsp;<strong>' + req.body.mail + '</strong></p><p>&nbsp;</p>';
+    } else {
+        newPass = generatePassword();
+        to = req.body.to;
+        subject = "Consultorios del Parque - Olvide mi contraseña ";
+        msg = '<p>Hola,</p> <p> Recibimos tu solicitud para cambiar tu contraseña.</p> <p> Por favor ingresa a <a href = "https://delparqueconsultorios.com" target = "_blank" > consultoriosdelparque.com </a> con la siguiente contraseña:</p> <p> <strong> ' + newPass + ' </strong></p> <p> ¡Recuerda cambiarla enseguida! </p>';
+    }
+
     var mailOptions = {
         from: "consultorios.del.parque2020@gmail.com",
-        to: "consultorios.del.parque2020@gmail.com",
-        subject: "Nuevo Contacto de: " + req.body.name,
-        html: '<p>' + req.body.msg + '</p><p>&nbsp;</p><p>Firma:&nbsp;<strong>' + req.body.name + '</strong>&nbsp;</p><p>Email:&nbsp;<strong>' + req.body.mail + '</strong></p><p>&nbsp;</p>',
+        to: to,
+        subject: subject,
+        html: msg,
     };
 
     transporter.sendMail(mailOptions, function(error, info) {
@@ -40,3 +56,13 @@ exports.sendEmail = (req, res) => {
         }
     });
 };
+
+function generatePassword() {
+    var length = 6,
+        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
+}
