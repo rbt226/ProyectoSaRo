@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../models/user.interface';
+import { UserService } from 'src/app/services/user.service';
 
 @Injectable({
     providedIn: 'root',
@@ -10,16 +10,13 @@ export class AuthService {
     private URL = 'http://localhost:3300/users';
     public userName: any;
 
-    constructor(private http: HttpClient, private router: Router) { }
+    constructor(private http: HttpClient, private router: Router, private usrService: UserService) { }
 
     signUp(user) {
         return this.http.post<any>(this.URL + '/signUp', user);
     }
     signIn(user) {
-        this.http.post<User>(this.URL + '/byEmail', user).subscribe((res) => {
-            localStorage.setItem('userName', res.user_name);
-            localStorage.setItem('userImg', res.image_user);
-        });
+        this.usrService.saveUserStorage(user);
         return this.http.post<any>(this.URL + '/signIn', user);
     }
 

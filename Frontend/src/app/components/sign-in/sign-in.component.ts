@@ -6,6 +6,7 @@ import { EmailService } from 'src/app/services/email.service';
 import { ModalService } from 'src/app/services/modal.service';
 import { NotificationService } from 'src/app/services/notifications.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
     selector: 'app-sign-in',
@@ -20,7 +21,8 @@ export class SignInComponent implements OnInit {
         private spinnerService: SpinnerService,
         public modalService: ModalService,
         private emailService: EmailService,
-        private notification: NotificationService
+        private notification: NotificationService,
+        private usrService: UserService
     ) {}
 
     formSignIn: FormGroup;
@@ -53,18 +55,25 @@ export class SignInComponent implements OnInit {
                 });
             }
         } else {
-            this.emailService
-                .sendEmail({
-                    action: "forgot",
-                    to: data.email
-                })
-                .subscribe((res) => {
-                    this.notification.showSuccess('El correo ha sido enviado');
-                    this.router.navigate(['/']);
-                    this.formSignIn.reset();
-                    this.modalService.hideModal();
-                    this.spinnerService.hideSpinner();
-                });
+            this.usrService.getUserByEmail(data).subscribe((res) => {
+                if (res !== null) {
+                    this.emailService
+                        .sendEmail({
+                            action: 'forgot',
+                            to: data.email,
+                        })
+                        .subscribe((res) => {
+                            this.notification.showSuccess('El correo ha sido enviado');
+                            this.router.navigate(['/']);
+                            this.formSignIn.reset();
+                            this.modalService.hideModal();
+                            this.spinnerService.hideSpinner();
+                        });
+                }
+                else{
+                    this.notification.showError(`El email ${data.email} no está registrado.` );
+                }
+            });
         }
     }
 }
