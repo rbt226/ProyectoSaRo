@@ -7,6 +7,7 @@ import { ModalService } from 'src/app/services/modal.service';
 import { NotificationService } from 'src/app/services/notifications.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { UserService } from 'src/app/services/user.service';
+import Utils from '../../utils/utils';
 
 @Component({
     selector: 'app-sign-in',
@@ -47,11 +48,16 @@ export class SignInComponent implements OnInit {
         if (!this.forgotPass) {
             if (this.formSignIn.valid) {
                 this.autService.signIn(data).subscribe((res) => {
-                    localStorage.setItem('token', res.token);
-                    this.router.navigate(['/']);
-                    this.formSignIn.reset();
-                    this.modalService.hideModal();
                     this.spinnerService.hideSpinner();
+                    if (Utils.isOkResponse(res)) {
+                        this.autService.setUserData(res.data.user_name, res.data.image_user);
+                        localStorage.setItem('token', res.token);
+                        this.router.navigate(['/']);
+                        this.formSignIn.reset();
+                        this.modalService.hideModal();
+                    } else {
+                        this.notification.showError(res.message);
+                    }
                 });
             }
         } else {
