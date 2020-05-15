@@ -14,78 +14,65 @@
                     <form [formGroup]="formCreateClient" (ngSubmit)="create()">
                         <div class="row">
                             <div class="col-12 col-lg-6">
-                                <input [ngClass]="{ 'is-required': form.name.errors?.required && form.name.untouched}" formControlName="name" type="text" class="form-control mt-30"
-                                    placeholder="Nombre" />
-                                <small *ngIf="form.name.touched && form.name.invalid" class="text-danger">
-                                    <div *ngIf="form.name.errors?.required">El nombre es requerido.</div>
-                                </small>
+                                <input [ngClass]="displayFieldCss('name')" formControlName="name" type="text" class="form-control mt-30" placeholder="Nombre" />
+                                <app-field-error-display [displayError]="isFieldRequired('name')" errorMsg="El nombre es requerido"> </app-field-error-display>
                             </div>
+
                             <div class="col-12 col-lg-6">
-                                <input [ngClass]="{ 'is-required': form.lastName.errors?.required && form.lastName.untouched}" formControlName="lastName" type="text"
-                                    class="form-control mt-30" placeholder="Apellido" />
-                                <small *ngIf="form.lastName.touched && form.lastName.invalid" class="text-danger">
-                                    <div *ngIf="form.lastName.errors?.required">El apellido es requerido.</div>
-                                </small>
+                                <input [ngClass]="displayFieldCss('lastName')" formControlName="lastName" type="text" class="form-control mt-30" placeholder="Apellido" />
+                                <app-field-error-display [displayError]="isFieldRequired('lastName')" errorMsg="El apellido es requerido"></app-field-error-display>
                             </div>
+
                             <div class="col-6 col-lg-3">
                                 <select class="form-control mt-30" formControlName="documentType" (change)="changeDocument()">
                                     <option value="CI">CI</option>
                                     <option value="passport">Pasaporte</option>
                                 </select>
                             </div>
+
                             <div class="col-6 col-lg-3">
                                 <input formControlName="document" type="text" class="form-control mt-30" placeholder="Documento" />
-                                <small *ngIf="form.document.touched && form.document.invalid" class="text-danger">
-                                    <!-- <div *ngIf="form.document.errors?.required">La cedula es requerida.</div> -->
-                                    <div *ngIf="form.document.errors.ci">No es una cedula valida</div>
-                                    <div *ngIf="form.document.errors.passport">No es un pasaporte valido</div>
+                                <app-field-error-display [displayError]="genericValidation('document', 'ci')" errorMsg="Por favor ingrese una cédula valida">
+                                </app-field-error-display>
+                                <app-field-error-display [displayError]="genericValidation('document', 'passport')" errorMsg="Por favor ingrese un pasaporte válido">
+                                </app-field-error-display>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <input [ngClass]="displayFieldCss('mobilePhone')" formControlName="mobilePhone" type="number" class="form-control mt-30" placeholder="Celular" />
+                                <app-field-error-display [displayError]="isFieldRequired('mobilePhone')" errorMsg="El número celular es requerido"></app-field-error-display>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <input (ngModelChange)="resetErrorUserName()" [ngClass]="displayFieldCss('userName')" [ngClass]="{ 'is-invalid': uniqueUserNameError }"
+                                    formControlName="userName" type="text" class="form-control mt-30" placeholder="Usuario" />
+                                <app-field-error-display [displayError]="isFieldRequired('userName')" errorMsg="El userName es requerido"></app-field-error-display>
+                                <small *ngIf="uniqueUserNameError" class="text-danger">
+                                    <div>Ya existe un usuario con este userName</div>
                                 </small>
                             </div>
 
                             <div class="col-12 col-lg-6">
-                                <input [ngClass]="{ 'is-required': form.mobilePhone.errors?.required && form.mobilePhone.untouched }" formControlName="mobilePhone" type="number"
-                                    class="form-control mt-30" placeholder="Celular" />
-                                <small *ngIf="form.mobilePhone.touched && form.mobilePhone.invalid" class="text-danger">
-                                    <div *ngIf="form.mobilePhone.errors?.required">El número celular es requerido.</div>
-                                </small>
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <input (ngModelChange)="resetErrorEmail()" [ngClass]="{ 'is-required': form.email.errors?.required  && form.email.untouched }"
-                                    [ngClass]="{ 'is-invalid': uniqueEmailError }" formControlName="email" type="email" class="form-control mt-30" placeholder="Email" />
-                                <small *ngIf="form.email.touched && form.email.invalid" class="text-danger">
-                                    <div *ngIf="form.email.errors?.pattern">Por favor ingrese una direccion de email correcta</div>
-                                    <div *ngIf="form.email.errors?.required">La direccion de email es requerida</div>
-                                    <div *ngIf="form.email.errors?.unique">Ya existe un usuario con este email</div>
-                                </small>
+                                <input (ngModelChange)="resetErrorEmail()" [ngClass]="displayFieldCss('email')" [ngClass]="{ 'is-invalid': uniqueEmailError }"
+                                    formControlName="email" type="email" class="form-control mt-30" placeholder="Email" />
+                                <app-field-error-display [displayError]="isFieldRequired('email')" errorMsg="La direccion de email es requerida"></app-field-error-display>
+                                <app-field-error-display [displayError]="genericValidation('email', 'pattern')" errorMsg="Por favor ingrese una direccion de email correcta">
+                                </app-field-error-display>
                                 <small *ngIf="uniqueEmailError" class="text-danger">
                                     <div>Ya existe un usuario con este email</div>
                                 </small>
                             </div>
 
-                            <div class="col-12 col-lg-6">
-                                <input (ngModelChange)="resetErrorUserName()" [ngClass]="{ 'is-required': form.userName.errors?.required && form.userName.untouched }"
-                                    [ngClass]="{ 'is-invalid': uniqueUserNameError }" formControlName="userName" type="text" class="form-control mt-30" placeholder="Usuario" />
-                                <small *ngIf="form.userName.touched && form.userName.invalid" class="text-danger">
-                                    <div *ngIf="form.userName.errors?.required">El username es requerido</div>
-                                </small>
-                                <small *ngIf="uniqueUserNameError" class="text-danger">
-                                    <div>Ya existe un usuario con este userName</div>
-                                </small>
+                            <div class="form-group col-12 col-lg-6">
+                                <input [ngClass]="displayFieldCss('password')" formControlName="password" type="password" class="form-control mt-30" placeholder="Password" />
+                                <app-field-error-display [displayError]="isFieldRequired('password')" errorMsg="El contraseña es requerido"></app-field-error-display>
                             </div>
                             <div class="form-group col-12 col-lg-6">
-                                <input [ngClass]="{ 'is-required': form.password.errors?.required && form.password.untouched }" formControlName="password" type="password"
-                                    class="form-control mt-30" placeholder="Password" />
-                                <small *ngIf="form.password.touched && form.password.invalid" class="text-danger">
-                                    <div *ngIf="form.password.errors.required">La contraseña es requerida.</div>
-                                </small>
-                            </div>
-                            <div class="form-group col-12 col-lg-6">
-                                <input [ngClass]="{ 'is-required': form.passwordConfirm.errors?.required  && form.passwordConfirm.untouched}" formControlName="passwordConfirm"
-                                    type="password" class="form-control mt-30" placeholder="Confirmar constraseña" />
-                                <small *ngIf="form.passwordConfirm.touched && form.passwordConfirm.invalid" class="text-danger">
-                                    <div *ngIf="form.passwordConfirm.errors.required">La contraseña es requerida.</div>
-                                    <div *ngIf="form.passwordConfirm.errors.confirmedValidator">Las contraseñas no coinciden</div>
-                                </small>
+                                <input [ngClass]="displayFieldCss('passwordConfirm')" formControlName="passwordConfirm" type="password" class="form-control mt-30"
+                                    placeholder="Confirmar constraseña" />
+                                <app-field-error-display [displayError]="isFieldRequired('passwordConfirm')" errorMsg="La contraseña es requerida."> </app-field-error-display>
+                                <app-field-error-display [displayError]="genericValidation('passwordConfirm', 'confirmedValidator')" errorMsg="Las contraseñas no coinciden">
+                                </app-field-error-display>
                             </div>
 
                             <div class="col-12 mt-30">
@@ -94,11 +81,7 @@
                                         (change)="preview($event)" />
                                     <label class="custom-file-label" for="customFileLang">Seleccionar Imagen</label>
                                 </div>
-
-                                <small class="text-danger" *ngIf="errorImagen">
-                                    {{ errorImagen }}
-                                </small>
-
+                                <app-field-error-display [displayError]="errorImagen" errorMsg={{errorImagen}}></app-field-error-display>
                             </div>
                             <!-- PHOTO -->
                             <div class="container">

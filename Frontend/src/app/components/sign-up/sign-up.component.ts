@@ -14,15 +14,6 @@ import { ConfirmedValidator, DocumentValidator } from 'src/app/validators/passwo
     styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent implements OnInit {
-    formCreateClient: FormGroup;
-    maxSize = 1024 * 1024; // 1MB
-    allowedFileType = ['image'];
-    public errorImagen = '';
-    public imagePath;
-    imgURL: any = 'assets/images/default.jpg';
-    imageSelected = false;
-    uniqueUserNameError;
-    uniqueEmailError;
 
     constructor(
         private userService: UserService,
@@ -34,6 +25,20 @@ export class SignUpComponent implements OnInit {
         private modalService: ModalService,
     ) {
     }
+    get form() {
+        return this.formCreateClient.controls;
+    }
+    formCreateClient: FormGroup;
+    maxSize = 1024 * 1024; // 1MB
+    allowedFileType = ['image'];
+    public errorImagen = '';
+    public imagePath;
+    imgURL: any = 'assets/images/default.jpg';
+    imageSelected = false;
+    uniqueUserNameError;
+    uniqueEmailError;
+
+    s;
     ngOnInit() {
 
         this.formCreateClient = this.formBuilder.group(
@@ -58,9 +63,27 @@ export class SignUpComponent implements OnInit {
             }
         );
     }
+    isFieldRequiredUntouched(field: string) {
+        return this.formCreateClient.get(field).errors?.required && this.formCreateClient.get(field).untouched;
+    } // Esto es lo que aparece al principio antes de que se haya modificado el campo para indicar que es requerido
 
-    get form() {
-        return this.formCreateClient.controls;
+    isFieldRequired(field: string) {
+        return this.formCreateClient.get(field).errors?.required && this.formCreateClient.get(field).touched;
+    }
+
+    genericValidation(field: string, validation: string) {
+        const error = this.formCreateClient.get(field).errors;
+        if (error) {
+            return error[validation] && this.formCreateClient.get(field).touched;
+        }
+        return false;
+
+    }
+
+    displayFieldCss(field: string) {
+        return {
+            'is-required': this.isFieldRequiredUntouched(field),
+        };
     }
 
     resetErrorEmail() {

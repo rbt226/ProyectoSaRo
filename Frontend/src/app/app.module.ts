@@ -15,6 +15,7 @@ import { BookingAreaComponent } from './components/areas/booking-area/booking-ar
 import { RoomsAreaComponent } from './components/areas/rooms-area/rooms-area.component';
 import { ServicesAreaComponent } from './components/areas/services-area/services-area.component';
 import { WelcomeAreaComponent } from './components/areas/welcome-area/welcome-area.component';
+import { FieldErrorDisplayComponent } from './components/common/error/field-error-display.component';
 import { FooterComponent } from './components/common/footer/footer.component';
 import { NavbarComponent } from './components/common/navbar/navbar.component';
 import { ContactComponent } from './components/contact/contact.component';
@@ -48,7 +49,8 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
         CreateRoomComponent,
         ServicesAreaComponent,
         BookingAreaComponent,
-        ContactComponent
+        ContactComponent,
+        FieldErrorDisplayComponent
     ],
     imports: [
         BrowserModule,

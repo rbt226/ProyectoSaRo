@@ -3537,3 +3537,12 @@ html .ui-button.ui-state-disabled:active {
 .ng-touched.ng-invalid {
     border-color: #dc3545 !important;
 }
+
+.is-invalid {
+    border-color: #dc3545 !important;
+    margin-bottom: 10px !important;
+    background-image: none;
+}
+.is-invalid:hover {
+    border-color: #dc3545 !important;
+}
