@@ -1,9 +1,19 @@
 var jwt = require("jsonwebtoken");
 const Sequelize = require("sequelize");
+const Response = require("../models/response.model");
 
-exports.handleError = (err, result) => {
+exports.createSuccessResponse = (code, message, data) => {
+  const resp = new Response(code + "S", message, data);
+  return resp;
+};
+
+exports.createWarningResponse = (code, message, data) => {
+  const resp = new Response(code + "W", message, data);
+  return resp;
+};
+
+exports.handleError = (err, result, errorType) => {
   let error = err;
-
   if (err instanceof Sequelize.UniqueConstraintError) {
     let values = "";
     let message = "";
@@ -154,6 +164,12 @@ exports.handleError = (err, result) => {
       errorType: "ConnectionTimedOutError",
       message: "Error de conexion con la base de datos",
     };
+  } else if (err instanceof Sequelize.ConnectionError) {
+    //Thrown when a connection to a database times out
+    error = {
+      errorType: "ConnectionError",
+      message: "Error de conexion con la base de datos",
+    };
   }
 
   if (err instanceof Sequelize.ValidationError) {
@@ -162,9 +178,8 @@ exports.handleError = (err, result) => {
       message: JSON.stringify(err),
     };
   }
-
-  console.log("Error del utils: ", error);
-  result(error, null);
+  const resp = new Response(errorType + "E", error.message, error.errorType + " : " + err.message);
+  result(resp, null);
 };
 
 exports.verifyToken = (req, res, next) => {

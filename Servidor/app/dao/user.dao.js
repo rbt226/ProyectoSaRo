@@ -1,22 +1,6 @@
 const userModel = require("../models/user.model");
 const utils = require("../common/utils");
 
-exports.signIn = (email, password, result) => {
-  userModel
-    .findOne({ where: { email: email } })
-    .then((us) => {
-      if (us && us.password === password) {
-        result(null, { us });
-      } else {
-        result({ message: "User or password incorrect" }, null);
-      }
-    })
-    .catch((error) => {
-      console.log("Error realizar signIn para el usuario con el siguiente email : ", email);
-      utils.handleError(error, result);
-    });
-};
-
 exports.create = (req, result) => {
   const userCreate = createUserModel(req);
   userModel
@@ -27,34 +11,6 @@ exports.create = (req, result) => {
     })
     .catch((error) => {
       console.log("Error al crear usuario");
-      utils.handleError(error, result);
-    });
-};
-exports.signUp = (req, result) => {
-  const userCreate = createUserModel(req);
-  userCreate.active_user = 0;
-  userCreate.id_role = 1;
-  userModel
-    .create(userCreate)
-    .then((newUser) => {
-      console.log("Se ha registrado el usuario correctamente");
-      result(null, newUser);
-    })
-    .catch((error) => {
-      console.log("Error al registrar usuario");
-      utils.handleError(error, result);
-    });
-};
-
-exports.getAll = (result) => {
-  userModel
-    .findAll()
-    .then((users) => {
-      console.log("Se han obtenidos todos los usuarios correctamente");
-      result(null, users);
-    })
-    .catch((error) => {
-      console.log("Error al obtener todos los usuarios");
       utils.handleError(error, result);
     });
 };
@@ -75,24 +31,19 @@ exports.getUserById = (id, result) => {
     });
 };
 
-exports.validate = (email, userName, result) => {
-  console.log("validate ", email, userName);
+exports.updateById = (id, req, result) => {
+  const userUpdate = createUserModel(req);
   userModel
-    .findAll({
-      where: {
-        [userModel.operator.or]: [{ email: email }, { user_name: userName }],
-      },
-    })
-    .then((users) => {
-      if (!users) {
-        console.log("No se han encontrado usuarios con email: ", email, " o con userName ", userName);
-        return result(null, null);
+    .update(userUpdate, { where: { id_user: id } })
+    .then((us) => {
+      if (us[0] == 0) {
+        return result({ kind: "not_found" }, null);
       }
-      
-      result(null, users);
+      console.log("Se modifico el usuario con id :", id, "correctamente");
+      result(null, null);
     })
     .catch((error) => {
-      console.log("Error al obtener usuario con email: ", email, " o con userName ", userName);
+      console.log("Error al modificar usuario con id :", id);
       utils.handleError(error, result);
     });
 };
@@ -121,6 +72,19 @@ exports.deleteById = (id, result) => {
     });
 };
 
+exports.getAll = (result) => {
+  userModel
+    .findAll()
+    .then((users) => {
+      console.log("Se han obtenidos todos los usuarios correctamente");
+      result(null, users);
+    })
+    .catch((error) => {
+      console.log("Error al obtener todos los usuarios");
+      utils.handleError(error, result);
+    });
+};
+
 exports.deleteAll = (result) => {
   userModel
     .destroy({ where: {} })
@@ -134,21 +98,87 @@ exports.deleteAll = (result) => {
     });
 };
 
-exports.updateById = (id, req, result) => {
-  const userUpdate = createUserModel(req);
+exports.signIn = (email, password, result) => {
+  const response = "U07";
   userModel
-    .update(userUpdate, { where: { id_user: id } })
+    .findOne({ where: { email: email } })
     .then((us) => {
-      if (us[0] == 0) {
-        return result({ kind: "not_found" }, null);
+      if (us && us.password === password) {
+        const user = createResponseUser(us);
+        result(null, utils.createSuccessResponse(response, "", user));
+      } else {
+        result(null, utils.createWarningResponse(response, "Usuario o contraseña incorrecta"));
       }
-      console.log("Se modifico el usuario con id :", id, "correctamente");
-      result(null, null);
     })
     .catch((error) => {
-      console.log("Error al modificar usuario con id :", id);
+      console.log("Error realizar signIn para el usuario con el siguiente email : ", email);
+      utils.handleError(error, result, response);
+    });
+};
+
+exports.signUp = (req, result) => {
+  const userCreate = createUserModel(req);
+  userCreate.active_user = 0;
+  userCreate.id_role = 1;
+  userModel
+    .create(userCreate)
+    .then((newUser) => {
+      console.log("Se ha registrado el usuario correctamente");
+      result(null, newUser);
+    })
+    .catch((error) => {
+      console.log("Error al registrar usuario");
       utils.handleError(error, result);
     });
+};
+
+exports.getUserByEmail = (email, result) => {
+  const response = "U09";
+  userModel
+    .findOne({ where: { email: email } })
+    .then((userModel) => {
+      if (!userModel) {
+        return result(null, utils.createWarningResponse(response, "El email ingresado no esta registrado"));
+      }
+      console.log("Se ha obtenido el usuario con email : ", email, " correctamente");
+      const user = createResponseUser(userModel);
+      return result(null, utils.createSuccessResponse(response, "", user));
+    })
+    .catch((error) => {
+      console.log("Error al obtener  usuario con email : ", email);
+      utils.handleError(error, result, response);
+    });
+};
+
+exports.validate = (email, userName, result) => {
+  console.log("validate ", email, userName);
+  userModel
+    .findAll({
+      where: {
+        [userModel.operator.or]: [{ email: email }, { user_name: userName }],
+      },
+    })
+    .then((users) => {
+      if (!users) {
+        console.log("No se han encontrado usuarios con email: ", email, " o con userName ", userName);
+        return result(null, null);
+      }
+
+      result(null, users);
+    })
+    .catch((error) => {
+      console.log("Error al obtener usuario con email: ", email, " o con userName ", userName);
+      utils.handleError(error, result);
+    });
+};
+
+createResponseUser = (user) => {
+  return {
+    user_name: user.user_name,
+    image_user: user.image_user,
+    active_user: user.active_user,
+    id_role: user.id_role,
+  };
 };
 
 createUserModel = (req) => {
@@ -161,20 +191,4 @@ createUserModel = (req) => {
     active_user: req.body.active,
     id_role: req.body.idRole,
   };
-};
-
-exports.getUserByEmail = (email, result) => {
-  userModel
-    .findOne({ where: { email: email } })
-    .then((userModel) => {
-      if (!userModel) {
-        return result({ kind: "not_found" }, null);
-      }
-      console.log("Se ha obtenido el usuario con email : ", email, " correctamente");
-      result(null, userModel);
-    })
-    .catch((error) => {
-      console.log("Error al obtener  usuario con email : ", email);
-      utils.handleError(error, result);
-    });
 };
