@@ -14,10 +14,14 @@
                     <form [formGroup]="formCreateRoom" (ngSubmit)="create()" novalidate>
                         <div class="row">
                             <div class="col-12 col-lg-12">
-                                <input [ngClass]="{ 'is-required': form.name.errors?.required && form.name.untouched }" formControlName="name" type="text" name="message-name"
+                                <input [ngClass]="{ 'is-invalid': uniqueNameError }" (ngModelChange)="resetNameError()"
+                                    [ngClass]="{ 'is-required': form.name.errors?.required && form.name.untouched }" formControlName="name" type="text" name="message-name"
                                     class="form-control mt-30" placeholder="Nombre" />
                                 <small *ngIf="form.name.touched && form.name.invalid" class="text-danger">
                                     <div *ngIf="form.name.errors?.required">El nombre es requerido</div>
+                                </small>
+                                <small *ngIf="uniqueNameError" class="text-danger">
+                                    <div>Ya existe un cuarto con ese nombre</div>
                                 </small>
                             </div>
                             <div class="col-12">

@@ -21,6 +21,7 @@ export class CreateRoomComponent implements OnInit {
     maxImages = 5;
     urls = [];
     files = [];
+    uniqueNameError;
 
     constructor(
         private roomService: RoomService,
@@ -39,6 +40,11 @@ export class CreateRoomComponent implements OnInit {
         });
     }
 
+
+    resetNameError() {
+        this.uniqueNameError = false;
+    }
+
     create() {
         const formData = new FormData();
         formData.append('name', this.formCreateRoom.get('name').value);
@@ -46,15 +52,21 @@ export class CreateRoomComponent implements OnInit {
         for (const fileImage of this.files) {
             formData.append('file', fileImage);
         }
+        this.uniqueNameError = false;
 
         if (this.formCreateRoom.valid) {
             this.spinnerSevice.showSpinner();
             this.roomService.createRoom(formData).subscribe(res => {
-                this.route.navigate(['/']);
                 this.spinnerSevice.hideSpinner();
-                this.notification.showSuccess(
-                    'La sala se ha dado de alta correctamente'
-                );
+                if (res.error) {
+                    this.uniqueNameError = true;
+
+                } else {
+                    this.route.navigate(['/']);
+                    this.notification.showSuccess(
+                        'La sala se ha dado de alta correctamente'
+                    );
+                }
             });
         } else {
             this.formCreateRoom.markAllAsTouched();
