@@ -4,23 +4,27 @@ const IncomingForm = require("formidable").IncomingForm;
 const FileReader = require("filereader");
 
 exports.create = (req, res) => {
-  // Validate request
-  if (!req.body) {
-    res.status(400).send({
-      error: { message: "Content can not be empty!" },
-    });
-  }
   const form = new IncomingForm({ multiples: true });
   form.parse(req, function (err, fields, files) {
     req.body = fields;
-    req.body.images = ["Site/noImage"];
-    // Save Room in the database
-    roomDao.create(req, async (error, data) => {
+    const name = req.body.name;
+    roomDao.getRoomByName(name, (error, data) => {
       if (error)
-        res.status(500).send({
+        return res.status(500).send({
           error,
         });
-      else {
+      if (data !== null) {
+        const message = { error: " Ya existe un cuarto con ese nombre" };
+
+        return res.send(message); // Devuelvo que hubo ya existe cuarto con ese name
+      }
+      req.body.images = ["Site/noImage"];
+      roomDao.create(req, async (error, data) => {
+        if (error)
+          return res.status(500).send({
+            // Retoro temprano
+            error,
+          });
         let publicIds = [];
         if (!files.file.length) {
           //Si solamente viene un file, lo convierto en un array para poder recorrerlo
@@ -63,7 +67,7 @@ exports.create = (req, res) => {
           .catch((error) => {
             /*  handle error */
           });
-      }
+      });
     });
   });
 };
@@ -99,9 +103,7 @@ exports.getRoomById = (req, res) => {
           },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else {
       let values = data.dataValues;
@@ -122,9 +124,7 @@ exports.deleteById = (req, res) => {
           },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else {
       const images = data.dataValues.image_room.split("|");
@@ -156,12 +156,6 @@ exports.deleteAll = (req, res) => {
 };
 
 exports.updateById = (req, res) => {
-  // Validate Request
-  if (!req.body) {
-    res.status(400).send({
-      error: { message: "Content can not be empty!" },
-    });
-  }
   const id = req.params.id;
   roomDao.updateById(id, req, (error, data) => {
     if (error) {
@@ -170,9 +164,7 @@ exports.updateById = (req, res) => {
           error: { message: `No se encontro Room con el identificador ${id}.` },
         });
       } else {
-        res.status(500).send({
-          error,
-        });
+        res.status(500).send(error);
       }
     } else res.send({ message: `Room was updated successfully!` });
   });

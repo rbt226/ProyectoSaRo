@@ -31,10 +31,26 @@ exports.getRoomById = (id, result) => {
       if (!room) {
         return result({ kind: "not_found" }, null);
       }
-      console.log("room: ", room);
+      console.log("Se ha obtenido el room con id: ", id, " correctamente");
       result(null, room);
     })
     .catch((error) => {
+      console.log("Error al obtener room con id: ", id);
+      utils.handleError(error, result);
+    });
+};
+
+exports.getRoomByName = (name, result) => {
+  roomModel
+    .findOne({ where: { name_room: name } })
+    .then((room) => {
+      if (!room) {
+        return result(null, null);
+      }
+      result(null, room);
+    })
+    .catch((error) => {
+      console.log("Error al obtener room con name: ", name);
       utils.handleError(error, result);
     });
 };
