@@ -9,22 +9,14 @@ exports.create = (req, res) => {
     req.body = fields;
     const name = req.body.name;
     roomDao.getRoomByName(name, (error, data) => {
-      if (error)
-        return res.status(500).send({
-          error,
-        });
-      if (data !== null) {
-        const message = { error: " Ya existe un cuarto con ese nombre" };
+      if (error) return res.status(500).send(error);
+      if (data.code.indexOf("W") === -1)
+        // si no existe la sala continuo con el create
+        return result(null, utils.createWarningResponse(response, "Ya existe una sala con ese nombre"));
 
-        return res.send(message); // Devuelvo que hubo ya existe cuarto con ese name
-      }
       req.body.images = ["Site/noImage"];
       roomDao.create(req, async (error, data) => {
-        if (error)
-          return res.status(500).send({
-            // Retoro temprano
-            error,
-          });
+        if (error) return res.status(500).send(error);
         let publicIds = [];
         if (!files.file.length) {
           //Si solamente viene un file, lo convierto en un array para poder recorrerlo
@@ -65,14 +57,54 @@ exports.create = (req, res) => {
             });
           })
           .catch((error) => {
-            /*  handle error */
+            console.log("Error al crear la sala al subir imágenes: ", error);
+            result(utils.createErrorResponse(response, "Error al crear la sala"));
           });
       });
     });
   });
 };
 
-// Retrieve all Rooms from the database.
+exports.getRoomById = (req, res) => {
+  roomDao.getRoomById(req.params.id, (error, data) => {
+    if (error) return res.status(500).send(error);
+    if (data.code.indexOf("W") !== -1) return res.send(data);
+
+    let values = data.dataValues;
+    const images = values.image_room.split("|");
+    values.images = images;
+    res.send(data);
+  });
+};
+
+exports.updateById = (req, res) => {
+  const id = req.params.id;
+  roomDao.updateById(id, req, (error, data) => {
+    if (error) return res.status(500).send(error);
+    if (data.code.indexOf("W") !== -1) return res.send(data);
+    res.send(data);
+  });
+};
+
+exports.deleteById = (req, res) => {
+  roomDao.deleteById(req.params.id, (error, data) => {
+    if (error) return res.status(500).send(error);
+    if (data.code.indexOf("W") !== -1) return res.send(data);
+
+    const images = data.dataValues.image_room.split("|");
+    // Se elimina la imagen de cloudinary si la imagen no es la default
+    images.map((image) => {
+      cloudinary.api.delete_resources(image, { invalidate: true, resource_type: "image" }, function (err, res) {
+        if (err) {
+          console.log("Error en cloudinary :", err);
+        }
+        console.log("Respuesta De cloudinary: ", res);
+      });
+    });
+    res.send(data);
+  });
+};
+
 exports.getAll = (req, res) => {
   roomDao.getAll((error, data) => {
     if (error)
@@ -93,58 +125,6 @@ exports.getAll = (req, res) => {
   });
 };
 
-exports.getRoomById = (req, res) => {
-  roomDao.getRoomById(req.params.id, (error, data) => {
-    if (error) {
-      if (error.kind === "not_found") {
-        res.status(404).send({
-          error: {
-            message: `No se encontro Room con el identificador ${req.params.id}.`,
-          },
-        });
-      } else {
-        res.status(500).send(error);
-      }
-    } else {
-      let values = data.dataValues;
-      const images = values.image_room.split("|");
-      values.images = images;
-      res.send(values);
-    }
-  });
-};
-
-exports.deleteById = (req, res) => {
-  roomDao.deleteById(req.params.id, (error, data) => {
-    if (error) {
-      if (error.kind === "not_found") {
-        res.status(404).send({
-          error: {
-            message: `No se encontro Sala con el identificador ${req.params.id}.`,
-          },
-        });
-      } else {
-        res.status(500).send(error);
-      }
-    } else {
-      const images = data.dataValues.image_room.split("|");
-      console.log("images ", images);
-      // Se elimina la imagen de cloudinary si la imagen no es la default
-      images.map((image) => {
-        console.log("image ", image);
-        cloudinary.api.delete_resources(image, { invalidate: true, resource_type: "image" }, function (err, res) {
-          if (err) {
-            console.log("Error en cloudinary :", err);
-          }
-          console.log("Respuesta De cloudinary: ", res);
-        });
-      });
-
-      res.send({ message: `Sala eliminada correctamente` });
-    }
-  });
-};
-
 exports.deleteAll = (req, res) => {
   roomDao.deleteAll((error, data) => {
     if (error)
@@ -152,20 +132,5 @@ exports.deleteAll = (req, res) => {
         error,
       });
     else res.send({ message: `All Rooms were deleted successfully! - ${data}` });
-  });
-};
-
-exports.updateById = (req, res) => {
-  const id = req.params.id;
-  roomDao.updateById(id, req, (error, data) => {
-    if (error) {
-      if (error.kind === "not_found") {
-        res.status(404).send({
-          error: { message: `No se encontro Room con el identificador ${id}.` },
-        });
-      } else {
-        res.status(500).send(error);
-      }
-    } else res.send({ message: `Room was updated successfully!` });
   });
 };
