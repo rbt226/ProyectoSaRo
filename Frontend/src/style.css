@@ -1680,6 +1680,7 @@ input:focus {
     flex: 0 0 50%;
     object-fit: cover;
     height: 700px;
+    width: 100%;
 }
 
 @media only screen and (max-width: 767px) {

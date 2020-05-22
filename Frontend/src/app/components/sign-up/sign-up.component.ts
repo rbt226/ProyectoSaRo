@@ -7,6 +7,7 @@ import { NotificationService } from 'src/app/services/notifications.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { UserService } from 'src/app/services/user.service';
 import { ConfirmedValidator, DocumentValidator } from 'src/app/validators/password.validator';
+import Utils from '../../utils/utils';
 
 @Component({
     selector: 'app-sign-up',
@@ -35,10 +36,7 @@ export class SignUpComponent implements OnInit {
     public imagePath;
     imgURL: any = 'assets/images/default.jpg';
     imageSelected = false;
-    uniqueUserNameError;
-    uniqueEmailError;
 
-    s;
     ngOnInit() {
 
         this.formCreateClient = this.formBuilder.group(
@@ -77,7 +75,6 @@ export class SignUpComponent implements OnInit {
             return error[validation] && this.formCreateClient.get(field).touched;
         }
         return false;
-
     }
 
     displayFieldCss(field: string) {
@@ -86,23 +83,17 @@ export class SignUpComponent implements OnInit {
         };
     }
 
-    resetErrorEmail() {
-        this.uniqueEmailError = false;
-    }
-
-    resetErrorUserName() {
-        this.uniqueUserNameError = false;
-    }
 
     create() {
-        this.uniqueEmailError = false;
-        this.uniqueUserNameError = false;
+
         const formData = new FormData();
+        const userName = this.formCreateClient.get('userName');
+        const email = this.formCreateClient.get('email');
         formData.append('name', this.formCreateClient.get('name').value);
         formData.append('lastName', this.formCreateClient.get('lastName').value);
-        formData.append('email', this.formCreateClient.get('email').value);
+        formData.append('email', email.value);
         formData.append('document', this.formCreateClient.get('document').value);
-        formData.append('userName', this.formCreateClient.get('userName').value);
+        formData.append('userName', userName.value);
         formData.append('password', this.formCreateClient.get('password').value);
         formData.append('mobilePhone', this.formCreateClient.get('mobilePhone').value);
         if (this.imageSelected) {
@@ -114,19 +105,23 @@ export class SignUpComponent implements OnInit {
 
             this.userService.signUp(formData).subscribe((res) => {
                 this.spinnerSevice.hideSpinner();
-                if (res.email || res.userName) {
-                    if (res.email) {
-                        this.uniqueEmailError = true;
-                    }
-                    if (res.userName) {
-                        this.uniqueUserNameError = true;
-                    }
-                } else {
+                if (Utils.isOkResponse(res)) {
                     this.route.navigate(['/']);
                     this.removeImage();
                     this.formCreateClient.reset();
                     this.modalService.hideModal();
                     this.notification.showSuccess('Se ha registrado satisfactoriamente');
+
+                } else {
+                    if (res.data.email) {
+                        email.setErrors({ unique: res.data.email });
+                        email.markAsTouched();
+
+                    }
+                    if (res.data.userName) {
+                        userName.setErrors({ unique: res.data.userName });
+                        userName.markAsTouched();
+                    }
                 }
             });
         } else {
