@@ -2,33 +2,22 @@ const clientModel = require("../models/client.model");
 const utils = require("../common/utils");
 
 exports.create = (req, result) => {
+  const response = "C01";
   const clientCreate = createClientModel(req);
   clientModel
     .create(clientCreate)
     .then((newClient) => {
-      console.log("Se ha creado el cliente correctamente");
-      result(null, newClient);
+      result(null, utils.createSuccessResponse(response, "Se ha creado el cliente correctamente", newClient));
     })
     .catch((error) => {
-      console.log("Error al crear cliente");
-      utils.handleError(error, result);
-    });
-};
-
-exports.getAll = (result) => {
-  clientModel
-    .findAll()
-    .then((clients) => {
-      console.log("Se han obtenidos todos los clientes correctamente");
-      result(null, clients);
-    })
-    .catch((error) => {
-      console.log("Error al obtener todos los clientes");
-      utils.handleError(error, result);
+      console.log("Error al crear cliente: ", error);
+      result(utils.createErrorResponse(response, "Error al crear cliente", null));
     });
 };
 
 exports.getClientById = (id, result) => {
+  const response = "C02";
+
   clientModel
     .findOne({ where: { id_client: id } })
     .then((client) => {
@@ -40,56 +29,13 @@ exports.getClientById = (id, result) => {
     })
     .catch((error) => {
       console.log("Error al obtener cliente con id: ", id);
-      utils.handleError(error, result);
-    });
-};
-
-exports.deleteById = (id, result) => {
-  clientModel
-    .destroy({ where: { id_client: id } })
-    .then((clientModel) => {
-      if (!clientModel) {
-        return result({ kind: "not_found" }, null);
-      }
-      console.log("Se elimino correctamente el cliente con id: " + id);
-      result(null, clientModel);
-    })
-    .catch((error) => {
-      console.log("Error al eliminar cliente con id ", id);
-      utils.handleError(error, result);
-    });
-};
-
-exports.deleteByUserId = (idUser, result) => {
-  clientModel
-    .destroy({ where: { id_user: idUser } })
-    .then((clientModel) => {
-      if (!clientModel) {
-        return result({ kind: "not_found" }, null);
-      }
-      console.log("Se elimino correctamente el cliente con idUser: " + idUser);
-      result(null, clientModel);
-    })
-    .catch((error) => {
-      console.log("Error al eliminar cliente con idUser ", idUser);
-      utils.handleError(error, result);
-    });
-};
-
-exports.deleteAll = (result) => {
-  clientModel
-    .destroy({ where: {} })
-    .then((clients) => {
-      console.log("Se eliminaron todos los clientes correctamente :  ", clients);
-      result(null, clients);
-    })
-    .catch((error) => {
-      console.log("Error al eliminar todos los usuarios ");
-      utils.handleError(error, result);
+      utils.handleError(error, result, response);
     });
 };
 
 exports.updateById = (id, req, result) => {
+  const response = "C03";
+
   const clientUpdate = createClientModel(req);
 
   clientModel
@@ -111,7 +57,73 @@ exports.updateById = (id, req, result) => {
     })
     .catch((error) => {
       console.log("Error al modificar cliente con id :", id);
-      utils.handleError(error, result);
+      utils.handleError(error, result, response);
+    });
+};
+
+exports.deleteById = (id, result) => {
+  const response = "C04";
+
+  clientModel
+    .destroy({ where: { id_client: id } })
+    .then((clientModel) => {
+      if (!clientModel) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("Se elimino correctamente el cliente con id: " + id);
+      result(null, clientModel);
+    })
+    .catch((error) => {
+      console.log("Error al eliminar cliente con id ", id);
+      utils.handleError(error, result, response);
+    });
+};
+
+exports.getAll = (result) => {
+  const response = "C05";
+
+  clientModel
+    .findAll()
+    .then((clients) => {
+      console.log("Se han obtenidos todos los clientes correctamente");
+      result(null, clients);
+    })
+    .catch((error) => {
+      console.log("Error al obtener todos los clientes");
+      utils.handleError(error, result, response);
+    });
+};
+
+exports.deleteAll = (result) => {
+  const response = "C06";
+
+  clientModel
+    .destroy({ where: {} })
+    .then((clients) => {
+      console.log("Se eliminaron todos los clientes correctamente :  ", clients);
+      result(null, clients);
+    })
+    .catch((error) => {
+      console.log("Error al eliminar todos los usuarios ");
+      utils.handleError(error, result, response);
+    });
+};
+
+exports.deleteByUserId = (idUser, result) => {
+  const response = "C07";
+
+  clientModel
+    .destroy({ where: { id_user: idUser } })
+    .then((clientModel) => {
+      if (!clientModel) {
+        return result({ kind: "not_found" }, null);
+      }
+      console.log("Se elimino correctamente el cliente con idUser: " + idUser);
+      result(null, clientModel);
+    })
+    .catch((error) => {
+      console.log("Error al eliminar cliente con idUser ", idUser);
+      utils.handleError(error, result, response);
     });
 };
 

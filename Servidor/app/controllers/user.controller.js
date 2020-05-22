@@ -4,6 +4,7 @@ const cloudinary = require("cloudinary").v2;
 const IncomingForm = require("formidable").IncomingForm;
 const FileReader = require("filereader");
 const jwt = require("jsonwebtoken");
+const utils = require("../common/utils");
 
 exports.create = (req, res) => {
   // Save User in the database
@@ -102,15 +103,13 @@ exports.signIn = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   userDao.signIn(email, password, (error, data) => {
-    if (error) res.status(500).send(error);
-    else {
-      if (data.code.indexOf("W") !== -1) {
-        res.send(data);
-      } else {
-        const token = jwt.sign({ _id: data.id_user }, "secretKey");
-        data.token = token;
-        res.send(data);
-      }
+    if (error) return res.status(500).send(error);
+    if (data.code.indexOf("W") !== -1) {
+      res.send(data);
+    } else {
+      const token = jwt.sign({ _id: data.id_user }, "secretKey");
+      data.token = token;
+      res.send(data);
     }
   });
 };
@@ -122,15 +121,13 @@ exports.signUp = (req, res) => {
     req.body = fields;
     const email = req.body.email;
     const userName = req.body.userName;
-
-    const message = await validateUser(email, userName);
-    if (message === null) {
-      return res.status(500).send({
-        error: { message: "Error al crear usuario" },
-      });
+    const response = "U08";
+    const data = await validateUser(email, userName);
+    if (data === null) {
+      return res.status(500).send(utils.createErrorResponse(response, "Error al registrar usuario"));
     }
-    if (message.userName || message.email) {
-      return res.send(message);
+    if (data.userName || data.email) {
+      return res.send(utils.createWarningResponse(response, "", data));
     }
 
     if (files.file) {
@@ -138,16 +135,13 @@ exports.signUp = (req, res) => {
       req.body.image = "Usuarios/" + req.body.userName; //si viene una imagen el publicId de cloudinary es el userName
       console.log("------ El usuario ha seleccionado una imagen ------");
     }
-    userDao.signUp(req, async function create(error, data) {
-      if (error) {
-        return res.status(500).send({
-          error: { message: "Error al crear usuario" },
-        });
-      }
-      const idUser = data.id_user; //me quedo con el id del nuevo usuario
-      req.body.idUser = idUser; // para pasarle al client
+    userDao.signUp(req, async function create(error, resp) {
+      if (error) return res.status(500).send(error);
+      const idUser = resp.data.id_user; // Me quedo con el id del nuevo usuario
+      req.body.idUser = idUser; //  Para pasarle al client
       req.body.idOccupation = 1; // TODO
-      isError = createClientSignUp(idUser, req, file, res);
+      console.log("IdUSer ", idUser);
+      createClientSignUp(idUser, req, file, res, response);
     });
   });
 };
@@ -171,23 +165,23 @@ exports.getUserByEmail = (req, res) => {
 
 validateUser = (email, userName) => {
   return new Promise((resolve, reject) => {
-    // Validate email, username and document
-    userDao.validate(email, userName, (error, data) => {
-      if (error) reject(error);
+    // Validate email, username and document?
+    userDao.validate(email, userName, (error, datValidate) => {
+      if (error) reject(null);
       else {
-        let message = {
-          email: undefined,
-          userName: undefined,
+        let data = {
+          email: false,
+          userName: false,
         };
-        data.forEach((user) => {
+        datValidate.forEach((user) => {
           if (user.user_name === userName) {
-            message.userName = "Ya existe un usuario con ese userName";
+            data.userName = true;
           }
           if (user.email === email) {
-            message.email = "Ya existe un usuario con ese email";
+            data.email = true;
           }
         });
-        resolve(message);
+        resolve(data);
       }
     });
   });
@@ -212,14 +206,12 @@ uploadImageCloudinary = (file, userName, req, idUser) => {
   };
 };
 
-createClientSignUp = (idUser, req, file, res) => {
+createClientSignUp = (idUser, req, file, res, response) => {
   clientDao.create(req, (error, data) => {
     if (error) {
       // Si da error al crear cliente , se elimina el usuario
       userDao.deleteById(idUser, (error, data) => {
-        return res.status(500).send({
-          error: { message: "Error al crear usuario" },
-        });
+        return res.status(500).send(utils.createErrorResponse(response, "Error al crear usuario", null));
       });
     } else {
       // Si no eligio la imagen por defecto por lo que vino un file
@@ -227,9 +219,7 @@ createClientSignUp = (idUser, req, file, res) => {
         const userName = req.body.userName;
         uploadImageCloudinary(file, userName, req, idUser);
       }
-      console.log("------ Se termino el proceso de registro correctamente, se le asigna un token al usuario con id ", idUser, " ------");
-      const token = jwt.sign({ _id: idUser }, "secretKey");
-      return res.json({ token });
+      return res.send(utils.createSuccessResponse(response, "Su registro se ha completado correctamente"));
     }
   });
 };
