@@ -58,7 +58,7 @@ export class ListRoomsComponent implements OnInit, AfterViewInit {
         this.roomService.getRooms().subscribe(
             (res) => {
                 this.spinnerService.hideSpinner();
-                this.rooms = res;
+                this.rooms = res.data;
             },
             () => { },
             () => {

@@ -11,7 +11,7 @@ export class RoomService {
   constructor(private http: HttpClient) {}
 
   getRooms() {
-    return this.http.get<Room[]>(this.URL);
+    return this.http.get<any>(this.URL);
   }
 
   getRoomById(idRoom) {

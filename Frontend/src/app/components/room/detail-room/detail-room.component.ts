@@ -1,72 +1,65 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ChangeDetectorRef,
-  AfterViewInit,
-  Input,
-} from '@angular/core';
-import { RoomService } from 'src/app/services/room.service';
-import { Room } from 'src/app/models/room.interface';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NguCarousel, NguCarouselConfig } from '@ngu/carousel';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NguCarouselConfig, NguCarousel } from '@ngu/carousel';
+import { Room } from 'src/app/models/room.interface';
+import { RoomService } from 'src/app/services/room.service';
 
 @Component({
-  selector: 'app-detail-room',
-  templateUrl: './detail-room.component.html',
-  styleUrls: ['./detail-room.component.scss'],
+    selector: 'app-detail-room',
+    templateUrl: './detail-room.component.html',
+    styleUrls: ['./detail-room.component.scss'],
 })
 export class DetailRoomComponent implements OnInit, AfterViewInit {
-  @Input() data: any;
+    @Input() data: any;
 
-  slideNo = 0;
-  withAnim = true;
-  resetAnim = true;
-  roomId: number;
-  room: Room;
-  @ViewChild('myCarousel') myCarousel: NguCarousel<any>;
-  carouselConfig: NguCarouselConfig = {
-    grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
-    load: 4,
-    interval: { timing: 4000, initialDelay: 1000 },
-    loop: true,
-    touch: true,
-    velocity: 0.2,
-    easing: 'cubic-bezier(0, 0, 0.2, 1)',
-    point: {
-      visible: true,
-      hideOnSingleSlide: true,
-    },
-  };
+    slideNo = 0;
+    withAnim = true;
+    resetAnim = true;
+    roomId: number;
+    room: Room;
+    @ViewChild('myCarousel') myCarousel: NguCarousel<any>;
+    carouselConfig: NguCarouselConfig = {
+        grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
+        load: 4,
+        interval: { timing: 4000, initialDelay: 1000 },
+        loop: true,
+        touch: true,
+        velocity: 0.2,
+        easing: 'cubic-bezier(0, 0, 0.2, 1)',
+        point: {
+            visible: true,
+            hideOnSingleSlide: true,
+        },
+    };
 
-  constructor(
-    private roomService: RoomService,
-    private route: ActivatedRoute,
-    private spinner: NgxSpinnerService,
-    private cdr: ChangeDetectorRef
-  ) {}
+    constructor(
+        private roomService: RoomService,
+        private route: ActivatedRoute,
+        private spinner: NgxSpinnerService,
+        private cdr: ChangeDetectorRef
+    ) { }
 
-  ngAfterViewInit() {
-    this.cdr.detectChanges();
-  }
+    ngAfterViewInit() {
+        this.cdr.detectChanges();
+    }
 
-  moveTo(slide) {
-    this.myCarousel.moveTo(slide, !this.withAnim);
-  }
+    moveTo(slide) {
+        this.myCarousel.moveTo(slide, !this.withAnim);
+    }
 
-  ngOnInit() {
+    ngOnInit() {
 
-    this.spinner.show();
-    const idRoom = this.data;
-    this.roomService.getRoomById(idRoom).subscribe((res) => {
-      this.room = res;
-      this.cdr.detectChanges();
-      this.spinner.hide();
-    });
-  }
+        this.spinner.show();
+        const idRoom = this.data;
+        this.roomService.getRoomById(idRoom).subscribe((res) => {
+            this.room = res.data;
+            this.cdr.detectChanges();
+            this.spinner.hide();
+        });
+    }
 
-  getWidthImg() {
-    return '-webkit-fill-available';
-  }
+    getWidthImg() {
+        return '-webkit-fill-available';
+    }
 }

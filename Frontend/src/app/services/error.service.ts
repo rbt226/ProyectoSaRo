@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class ErrorService {
     getClientMessage(e: Error): string {
         if (!navigator.onLine) {
-            return 'No Internet Connection';
+            return 'Porfavor verifique su conexión a internet';
         }
         return e.message ? e.message : e.toString();
     }
@@ -17,6 +17,9 @@ export class ErrorService {
     }
 
     getServerMessage(e: HttpErrorResponse): string {
+        if (!e.error.message) {
+            return 'Error de conexión';
+        }
         return e.error.message;
     }
 

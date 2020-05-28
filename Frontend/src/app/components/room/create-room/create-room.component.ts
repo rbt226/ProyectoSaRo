@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notifications.service';
 import { RoomService } from 'src/app/services/room.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
+import Utils from '../../../utils/utils';
 
 
 @Component({
@@ -58,14 +59,14 @@ export class CreateRoomComponent implements OnInit {
             this.spinnerSevice.showSpinner();
             this.roomService.createRoom(formData).subscribe(res => {
                 this.spinnerSevice.hideSpinner();
-                if (res.error) {
-                    this.uniqueNameError = true;
-
-                } else {
+                if (Utils.isOkResponse(res)) {
                     this.route.navigate(['/']);
                     this.notification.showSuccess(
                         'La sala se ha dado de alta correctamente'
                     );
+                } else {
+                    this.uniqueNameError = true;
+
                 }
             });
         } else {
