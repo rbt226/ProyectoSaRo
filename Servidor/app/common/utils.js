@@ -17,6 +17,13 @@ exports.createErrorResponse = (code, message, data) => {
   return resp;
 };
 
+exports.isResponseOk = (data) => {
+  if (data.code.indexOf("W") !== -1) {
+    return false; // Si el codigo contiene una w
+  }
+  return true;
+};
+
 exports.handleError = (err, result, errorType) => {
   let error = err;
   if (err instanceof Sequelize.UniqueConstraintError) {

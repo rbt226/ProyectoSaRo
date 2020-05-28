@@ -2,20 +2,20 @@ const roomDao = require("../dao/room.dao");
 const cloudinary = require("cloudinary").v2;
 const IncomingForm = require("formidable").IncomingForm;
 const FileReader = require("filereader");
+const utils = require("../common/utils");
 
 exports.create = (req, res) => {
   const form = new IncomingForm({ multiples: true });
   form.parse(req, function (err, fields, files) {
     req.body = fields;
     const name = req.body.name;
-    roomDao.getRoomByName(name, (error, data) => {
+    const response = "R07";
+    roomDao.getRoomByName(name, (error, resp) => {
       if (error) return res.status(500).send(error);
-      if (data.code.indexOf("W") === -1)
-        // si no existe la sala continuo con el create
-        return result(null, utils.createWarningResponse(response, "Ya existe una sala con ese nombre"));
-
+      if (utils.isResponseOk(resp)) return res.send(utils.createWarningResponse(response, "Ya existe una sala con ese nombre"));
+      // si no existe la sala continuo con el create
       req.body.images = ["Site/noImage"];
-      roomDao.create(req, async (error, data) => {
+      roomDao.create(req, async (error, resp) => {
         if (error) return res.status(500).send(error);
         let publicIds = [];
         if (!files.file.length) {
@@ -51,14 +51,14 @@ exports.create = (req, res) => {
         Promise.all(upload_res)
           .then((result) => {
             req.body.images = publicIds;
-            const idRoom = data.id_room;
-            roomDao.updateById(idRoom, req, (error, data) => {
-              res.send(data);
+            const idRoom = resp.id_room;
+            roomDao.updateById(idRoom, req, (error, resp) => {
+              res.send(resp);
             });
           })
           .catch((error) => {
             console.log("Error al crear la sala al subir imágenes: ", error);
-            result(utils.createErrorResponse(response, "Error al crear la sala"));
+            res(utils.createErrorResponse(response, "Error al crear la sala"));
           });
       });
     });
@@ -66,32 +66,31 @@ exports.create = (req, res) => {
 };
 
 exports.getRoomById = (req, res) => {
-  roomDao.getRoomById(req.params.id, (error, data) => {
+  roomDao.getRoomById(req.params.id, (error, resp) => {
     if (error) return res.status(500).send(error);
-    if (data.code.indexOf("W") !== -1) return res.send(data);
-
-    let values = data.dataValues;
-    const images = values.image_room.split("|");
-    values.images = images;
-    res.send(data);
+    if (!utils.isResponseOk(resp)) return res.send(resp);
+    let data = resp.data;
+    const images = data.image_room.split("|");
+    data.images = images;
+    resp.data = data;
+    res.send(resp);
   });
 };
 
 exports.updateById = (req, res) => {
   const id = req.params.id;
-  roomDao.updateById(id, req, (error, data) => {
+  roomDao.updateById(id, req, (error, resp) => {
     if (error) return res.status(500).send(error);
-    if (data.code.indexOf("W") !== -1) return res.send(data);
-    res.send(data);
+    res.send(resp);
   });
 };
 
 exports.deleteById = (req, res) => {
-  roomDao.deleteById(req.params.id, (error, data) => {
+  roomDao.deleteById(req.params.id, (error, resp) => {
     if (error) return res.status(500).send(error);
-    if (data.code.indexOf("W") !== -1) return res.send(data);
+    if (!utils.isResponseOk(resp)) return res.send(resp);
 
-    const images = data.dataValues.image_room.split("|");
+    const images = resp.data.image_room.split("|");
     // Se elimina la imagen de cloudinary si la imagen no es la default
     images.map((image) => {
       cloudinary.api.delete_resources(image, { invalidate: true, resource_type: "image" }, function (err, res) {
@@ -101,36 +100,29 @@ exports.deleteById = (req, res) => {
         console.log("Respuesta De cloudinary: ", res);
       });
     });
-    res.send(data);
+    res.send(resp);
   });
 };
 
 exports.getAll = (req, res) => {
-  roomDao.getAll((error, data) => {
-    if (error)
-      res.status(500).send({
-        error,
-      });
-    else {
-      let images;
-      let result = [];
-      data.forEach((room) => {
-        let values = room.dataValues;
-        images = values.image_room.split("|");
-        values.images = images;
-        result.push(values);
-      });
-      res.send(result);
-    }
+  roomDao.getAll((error, resp) => {
+    if (error) return res.status(500).send(error);
+    let images;
+    let result = [];
+    resp.data.forEach((room) => {
+      let values = room.dataValues;
+      images = values.image_room.split("|");
+      values.images = images;
+      result.push(values);
+    });
+    resp.data = result;
+    res.send(resp);
   });
 };
 
 exports.deleteAll = (req, res) => {
-  roomDao.deleteAll((error, data) => {
-    if (error)
-      res.status(500).send({
-        error,
-      });
-    else res.send({ message: `All Rooms were deleted successfully! - ${data}` });
+  roomDao.deleteAll((error, resp) => {
+    if (error) return res.status(500).send(error);
+    res.send(resp);
   });
 };

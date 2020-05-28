@@ -104,7 +104,7 @@ exports.signIn = (req, res) => {
   const password = req.body.password;
   userDao.signIn(email, password, (error, data) => {
     if (error) return res.status(500).send(error);
-    if (data.code.indexOf("W") !== -1) {
+    if (utils.isResponseOk(data)) {
       res.send(data);
     } else {
       const token = jwt.sign({ _id: data.id_user }, "secretKey");

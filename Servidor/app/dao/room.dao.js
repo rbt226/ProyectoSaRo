@@ -24,7 +24,7 @@ exports.getRoomById = (id, result) => {
         console.log("La sala que intenta obtener no existe, con id: ", id);
         return result(null, utils.createWarningResponse(response, "La sala que intenta obtener no existe"));
       }
-      result(null, utils.createSuccessResponse(response, "", room));
+      result(null, utils.createSuccessResponse(response, "", room.dataValues));
     })
     .catch((error) => {
       console.log("Error al obtener la sala con id: ", id, " : ", error);
@@ -64,7 +64,7 @@ exports.deleteById = (id, result) => {
         .destroy({ where: { id_room: id } })
         .then(() => {
           console.log("Se elimino correctamente la sala con id: " + id);
-          result(null, utils.createSuccessResponse(response, "Se ha eliminado la sala correctamente"));
+          result(null, utils.createSuccessResponse(response, "Se ha eliminado la sala correctamente", room.dataValues));
         })
         .catch((error) => {
           console.log("Error al eliminar la sala con id: ", id, " : ", error);
@@ -106,15 +106,15 @@ exports.deleteAll = (result) => {
 };
 
 exports.getRoomByName = (name, result) => {
-  const response = "R07 ";
+  const response = "R07";
   roomModel
     .findOne({ where: { name_room: name } })
     .then((room) => {
       if (!room) {
-        console.log("La sala que intenta obtener no existe con nombre: ", name);
+        console.log("La sala que intenta obtener no existe, con nombre: ", name);
         return result(null, utils.createWarningResponse(response, "La sala que intenta obtener no existe"));
       }
-      result(null, utils.createSuccessResponse(response, "", room));
+      result(null, utils.createSuccessResponse(response, "", room.dataValues));
     })
     .catch((error) => {
       console.log("Error al obtener la sala con nombre: ", name, " : ", error);
