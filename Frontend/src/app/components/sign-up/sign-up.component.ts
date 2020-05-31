@@ -61,6 +61,7 @@ export class SignUpComponent implements OnInit {
             }
         );
     }
+
     isFieldRequiredUntouched(field: string) {
         return this.formCreateClient.get(field).errors?.required && this.formCreateClient.get(field).untouched;
     } // Esto es lo que aparece al principio antes de que se haya modificado el campo para indicar que es requerido
@@ -116,7 +117,6 @@ export class SignUpComponent implements OnInit {
                     if (res.data.email) {
                         email.setErrors({ unique: res.data.email });
                         email.markAsTouched();
-
                     }
                     if (res.data.userName) {
                         userName.setErrors({ unique: res.data.userName });

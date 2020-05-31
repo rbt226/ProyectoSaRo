@@ -3,8 +3,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-heading text-center" data-animation-delay="200ms">
-                    <h6>SALAS</h6>
-                    <h2>Nueva Sala</h2>
+                    <h6>CONSULTORIOS</h6>
+                    <h2>Nuevo Consultorio</h2>
                 </div>
             </div>
         </div>
@@ -14,21 +14,15 @@
                     <form [formGroup]="formCreateRoom" (ngSubmit)="create()" novalidate>
                         <div class="row">
                             <div class="col-12 col-lg-12">
-                                <input [ngClass]="{ 'is-invalid': uniqueNameError }" (ngModelChange)="resetNameError()"
-                                    [ngClass]="{ 'is-required': form.name.errors?.required && form.name.untouched }" formControlName="name" type="text" name="message-name"
-                                    class="form-control mt-30" placeholder="Nombre" />
-                                <small *ngIf="form.name.touched && form.name.invalid" class="text-danger">
-                                    <div *ngIf="form.name.errors?.required">El nombre es requerido</div>
-                                </small>
-                                <small *ngIf="uniqueNameError" class="text-danger">
-                                    <div>Ya existe un cuarto con ese nombre</div>
-                                </small>
+                                <input [ngClass]="displayFieldCss('name')" formControlName="name" type="text" class="form-control mt-30" placeholder="Nombre" />
+                                <app-field-error-display [displayError]="isFieldRequired('name')" errorMsg="El nombre es requerido"> </app-field-error-display>
+                                <app-field-error-display [displayError]="genericValidation('name', 'unique')" errorMsg="Ya existe un consultorio con ese nombre">
+                                </app-field-error-display>
                             </div>
                             <div class="col-12">
-                                <textarea formControlName="description" name="message" class="form-control mt-30" placeholder="Descripción"></textarea>
-                                <small *ngIf="form.description.touched && form.description.invalid" class="text-danger">
-                                    <div *ngIf="form.description.errors?.required">La descripcion es requerida</div>
-                                </small>
+                                <textarea [ngClass]="displayFieldCss('description')" formControlName="description" name="message" class="form-control mt-30"
+                                    placeholder="Descripción"></textarea>
+                                <app-field-error-display [displayError]="isFieldRequired('description')" errorMsg="La descripcion es requerida"> </app-field-error-display>
                             </div>
                             <div class="col-lg-6 col-md-12 col-xs-12">
                                 <div class="custom-file mt-30">
@@ -36,9 +30,7 @@
                                         (change)="preview($event)" />
                                     <label class="custom-file-label" for="customFileLang">Seleccionar Imagen</label>
                                 </div>
-                                <small *ngIf="form.images.touched && form.images.invalid" class="text-danger">
-                                    <div *ngIf="form.images.errors?.required">Se debe seleccionar al menos una imagen</div>
-                                </small>
+                                <app-field-error-display [displayError]="isFieldRequired('images')" errorMsg="Se debe seleccionar al menos una imagen"> </app-field-error-display>
                                 <small class="text-danger" *ngIf="errorImagen">
                                     {{ errorImagen }}
                                 </small>
@@ -58,7 +50,7 @@
 
                             <div class="col-12 text-center" data-animation-delay="1000ms">
                                 <button type="submit" class="btn consultorio-btn mt-15">
-                                    Crear Sala
+                                    Crear Consultorio
                                 </button>
                             </div>
                         </div>

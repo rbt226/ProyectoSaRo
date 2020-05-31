@@ -48,13 +48,13 @@ export class CreateRoomComponent implements OnInit {
 
     create() {
         const formData = new FormData();
-        formData.append('name', this.formCreateRoom.get('name').value);
+        const name = this.formCreateRoom.get('name');
+
+        formData.append('name', name.value);
         formData.append('description', this.formCreateRoom.get('description').value);
         for (const fileImage of this.files) {
             formData.append('file', fileImage);
         }
-        this.uniqueNameError = false;
-
         if (this.formCreateRoom.valid) {
             this.spinnerSevice.showSpinner();
             this.roomService.createRoom(formData).subscribe(res => {
@@ -65,14 +65,35 @@ export class CreateRoomComponent implements OnInit {
                         'La sala se ha dado de alta correctamente'
                     );
                 } else {
-                    this.uniqueNameError = true;
-
+                    name.setErrors({ unique: res.message });
+                    name.markAsTouched();
                 }
             });
         } else {
             this.formCreateRoom.markAllAsTouched();
         }
+    }
 
+    isFieldRequiredUntouched(field: string) {
+        return this.formCreateRoom.get(field).errors?.required && this.formCreateRoom.get(field).untouched;
+    } // Esto es lo que aparece al principio antes de que se haya modificado el campo para indicar que es requerido
+
+    isFieldRequired(field: string) {
+        return this.formCreateRoom.get(field).errors?.required && this.formCreateRoom.get(field).touched;
+    }
+
+    genericValidation(field: string, validation: string) {
+        const error = this.formCreateRoom.get(field).errors;
+        if (error) {
+            return error[validation] && this.formCreateRoom.get(field).touched;
+        }
+        return false;
+    }
+
+    displayFieldCss(field: string) {
+        return {
+            'is-required': this.isFieldRequiredUntouched(field),
+        };
     }
 
     get form() {
