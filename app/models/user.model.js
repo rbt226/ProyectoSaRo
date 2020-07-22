@@ -43,7 +43,7 @@ User.init(
 
   {
     sequelize: db,
-    modelName: "user",
+    modelName: "user_",
     // options
   }
 );

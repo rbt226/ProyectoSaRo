@@ -22,15 +22,15 @@ Booking.init(
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    date: {
+    date_booking: {
       type: Sequelize.DATE,
       allowNull: false,
     },
-    start: {
+    start_booking: {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    end: {
+    end_booking: {
       type: Sequelize.INTEGER,
       allowNull: false,
     },
