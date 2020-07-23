@@ -6,7 +6,7 @@ import { ModalService } from 'src/app/services/modal.service';
 import { NotificationService } from 'src/app/services/notifications.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { UserService } from 'src/app/services/user.service';
-import { ConfirmedValidator, DocumentValidator } from 'src/app/validators/password.validator';
+import { ConfirmedValidator } from 'src/app/validators/password.validator';
 import Utils from '../../utils/utils';
 
 @Component({
@@ -43,20 +43,17 @@ export class SignUpComponent implements OnInit {
             {
                 name: ['Nomfsdhkjdfkjbre', Validators.required],
                 lastName: ['Apelsjddfsdsfido', Validators.required],
-                document: ['1233'],
-                email: ['mail@mail', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')]],
+                email: ['', [Validators.pattern('^[^@]+@[^@]+\\.[a-zA-Z]{2,}$')]],
                 userName: ['userName', Validators.required],
                 mobilePhone: ['1234', Validators.required],
                 password: ['123', Validators.required],
                 passwordConfirm: ['123', Validators.required],
-                documentType: ['passport'],
                 image: [''],
                 fileSource: [''],
             },
             {
                 validator: [
                     ConfirmedValidator('password', 'passwordConfirm'),
-                    DocumentValidator('documentType', 'document'),
                 ],
             }
         );
