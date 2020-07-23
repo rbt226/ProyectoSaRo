@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from 'src/app/services/room.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
-import { HoursService } from 'src/app/services/Hours.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { HoursService } from 'src/app/services/hours.service';
 
 @Component({
   selector: 'app-booking-area',
