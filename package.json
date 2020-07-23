@@ -28,6 +28,7 @@
         "alertifyjs": "^1.13.1",
         "bootstrap": "^4.4.1",
         "cloudinary-core": "^2.8.2",
+        "express": "^4.17.1",
         "hammerjs": "^2.0.8",
         "jquery": "^3.5.0",
         "modals": "^0.1.9",
