@@ -6,7 +6,7 @@ import { Room } from '../models/room.interface';
 	providedIn: 'root'
 })
 export class RoomService {
-	private URL = 'https://consultorios-del-parque-server.herokuapp.com//rooms/';
+	private URL = 'https://consultorios-del-parque-server.herokuapp.com/rooms/';
 
 	constructor(private http: HttpClient) { }
 

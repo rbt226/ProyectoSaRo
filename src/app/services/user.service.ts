@@ -6,7 +6,7 @@ import { User } from '../models/user.interface';
     providedIn: 'root',
 })
 export class UserService {
-    private URL = 'https://consultorios-del-parque-server.herokuapp.com//users';
+    private URL = 'https://consultorios-del-parque-server.herokuapp.com/users';
 
     constructor(private http: HttpClient) { }
     getUsers() {

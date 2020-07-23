@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class EmailService {
-  private URL = 'https://consultorios-del-parque-server.herokuapp.com//email/';
+  private URL = 'https://consultorios-del-parque-server.herokuapp.com/email/';
 
   constructor(private http: HttpClient) { }
 
