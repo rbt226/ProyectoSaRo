@@ -62,7 +62,7 @@ export class CreateRoomComponent implements OnInit {
                 if (Utils.isOkResponse(res)) {
                     this.route.navigate(['/']);
                     this.notification.showSuccess(
-                        'La sala se ha dado de alta correctamente'
+                        'El consultorio se ha dado de alta correctamente'
                     );
                 } else {
                     name.setErrors({ unique: res.message });
