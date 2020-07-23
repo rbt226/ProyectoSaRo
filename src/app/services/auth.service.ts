@@ -7,7 +7,7 @@ import { UserService } from 'src/app/services/user.service';
     providedIn: 'root',
 })
 export class AuthService {
-    private URL = 'http://localhost:3300/users';
+    private URL = 'https://consultorios-del-parque-server.herokuapp.com//users';
     public userName: any;
 
     constructor(private http: HttpClient, private router: Router, private usrService: UserService) { }
