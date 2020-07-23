@@ -20,7 +20,7 @@
                                 </app-field-error-display>
                             </div>
                             <div class="col-12">
-                                <textarea [ngClass]="displayFieldCss('description')" formControlName="description" name="message" class="form-control mt-30"
+                                <textarea maxlength="500" [ngClass]="displayFieldCss('description')" formControlName="description" name="message" class="form-control mt-30"
                                     placeholder="Descripción"></textarea>
                                 <app-field-error-display [displayError]="isFieldRequired('description')" errorMsg="La descripcion es requerida"> </app-field-error-display>
                             </div>

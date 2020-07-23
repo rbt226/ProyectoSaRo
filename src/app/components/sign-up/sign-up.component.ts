@@ -90,7 +90,6 @@ export class SignUpComponent implements OnInit {
         formData.append('name', this.formCreateClient.get('name').value);
         formData.append('lastName', this.formCreateClient.get('lastName').value);
         formData.append('email', email.value);
-        formData.append('document', this.formCreateClient.get('document').value);
         formData.append('userName', userName.value);
         formData.append('password', this.formCreateClient.get('password').value);
         formData.append('mobilePhone', this.formCreateClient.get('mobilePhone').value);
@@ -163,8 +162,5 @@ export class SignUpComponent implements OnInit {
         this.imageSelected = false;
     }
 
-    changeDocument() {
-        this.formCreateClient.controls.document.setValue('');
-        this.formCreateClient.controls.document.markAsUntouched();
-    }
+
 }
