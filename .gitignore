@@ -7,3 +7,4 @@
 yarn.lock # Don't encourage the use of Yarn over NPM
 node_modules
 Servidor/package-lock.json
+dist
