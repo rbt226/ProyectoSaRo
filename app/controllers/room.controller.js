@@ -12,7 +12,13 @@ exports.create = (req, res) => {
     const response = "R07";
     roomDao.getRoomByName(name, (error, resp) => {
       if (error) return res.status(500).send(error);
-      if (utils.isResponseOk(resp)) return res.send(utils.createWarningResponse(response, "Ya existe una sala con ese nombre"));
+      if (utils.isResponseOk(resp))
+        return res.send(
+          utils.createWarningResponse(
+            response,
+            "Ya existe una sala con ese nombre"
+          )
+        );
       // si no existe la sala continuo con el create
       req.body.images = ["Site/noImage"];
       roomDao.create(req, async (error, resp) => {
@@ -33,16 +39,26 @@ exports.create = (req, res) => {
                 const publicId = req.body.name + "_" + index;
                 index++;
                 if (dataUri) {
-                  cloudinary.uploader.upload(dataUri, { public_id: publicId, tags: "Salas", folder: "Salas" }, function (err, res) {
-                    if (err) {
-                      console.log("Error en cloudinary al dar de alta la imagen :", err);
-                      reject(error);
-                    } else {
-                      console.log("Se ha creado la imagen en cloudinary correctamente ", JSON.stringify(res));
-                      publicIds.push(res.public_id);
-                      resolve(res.public_id);
+                  cloudinary.uploader.upload(
+                    dataUri,
+                    { public_id: publicId, tags: "Salas", folder: "Salas" },
+                    function (err, res) {
+                      if (err) {
+                        console.log(
+                          "Error en cloudinary al dar de alta la imagen :",
+                          err
+                        );
+                        reject(error);
+                      } else {
+                        console.log(
+                          "Se ha creado la imagen en cloudinary correctamente ",
+                          JSON.stringify(res)
+                        );
+                        publicIds.push(res.public_id);
+                        resolve(res.public_id);
+                      }
                     }
-                  });
+                  );
                 }
               };
             })
@@ -51,7 +67,7 @@ exports.create = (req, res) => {
         Promise.all(upload_res)
           .then((result) => {
             req.body.images = publicIds;
-            const idRoom = resp.id_room;
+            const idRoom = resp.data.dataValues.id_room;
             roomDao.updateById(idRoom, req, (error, resp) => {
               res.send(resp);
             });
@@ -93,12 +109,16 @@ exports.deleteById = (req, res) => {
     const images = resp.data.image_room.split("|");
     // Se elimina la imagen de cloudinary si la imagen no es la default
     images.map((image) => {
-      cloudinary.api.delete_resources(image, { invalidate: true, resource_type: "image" }, function (err, res) {
-        if (err) {
-          console.log("Error en cloudinary :", err);
+      cloudinary.api.delete_resources(
+        image,
+        { invalidate: true, resource_type: "image" },
+        function (err, res) {
+          if (err) {
+            console.log("Error en cloudinary :", err);
+          }
+          console.log("Respuesta De cloudinary: ", res);
         }
-        console.log("Respuesta De cloudinary: ", res);
-      });
+      );
     });
     res.send(resp);
   });
