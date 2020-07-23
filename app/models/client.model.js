@@ -28,7 +28,7 @@ Client.init(
     },
     document: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     id_occupation: {
       type: Sequelize.INTEGER,
