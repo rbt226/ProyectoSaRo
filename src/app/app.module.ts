@@ -30,6 +30,7 @@ import { ListUsersComponent } from './components/user/list-users/list-users.comp
 import { GlobalErrorHandler } from './services/global-error-handler';
 import { ServerErrorInterceptor } from './services/server-error-interceptor';
 import { TokenInterceptorService } from './services/token-interceptor.service';
+import { Globals } from './globals';
 
 
 @NgModule({
@@ -84,6 +85,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
             useClass: ServerErrorInterceptor,
             multi: true,
         },
+        Globals,
     ],
     bootstrap: [AppComponent],
 })

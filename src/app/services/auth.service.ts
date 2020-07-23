@@ -2,22 +2,25 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
+import { Globals } from '../globals';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
-    private URL = 'https://consultorios-del-parque-server.herokuapp.com/users';
+    private URL: string;
     public userName: any;
 
-    constructor(private http: HttpClient, private router: Router, private usrService: UserService) { }
+    constructor(private http: HttpClient, private router: Router, private globals: Globals) {
+        this.URL = globals.server_url + 'users/';
+    }
 
     signUp(user) {
-        return this.http.post<any>(this.URL + '/signUp', user);
+        return this.http.post<any>(this.URL + 'signUp', user);
     }
 
     signIn(user) {
-        return this.http.post<any>(this.URL + '/signIn', user);
+        return this.http.post<any>(this.URL + 'signIn', user);
     }
 
     getUserName() {
