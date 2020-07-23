@@ -1,7 +1,15 @@
 const Sequelize = require("sequelize");
+var config = require("./config.json");
 
+console.log("process.env.DATABASE_URL", process.env.DATABASE_URL);
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: "postgres",
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
   define: {
     timestamps: false,
     freezeTableName: true,
