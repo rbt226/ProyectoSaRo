@@ -5,29 +5,29 @@ import { AuthService } from 'src/app/services/auth.service';
 import { HoursService } from 'src/app/services/hours.service';
 
 @Component({
-  selector: 'app-booking-area',
-  templateUrl: './booking-area.component.html',
-  styleUrls: ['./booking-area.component.css']
+	selector: 'app-booking-area',
+	templateUrl: './booking-area.component.html',
+	styleUrls: ['./booking-area.component.css']
 })
 export class BookingAreaComponent implements OnInit {
 
-    rooms = [];
-    hours = [];
-    today: string;
+	rooms = [];
+	hours = [];
+	today: string;
 
-  constructor(
-    private roomService: RoomService,
-    private spinnerService: SpinnerService,
-    private hoursSerice: HoursService,
-    public authService: AuthService
-  ) {}
-  
-  ngOnInit() {
-      this.hours = this.hoursSerice.list_hours; 
-      this.today = new Date().toISOString().split('T')[0];
-      this.roomService.getRooms().subscribe((res) => {
-      this.rooms = res;    
-    });    
-  }
+	constructor(
+		private roomService: RoomService,
+		private spinnerService: SpinnerService,
+		private hoursSerice: HoursService,
+		public authService: AuthService
+	) { }
+
+	ngOnInit() {
+		this.hours = this.hoursSerice.list_hours;
+		this.today = new Date().toISOString().split('T')[0];
+		this.roomService.getRooms().subscribe((res) => {
+			this.rooms = res;
+		});
+	}
 }
 
