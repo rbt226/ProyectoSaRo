@@ -1,0 +1,13 @@
+h1 {
+	color: #1cc3b2;
+	letter-spacing: 2px;
+}
+
+.list-features {
+	padding: 80px;
+}
+
+html,
+body {
+	height: 100%;
+}

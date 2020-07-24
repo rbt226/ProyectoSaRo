@@ -31,6 +31,8 @@ import { GlobalErrorHandler } from './services/global-error-handler';
 import { ServerErrorInterceptor } from './services/server-error-interceptor';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 import { Globals } from './globals';
+import { ListFeaturesComponent } from './components/feature/list-features/list-features.component';
+import { PickListModule } from 'primeng/picklist';
 
 
 @NgModule({
@@ -51,7 +53,8 @@ import { Globals } from './globals';
         ServicesAreaComponent,
         BookingAreaComponent,
         ContactComponent,
-        FieldErrorDisplayComponent
+        FieldErrorDisplayComponent,
+        ListFeaturesComponent,
     ],
     imports: [
         BrowserModule,
@@ -71,6 +74,7 @@ import { Globals } from './globals';
         } as CloudinaryConfiguration),
         NguCarouselModule,
         NgbModule,
+        PickListModule,
     ],
     providers: [
         { provide: ErrorHandler, useClass: GlobalErrorHandler },

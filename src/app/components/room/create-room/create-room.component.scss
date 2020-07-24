@@ -1,48 +1,71 @@
-@import '../../../../../node_modules/bootstrap/scss/functions';
+@import "../../../../../node_modules/bootstrap/scss/functions";
 
 p {
-    color: #1cc3b2;
-    margin-top: 1em;
+	color: #1cc3b2;
+	margin-top: 1em;
 }
 
 th,
 td {
-    font-size: small;
+	font-size: small;
 }
 
 h2 {
-    font-family: 'Poppins', sans-serif;
-    color: #2a303b;
-    line-height: 1.3;
-    font-weight: 500;
+	font-family: "Poppins", sans-serif;
+	color: #2a303b;
+	line-height: 1.3;
+	font-weight: 500;
 }
 
 $custom-file-text: (
-    en: 'ss',
-    es: 'Elegir',
+	en: "ss",
+	es: "Elegir",
 );
 
 img {
-    object-fit: cover;
-    height: 180px;
-    padding: 0.1rem !important;
-    width: 200px;
+	object-fit: cover;
+	height: 180px;
+	padding: 0.1rem !important;
+	width: 200px;
 }
 
 .remove {
-    position: absolute;
-    right: 30px;
-    top: 5px;
-    color: white !important;
-    border-style: double;
-    cursor: pointer;
-    background-color: #307afe;
-    padding: 1px;
+	position: absolute;
+	right: 30px;
+	top: 5px;
+	color: white !important;
+	border-style: double;
+	cursor: pointer;
+	background-color: #307afe;
+	padding: 1px;
 }
 
 .gallery-image {
-    border: 2px solid #307afe !important;
+	border: 2px solid #307afe !important;
 }
 // img {
 // }
 // @import "../../../../../node_modules/bootstrap/scss/bootstrap.scss";
+
+fieldset {
+	padding: 30px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	legend {
+		color: #484f57;
+		font-size: 1rem;
+	}
+}
+
+::ng-deep .ui-picklist-buttons .ui-button {
+	background-color: #1cc3b2 !important;
+	border-color: #1cc3b2 !important;
+}
+
+::ng-deep .ui-picklist-listwrapper input {
+	background-color: #ffffff !important;
+	border: 1px solid #a6a6a6 !important;
+}
+::ng-deep .ui-picklist-listwrapper span {
+	color: #1cc3b2 !important;
+}

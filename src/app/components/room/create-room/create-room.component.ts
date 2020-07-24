@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/services/notifications.service';
 import { RoomService } from 'src/app/services/room.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import Utils from '../../../utils/utils';
+import { FeatureService } from 'src/app/services/feature.service';
 
 
 @Component({
@@ -23,6 +24,8 @@ export class CreateRoomComponent implements OnInit {
     urls = [];
     files = [];
     uniqueNameError;
+    features = [];
+    roomsFeatures = [];
 
     constructor(
         private roomService: RoomService,
@@ -30,7 +33,9 @@ export class CreateRoomComponent implements OnInit {
         private route: Router,
         private spinnerSevice: SpinnerService,
         public sanitizer: DomSanitizer,
-        private notification: NotificationService
+        private notification: NotificationService,
+        private featureService: FeatureService,
+
     ) {
     }
     ngOnInit() {
@@ -39,6 +44,10 @@ export class CreateRoomComponent implements OnInit {
             description: ['', Validators.required],
             images: ['', Validators.required],
         });
+        this.featureService.getFeatures().subscribe(
+            (res) => {
+                this.features = res.data;
+            })
     }
 
 

@@ -11,6 +11,7 @@ import { RoomComponent } from './components/room/room.component';
 import { IndexComponent } from './components/index-component/index-component.component';
 import { CreateRoomComponent } from './components/room/create-room/create-room.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { ListFeaturesComponent } from './components/feature/list-features/list-features.component';
 
 const routes: Routes = [
   {
@@ -46,9 +47,9 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { role: 'Admin' },
   },
-   {
+  {
     path: 'contact',
-    component: ContactComponent,   
+    component: ContactComponent,
   },
   {
     path: 'signUp',
@@ -58,6 +59,10 @@ const routes: Routes = [
     path: 'createRoom',
     component: CreateRoomComponent,
   },
+  {
+    path: 'features',
+    component: ListFeaturesComponent,
+  },
   { path: '**', redirectTo: '/' }, // si pone cualquier URL
 ];
 
@@ -65,4 +70,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -14,40 +14,75 @@
                     <form [formGroup]="formCreateRoom" (ngSubmit)="create()" novalidate>
                         <div class="row">
                             <div class="col-12 col-lg-12">
-                                <input [ngClass]="displayFieldCss('name')" formControlName="name" type="text" class="form-control mt-30" placeholder="Nombre" />
-                                <app-field-error-display [displayError]="isFieldRequired('name')" errorMsg="El nombre es requerido"> </app-field-error-display>
-                                <app-field-error-display [displayError]="genericValidation('name', 'unique')" errorMsg="Ya existe un consultorio con ese nombre">
+                                <input [ngClass]="displayFieldCss('name')" formControlName="name" type="text"
+                                    class="form-control mt-30" placeholder="Nombre" />
+                                <app-field-error-display [displayError]="isFieldRequired('name')"
+                                    errorMsg="El nombre es requerido"> </app-field-error-display>
+                                <app-field-error-display [displayError]="genericValidation('name', 'unique')"
+                                    errorMsg="Ya existe un consultorio con ese nombre">
                                 </app-field-error-display>
                             </div>
                             <div class="col-12">
-                                <textarea maxlength="500" [ngClass]="displayFieldCss('description')" formControlName="description" name="message" class="form-control mt-30"
+                                <textarea maxlength="500" [ngClass]="displayFieldCss('description')"
+                                    formControlName="description" name="message" class="form-control mt-30"
                                     placeholder="Descripción"></textarea>
-                                <app-field-error-display [displayError]="isFieldRequired('description')" errorMsg="La descripcion es requerida"> </app-field-error-display>
+                                <app-field-error-display [displayError]="isFieldRequired('description')"
+                                    errorMsg="La descripcion es requerida"> </app-field-error-display>
                             </div>
-                            <div class="col-lg-6 col-md-12 col-xs-12">
-                                <div class="custom-file mt-30">
-                                    <input #file type="file" multiple class="custom-file-input " id="customFileLang" lang="es" formControlName="images" accept='image/*'
-                                        (change)="preview($event)" />
-                                    <label class="custom-file-label" for="customFileLang">Seleccionar Imagen</label>
-                                </div>
-                                <app-field-error-display [displayError]="isFieldRequired('images')" errorMsg="Se debe seleccionar al menos una imagen"> </app-field-error-display>
-                                <small class="text-danger" *ngIf="errorImagen">
-                                    {{ errorImagen }}
-                                </small>
+                            <div class="col-12">
+                                <fieldset class="border">
+                                    <legend class="w-auto">Imagenes:</legend>
+                                    <div class="col-lg-6 col-md-12 col-xs-12">
+                                        <div class="custom-file">
+                                            <input #file type="file" multiple class="custom-file-input "
+                                                id="customFileLang" lang="es" formControlName="images" accept='image/*'
+                                                (change)="preview($event)" />
+                                            <label class="custom-file-label" for="customFileLang">Seleccionar
+                                                Imagen</label>
+                                        </div>
+                                        <app-field-error-display [displayError]="isFieldRequired('images')"
+                                            errorMsg="Se debe seleccionar al menos una imagen">
+                                        </app-field-error-display>
+                                        <small class="text-danger" *ngIf="errorImagen">
+                                            {{ errorImagen }}
+                                        </small>
 
-                            </div>
-                            <!-- GALERY -->
-                            <div class="container" *ngIf="urls.length >0">
-                                <hr class="mt-2 mb-5" />
-                                <div class="row text-center text-lg-left">
-                                    <div *ngFor="let url of urls" class="col-lg-3 col-md-4 col-6 d-block mb-4">
-                                        <img class="gallery-image img-fluid img-thumbnail" [src]="url" />
-                                        <a (click)="removeImage(url)" class="fa fa-close fa-lg remove"></a>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- GALERY -->
+                                    <!-- GALERY -->
+                                    <div class="container" *ngIf="urls.length >0">
+                                        <hr class="mt-2 mb-5" />
+                                        <div class="row text-center text-lg-left">
+                                            <div *ngFor="let url of urls" class="col-lg-3 col-md-4 col-6 d-block mb-4">
+                                                <img class="gallery-image img-fluid img-thumbnail" [src]="url" />
+                                                <a (click)="removeImage(url)" class="fa fa-close fa-lg remove"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
 
+                            </div>
+
+                            <div class="col-12">
+                                <fieldset class="border">
+                                    <legend class="w-auto">Prestaciones:</legend>
+                                    <p-pickList [source]="features" [target]="roomsFeatures" sourceHeader="Disponibles"
+                                        targetHeader="Seleccionadas" dragdrop="true" [responsive]="true"
+                                        [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}"
+                                        filterBy="description_feature" sourceFilterPlaceholder="Buscar por descripción"
+                                        targetFilterPlaceholder="Buscar por descripción" [showTargetControls]="false"
+                                        [showSourceControls]="false">
+                                        <ng-template let-feature pTemplate="item">
+                                            <div class="ui-helper-clearfix">
+
+                                                <div style="font-size:14px;float:right;margin:15px 5px 0 0">
+                                                    {{feature.name_feature}} -
+                                                    {{feature.description_feature}} </div>
+                                            </div>
+                                        </ng-template>
+                                    </p-pickList>
+                                </fieldset>
+
+                            </div>
                             <div class="col-12 text-center" data-animation-delay="1000ms">
                                 <button type="submit" class="btn consultorio-btn mt-15">
                                     Crear Consultorio

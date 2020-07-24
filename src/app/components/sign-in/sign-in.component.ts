@@ -44,9 +44,10 @@ export class SignInComponent implements OnInit {
     signIn(data) {
         event.preventDefault();
         this.formSubmitted = true;
-        this.spinnerService.showSpinner();
         if (!this.forgotPass) {
             if (this.formSignIn.valid) {
+                this.spinnerService.showSpinner();
+
                 this.autService.signIn(data).subscribe((res) => {
                     this.spinnerService.hideSpinner();
                     if (Utils.isOkResponse(res)) {
@@ -61,6 +62,7 @@ export class SignInComponent implements OnInit {
                 });
             }
         } else {
+            this.spinnerService.showSpinner();
             this.usrService.getUserByEmail(data).subscribe((res) => {
                 if (Utils.isOkResponse(res)) {
                     this.emailService

@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="nav-brand" href="index.html"><img src="./assets/img/core-img/logo.png" alt="" />Consultorios<span>Del</span>Parque</a>
+    <a class="nav-brand" href="index.html"><img src="./assets/img/core-img/logo.png"
+            alt="" />Consultorios<span>Del</span>Parque</a>
 
     <!-- Step 3: Toggle the value of the property when the toggler button is clicked. -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" (click)="isMenuCollapsed = !isMenuCollapsed">
@@ -23,14 +24,20 @@
                         <a class="dropdown-item" routerLink="/createRoom" routerLinkActive="active">
                             Crear Consultorio</a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="/features" routerLinkActive="active">
+                            Ver Prestaciones</a>
+                    </li>
                 </ul>
             </li>
             <ng-container *ngIf="!authService.loggedIn(); else logOut">
                 <li class="nav-item mt-10">
-                    <a class="nav-link" (click)="ngShow('signIn')" style="cursor: pointer;" routerLinkActive="active">Iniciar Sesión</a>
+                    <a class="nav-link" (click)="ngShow('signIn')" style="cursor: pointer;"
+                        routerLinkActive="active">Iniciar Sesión</a>
                 </li>
                 <li class="nav-item mt-10">
-                    <a class="nav-link" (click)="ngShow('signUp')" style="cursor: pointer;" routerLinkActive="active ">Registrarse</a>
+                    <a class="nav-link" (click)="ngShow('signUp')" style="cursor: pointer;"
+                        routerLinkActive="active ">Registrarse</a>
                 </li>
             </ng-container>
             <ng-template #logOut>
