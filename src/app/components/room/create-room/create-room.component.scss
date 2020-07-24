@@ -69,3 +69,10 @@ fieldset {
 ::ng-deep .ui-picklist-listwrapper span {
 	color: #1cc3b2 !important;
 }
+
+::ng-deep .ui-picklist-item.ui-state-highlight {
+	background-color: #1cc3b2 !important;
+}
+::ng-deep .ui-picklist-item:focus {
+	box-shadow: inset 0 0 0 0.2em #1cc3b2 !important;
+}
