@@ -16,7 +16,7 @@ router.post("/signUp", user.signUp);
 router.post("/create", user.create);
 
 /* POST - Update the user with the specific id */
-router.post("/:id", user.update);
+router.post("/:id", user.updateById);
 
 /* DELETE - Delete the user with the specific id */
 router.delete("/:id", user.deleteById);

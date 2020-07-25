@@ -33,7 +33,7 @@ exports.getUserById = (req, res) => {
   });
 };
 
-exports.update = (req, res) => {
+exports.updateById = (req, res) => {
   userDao.updateById(req.params.id, req, (error, data) => {
     if (error) {
       if (error.kind === "not_found") {
