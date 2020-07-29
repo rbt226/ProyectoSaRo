@@ -140,7 +140,6 @@ exports.signUp = (req, res) => {
       const idUser = resp.data.id_user; // Me quedo con el id del nuevo usuario
       req.body.idUser = idUser; //  Para pasarle al client
       req.body.idOccupation = 1; // TODO
-      console.log("IdUSer ", idUser);
       createClientSignUp(idUser, req, file, res, response);
     });
   });
