@@ -60,6 +60,8 @@ export class CreateRoomComponent implements OnInit {
         const name = this.formCreateRoom.get('name');
 
         formData.append('name', name.value);
+        formData.append('features', JSON.stringify(this.roomsFeatures));
+
         formData.append('description', this.formCreateRoom.get('description').value);
         for (const fileImage of this.files) {
             formData.append('file', fileImage);

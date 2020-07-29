@@ -3,30 +3,21 @@
         <div class="single-room-slide d-flex align-items-center">
             <cl-image [public-id]="room.images[0]" class="room-thumbnail bg-img" format="jpg"></cl-image>
             <div class="room-content">
-                <h2 class="animate-plus" data-animations="fadeInUp" data-animation-delay="100ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
+                <h2 class="animate-plus" data-animations="fadeInUp" data-animation-delay="100ms"
+                    data-animation-when-visible="true" data-animation-reset-offscreen="true">
                     {{ room.name_room }}
                 </h2>
-                <ul class="room-feature animate-plus" data-animations="fadeInUp" data-animation-delay="500ms" data-animation-when-visible="true"
+                <ul *ngFor="let feature of room.features" class="room-feature animate-plus"
+                    data-animations="fadeInUp" data-animation-delay="500ms" data-animation-when-visible="true"
                     data-animation-reset-offscreen="true">
                     <li>
-                        <span><i class="fa fa-check"></i> Escritorio</span>
-                    </li>
-                    <li>
-                        <span><i class="fa fa-check"></i> Butacas</span>
-                    </li>
-                    <li>
-                        <span><i class="fa fa-check"></i> Espacioso</span>
-                    </li>
-                    <li>
-                        <span><i class="fa fa-check"></i> Luz Regulable</span>
-                    </li>
-                    <li>
-                        <span><i class="fa fa-check"></i> Aire Acondicionado</span>
+                        <span><i class="fa fa-check"></i> {{feature.description_feature}}</span>
                     </li>
                 </ul>
                 <span class="description">{{ room.description }}</span>
-                <a (click)="ngShow('roomDetail', room.id_room)" class="btn rooms-btn animate-plus detailButton" data-animations="fadeInUp" data-animation-delay="700ms"
-                    data-animation-when-visible="true" data-animation-reset-offscreen="true" style="cursor: pointer;">Ver mas fotos</a>
+                <a (click)="ngShow('roomDetail', room.id_room)" class="btn rooms-btn animate-plus detailButton"
+                    data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true"
+                    data-animation-reset-offscreen="true" style="cursor: pointer;">Ver mas fotos</a>
             </div>
         </div>
     </ngu-tile>
