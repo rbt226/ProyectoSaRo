@@ -1297,7 +1297,7 @@ input:focus {
 }
 
 .copywrite-text p a {
-	color: #afb4bf;
+	color: #afb4bf !important;
 	font-size: 14px;
 }
 

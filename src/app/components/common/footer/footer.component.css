@@ -17,7 +17,7 @@
 }
 
 .text-medium > a {
-    color: #afb4bf;
+    color: #afb4bf !important;
     font-size: medium;
     text-align: center;
 }
