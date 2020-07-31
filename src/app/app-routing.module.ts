@@ -12,62 +12,67 @@ import { IndexComponent } from './components/index-component/index-component.com
 import { CreateRoomComponent } from './components/room/create-room/create-room.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { ListFeaturesComponent } from './components/feature/list-features/list-features.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: '/index.html',
-    pathMatch: 'full',
-  },
-  {
-    path: 'index.html',
-    component: IndexComponent,
-  },
-  {
-    path: 'rooms',
-    component: RoomComponent,
-    children: [
-      {
-        path: 'create', // child route path
-        component: CreateRoomComponent, // child route component that the router renders
-      },
-      {
-        path: '', // child route path
-        component: ListRoomsComponent, // child route component that the router renders
-      },
-      {
-        path: ':id', // child route path
-        component: DetailRoomComponent, // child route component that the router renders
-      },
-    ],
-  },
-  {
-    path: 'users',
-    component: ListUsersComponent,
-    canActivate: [AuthGuard, RoleGuard],
-    data: { role: 'Admin' },
-  },
-  {
-    path: 'contact',
-    component: ContactComponent,
-  },
-  {
-    path: 'signUp',
-    component: SignUpComponent,
-  },
-  {
-    path: 'createRoom',
-    component: CreateRoomComponent,
-  },
-  {
-    path: 'features',
-    component: ListFeaturesComponent,
-  },
-  { path: '**', redirectTo: '/' }, // si pone cualquier URL
+	{
+		path: '',
+		redirectTo: '/index.html',
+		pathMatch: 'full',
+	},
+	{
+		path: 'index.html',
+		component: IndexComponent,
+	},
+	{
+		path: 'rooms',
+		component: RoomComponent,
+		children: [
+			{
+				path: 'create', // child route path
+				component: CreateRoomComponent, // child route component that the router renders
+			},
+			{
+				path: '', // child route path
+				component: ListRoomsComponent, // child route component that the router renders
+			},
+			{
+				path: ':id', // child route path
+				component: DetailRoomComponent, // child route component that the router renders
+			},
+		],
+	},
+	{
+		path: 'users',
+		component: ListUsersComponent,
+		canActivate: [AuthGuard, RoleGuard],
+		data: { role: 'Admin' },
+	},
+	{
+		path: 'contact',
+		component: ContactComponent,
+	},
+	{
+		path: 'admin',
+		component: AdminComponent,
+	},
+	{
+		path: 'signUp',
+		component: SignUpComponent,
+	},
+	{
+		path: 'createRoom',
+		component: CreateRoomComponent,
+	},
+	{
+		path: 'features',
+		component: ListFeaturesComponent,
+	},
+	{ path: '**', redirectTo: '/' }, // si pone cualquier URL
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+	imports: [RouterModule.forRoot(routes)],
+	exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

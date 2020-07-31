@@ -33,64 +33,67 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { Globals } from './globals';
 import { ListFeaturesComponent } from './components/feature/list-features/list-features.component';
 import { PickListModule } from 'primeng/picklist';
-
+import { TabMenuModule } from 'primeng/tabmenu';
+import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        SignUpComponent,
-        SignInComponent,
-        ListUsersComponent,
-        ListRoomsComponent,
-        NavbarComponent,
-        DetailRoomComponent,
-        RoomComponent,
-        FooterComponent,
-        WelcomeAreaComponent,
-        RoomsAreaComponent,
-        IndexComponent,
-        CreateRoomComponent,
-        ServicesAreaComponent,
-        BookingAreaComponent,
-        ContactComponent,
-        FieldErrorDisplayComponent,
-        ListFeaturesComponent,
-    ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        NgxSpinnerModule,
-        BrowserAnimationsModule,
+	declarations: [
+		AppComponent,
+		SignUpComponent,
+		SignInComponent,
+		ListUsersComponent,
+		ListRoomsComponent,
+		NavbarComponent,
+		DetailRoomComponent,
+		RoomComponent,
+		FooterComponent,
+		WelcomeAreaComponent,
+		RoomsAreaComponent,
+		IndexComponent,
+		CreateRoomComponent,
+		ServicesAreaComponent,
+		BookingAreaComponent,
+		ContactComponent,
+		FieldErrorDisplayComponent,
+		ListFeaturesComponent,
+		AdminComponent,
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		HttpClientModule,
+		ReactiveFormsModule,
+		NgxSpinnerModule,
+		BrowserAnimationsModule,
 
-        FileUploadModule,
-        FormsModule,
-        CloudinaryModule.forRoot({ Cloudinary }, {
-            cloud_name: 'djbmfd9y6',
-            upload_preset: 'nqdq2zze',
-            api_key: '771838748496195',
-            api_secret: 'yn9HS_biy7UuFGtTZVxhIytA7k'
-        } as CloudinaryConfiguration),
-        NguCarouselModule,
-        NgbModule,
-        PickListModule,
-    ],
-    providers: [
-        { provide: ErrorHandler, useClass: GlobalErrorHandler },
+		FileUploadModule,
+		FormsModule,
+		CloudinaryModule.forRoot({ Cloudinary }, {
+			cloud_name: 'djbmfd9y6',
+			upload_preset: 'nqdq2zze',
+			api_key: '771838748496195',
+			api_secret: 'yn9HS_biy7UuFGtTZVxhIytA7k',
+		} as CloudinaryConfiguration),
+		NguCarouselModule,
+		NgbModule,
+		PickListModule,
+		TabMenuModule,
+	],
+	providers: [
+		{ provide: ErrorHandler, useClass: GlobalErrorHandler },
 
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: TokenInterceptorService,
-            multi: true,
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: ServerErrorInterceptor,
-            multi: true,
-        },
-        Globals,
-    ],
-    bootstrap: [AppComponent],
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: TokenInterceptorService,
+			multi: true,
+		},
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: ServerErrorInterceptor,
+			multi: true,
+		},
+		Globals,
+	],
+	bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

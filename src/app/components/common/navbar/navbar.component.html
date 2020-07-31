@@ -12,6 +12,9 @@
             <li class="nav-item mt-13">
                 <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contacto</a>
             </li>
+            <li class="nav-item mt-13" *ngIf="authService.loggedIn()">
+                <a class="nav-link" routerLink="/admin" routerLinkActive="active">Configuración</a>
+            </li>
             <li class="nav-item dropdown mt-13" *ngIf="authService.loggedIn()">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                     Admin
