@@ -1,23 +1,29 @@
 .clear {
-    padding-right: 5px;
-    color: #1cc3b2;
-    margin-left: 10px;
+	padding-right: 5px;
+	color: #1cc3b2;
+	margin-left: 10px;
 }
 
 .footer-area {
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	position: absolute;
 }
 
 .vertical-align {
-    vertical-align: middle;
+	vertical-align: middle;
 }
 
 .text-medium > a {
-    color: #afb4bf !important;
-    font-size: medium;
-    text-align: center;
+	color: #afb4bf !important;
+	font-size: medium;
+	text-align: center;
+}
+
+@media only screen and (max-width: 360px) {
+	.text-medium > a {
+		font-size: small;
+	}
 }
