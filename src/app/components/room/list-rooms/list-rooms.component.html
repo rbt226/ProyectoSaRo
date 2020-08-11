@@ -7,13 +7,13 @@
                     data-animation-when-visible="true" data-animation-reset-offscreen="true">
                     {{ room.name_room }}
                 </h2>
-                <ul *ngFor="let feature of room.features" class="room-feature animate-plus"
-                    data-animations="fadeInUp" data-animation-delay="500ms" data-animation-when-visible="true"
-                    data-animation-reset-offscreen="true">
-                    <li>
-                        <span><i class="fa fa-check"></i> {{feature.description_feature}}</span>
-                    </li>
-                </ul>
+                <div class="flexdiv">
+                    <div *ngFor="let feature of room.features" class="room-feature animate-plus" data-animations="fadeInUp"
+                        data-animation-delay="500ms" data-animation-when-visible="true"
+                        data-animation-reset-offscreen="true">
+                        <i class="fa fa-check"></i> <span>{{feature.description_feature}}</span>
+                    </div>
+                </div>
                 <span class="description">{{ room.description }}</span>
                 <a (click)="ngShow('roomDetail', room.id_room)" class="btn rooms-btn animate-plus detailButton"
                     data-animations="fadeInUp" data-animation-delay="700ms" data-animation-when-visible="true"
