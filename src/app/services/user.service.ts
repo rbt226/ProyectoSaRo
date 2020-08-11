@@ -4,29 +4,29 @@ import { User } from '../models/user.interface';
 import { Globals } from '../globals';
 
 @Injectable({
-    providedIn: 'root',
+	providedIn: 'root',
 })
 export class UserService {
-    private URL: string;
+	private URL: string;
 
-    constructor(private http: HttpClient, private globals: Globals) {
-        this.URL = globals.server_url + 'users/';
-    }
+	constructor(private http: HttpClient, private globals: Globals) {
+		this.URL = globals.server_url + 'users/';
+	}
 
-    getUsers() {
-        return this.http.get<Array<User>>(this.URL);
-    }
+	getUsers() {
+		return this.http.get<any>(this.URL);
+	}
 
-    signUp(user) {
-        return this.http.post<any>(this.URL + 'signUp', user);
-    }
+	signUp(user) {
+		return this.http.post<any>(this.URL + 'signUp', user);
+	}
 
-    setUserData(userName, imageUser) {
-        localStorage.setItem('userName', userName);
-        localStorage.setItem('userImg', imageUser);
-    }
+	setUserData(userName, imageUser) {
+		localStorage.setItem('userName', userName);
+		localStorage.setItem('userImg', imageUser);
+	}
 
-    getUserByEmail(user) {
-        return this.http.post<any>(this.URL + 'byEmail', user);
-    }
+	getUserByEmail(user) {
+		return this.http.post<any>(this.URL + 'byEmail', user);
+	}
 }

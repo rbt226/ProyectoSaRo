@@ -13,6 +13,7 @@ import { CreateRoomComponent } from './components/room/create-room/create-room.c
 import { ContactComponent } from './components/contact/contact.component';
 import { ListFeaturesComponent } from './components/feature/list-features/list-features.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { UserstabComponent } from './components/admin/userstab/userstab.component';
 
 const routes: Routes = [
 	{
@@ -55,6 +56,16 @@ const routes: Routes = [
 	{
 		path: 'admin',
 		component: AdminComponent,
+		children: [
+			{
+				path: '', // child route path
+				component: UserstabComponent, // child route component that the router renders
+			},
+			{
+				path: 'userstab', // child route path
+				component: UserstabComponent, // child route component that the router renders
+			},
+		],
 	},
 	{
 		path: 'signUp',

@@ -35,6 +35,7 @@ import { ListFeaturesComponent } from './components/feature/list-features/list-f
 import { PickListModule } from 'primeng/picklist';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { AdminComponent } from './components/admin/admin.component';
+import { UserstabComponent } from './components/admin/userstab/userstab.component';
 
 @NgModule({
 	declarations: [
@@ -57,6 +58,7 @@ import { AdminComponent } from './components/admin/admin.component';
 		FieldErrorDisplayComponent,
 		ListFeaturesComponent,
 		AdminComponent,
+		UserstabComponent,
 	],
 	imports: [
 		BrowserModule,

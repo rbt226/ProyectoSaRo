@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="list-items">
+        <div class="fluid-container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-30 text-right">
+                        <button type="submit" class="btn consultorio-btn">
+                            Crear Usuaro
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <ul class="list-group">
+                <li *ngFor="let item of items" class="list-group-item d-flex justify-content-between align-items-center">
+                    <input class="activo" type="checkbox" [(ngModel)]="item.active_user" />
+                    <label class="nombre"> {{item.user_name}} - ({{item.email}}) </label>
+                    <span class="fa fa-trash"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
