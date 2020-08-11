@@ -35,7 +35,6 @@ export class DetailRoomComponent implements OnInit, AfterViewInit {
 
     constructor(
         private roomService: RoomService,
-        private route: ActivatedRoute,
         private spinner: NgxSpinnerService,
         private cdr: ChangeDetectorRef
     ) { }
