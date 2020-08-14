@@ -18,7 +18,7 @@
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
                         "stylePreprocessorOptions": {
-                            "includePaths": ["src/scss", "src/scss/globals", "src/scss/utilities", "src/scss/mixins"]
+                            "includePaths": ["src/scss", "src/scss/utilities", "src/scss/mixins"]
                         },
                         "outputPath": "dist/Frontend",
                         "index": "src/index.html",
