@@ -1,26 +1,15 @@
 <div class="contenedor">
-  <ngu-carousel
-    #myCarousel
-    [inputs]="carouselConfig"
-    [dataSource]="images"
-  >
-    <ngu-tile *nguCarouselDef="let item; let j = index" class="item">
-      <div
-        class="tile"
-        [ngStyle]="{
+    <ngu-carousel #welcomeCarousel [inputs]="carouselConfig" [dataSource]="images">
+        <ngu-tile *nguCarouselDef="let item; let j = index" class="item">
+            <div class="tile" [ngStyle]="{
           background:
             ' linear-gradient(90deg, rgba(52,64,57,0.5102415966386555) 100%, rgba(52,64,57,1) 100%), url('+item+')'
-        }"
-      ></div>
-    </ngu-tile>
-    <button NguCarouselNext class="rightRs">></button>
-    <button NguCarouselPrev class="leftRs"><</button>
-    <ul class="myPoint" NguCarouselPoint>
-      <li
-        *ngFor="let j of myCarousel.pointNumbers; let i = index"
-        [class.active]="j == myCarousel.activePoint"
-        (click)="myCarousel.moveTo(i)"
-      ></li>
-    </ul>
-  </ngu-carousel>
+        }"></div>
+        </ngu-tile>
+        <button NguCarouselNext class="rightRs">></button>
+        <button NguCarouselPrev class="leftRs"><</button>
+        <ul class="myPoint" NguCarouselPoint>
+            <li *ngFor="let j of welcomeCarousel.pointNumbers; let i = index" [class.active]="j == welcomeCarousel.activePoint" (click)="welcomeCarousel.moveTo(i)"></li>
+        </ul>
+    </ngu-carousel>
 </div>

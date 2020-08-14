@@ -7,19 +7,15 @@
     overflow: hidden;
     border-right: 1px solid rgba(255, 255, 255, 0.2);
     border-left: 1px solid rgba(255, 255, 255, 0.2);
-
     @media #{$breakpoint-xs} {
         height: 650px;
     }
-
     @media #{$breakpoint-lg} {
         height: 700px;
     }
-
     @media #{$breakpoint-md} {
         height: 650px;
     }
-
     .project-content {
         position: absolute;
         width: 100%;
@@ -31,19 +27,16 @@
         padding: 0 30px;
         @include display-flex(flex);
         @include align-items-center;
-
         .text {
             h6 {
                 color: $white;
             }
-
             h5 {
                 color: $white;
                 margin-bottom: 0;
             }
         }
     }
-
     .hover-effects {
         position: absolute;
         width: 100%;
@@ -55,30 +48,25 @@
         opacity: 0;
         visibility: hidden;
         @include transition-duration(800ms);
-
         .text {
             padding: 30px;
-
             h6 {
                 color: $white;
             }
-
             h5 {
                 color: $white;
                 margin-bottom: 10px;
             }
-
             p {
                 margin-bottom: 0;
                 color: $white;
             }
         }
-
         .project-btn {
             font-size: 16px;
             padding: 0 30px;
             display: block;
-            background-color: $dark2;
+            background-color: $secondary;
             border-radius: 0;
             color: $white;
             text-align: left;
@@ -88,8 +76,6 @@
             line-height: 100px;
         }
     }
-
-
     &.active {
         .hover-effects {
             @include transform(translateY(0%));
@@ -97,7 +83,6 @@
             visibility: visible;
         }
     }
-
     &:hover,
     &:focus {}
 }

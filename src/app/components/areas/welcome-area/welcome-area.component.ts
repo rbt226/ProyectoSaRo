@@ -9,14 +9,14 @@ import { NguCarouselConfig, NguCarousel } from '@ngu/carousel';
 @Component({
   selector: 'app-welcome-area',
   templateUrl: './welcome-area.component.html',
-  styleUrls: ['./welcome-area.component.css'],
+  styleUrls: ['./welcome-area.component.scss'],
 })
 export class WelcomeAreaComponent implements AfterViewInit {
   name = 'Angular';
   slideNo = 0;
   withAnim = true;
   resetAnim = true;
-  @ViewChild('myCarousel') myCarousel: NguCarousel<any>;
+  @ViewChild('welcomeCarousel') welcomeCarousel: NguCarousel<any>;
   carouselConfig: NguCarouselConfig = {
     grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
     load: 4,
@@ -39,10 +39,10 @@ export class WelcomeAreaComponent implements AfterViewInit {
   }
 
   reset() {
-    this.myCarousel.reset(!this.resetAnim);
+    this.welcomeCarousel.reset(!this.resetAnim);
   }
 
   moveTo(slide) {
-    this.myCarousel.moveTo(slide, !this.withAnim);
+    this.welcomeCarousel.moveTo(slide, !this.withAnim);
   }
 }

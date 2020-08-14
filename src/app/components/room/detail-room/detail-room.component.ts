@@ -18,7 +18,7 @@ export class DetailRoomComponent implements OnInit, AfterViewInit {
     resetAnim = true;
     roomId: number;
     room: Room;
-    @ViewChild('myCarousel') myCarousel: NguCarousel<any>;
+    @ViewChild('detailCarousel') detailCarousel: NguCarousel<any>;
     carouselConfig: NguCarouselConfig = {
         grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
         load: 4,
@@ -44,7 +44,7 @@ export class DetailRoomComponent implements OnInit, AfterViewInit {
     }
 
     moveTo(slide) {
-        this.myCarousel.moveTo(slide, !this.withAnim);
+        this.detailCarousel.moveTo(slide, !this.withAnim);
     }
 
     ngOnInit() {

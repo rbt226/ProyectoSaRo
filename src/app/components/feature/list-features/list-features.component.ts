@@ -5,7 +5,7 @@ import { SpinnerService } from 'src/app/services/spinner.service';
 @Component({
   selector: 'app-list-features',
   templateUrl: './list-features.component.html',
-  styleUrls: ['./list-features.component.css']
+  styleUrls: ['./list-features.component.scss']
 })
 export class ListFeaturesComponent implements OnInit {
 

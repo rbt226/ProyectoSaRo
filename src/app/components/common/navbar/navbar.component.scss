@@ -1,5 +1,6 @@
+@import '_colors';
 .classy-nav-container span {
-    color: #1cc3b2;
+    color: $primary;
 }
 
 .nav-brand {
@@ -13,11 +14,11 @@
 }
 
 .nav-brand:hover {
-    color: #1cc3b2;
+    color: $primary;
 }
 
 .nav-brand span {
-    color: #1cc3b2;
+    color: $primary;
 }
 
 .nav-brand img {
@@ -48,11 +49,11 @@
 
 .navbar-nav {
     text-align: right;
-    -webkit-box-pack: flex-end!important;  
-    justify-content: flex-end!important;
+    -webkit-box-pack: flex-end !important;
+    justify-content: flex-end !important;
 }
 
 .dropdown-menu {
-	text-align: right;
-    border: none ;
+    text-align: right;
+    border: none;
 }

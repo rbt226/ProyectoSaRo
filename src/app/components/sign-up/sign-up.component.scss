@@ -1,3 +1,4 @@
+@import '_colors';
 @media only screen and (min-width: 992px) {
     .sign-up-area {
         min-width: 700px;
@@ -17,7 +18,7 @@
 
 h2 {
     font-family: 'Poppins', sans-serif;
-    color: #2a303b;
+    color: $heading;
     line-height: 1.3;
     font-weight: 500;
 }
@@ -34,7 +35,7 @@ h2 {
 }
 
 .ng-touched.ng-invalid {
-    border-color: #dc3545 !important;
+    border-color: $invalid !important;
 }
 
 .p-rel {

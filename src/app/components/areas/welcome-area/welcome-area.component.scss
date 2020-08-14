@@ -1,0 +1,26 @@
+@import '_carousel';
+.item {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.tile {
+    min-height: 400px;
+    background-size: cover !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(36, 70, 105, 0.74);
+    position: relative;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+}
+
+button:focus {
+    outline: 0;
+}
+
+.myPoint li.active {
+    background: #6b6b6b;
+    transform: scale(1.2);
+}

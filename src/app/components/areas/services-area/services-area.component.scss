@@ -1,3 +1,4 @@
+@import '_colors';
 .service-content {
     flex-wrap: wrap;
     margin-bottom: 70px;
@@ -15,16 +16,10 @@
 }
 
 .service-card:hover {
-    color: #1cc3b2;
+    color: $primary;
 }
 
 .container-flex {
     display: flex;
     flex-wrap: wrap;
-}
-
-.single-service-area {
-    flex: 1 1 auto;
-    text-align: center;
-    margin: 5px;
 }

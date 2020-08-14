@@ -16,7 +16,7 @@ export class ListRoomsComponent implements OnInit, AfterViewInit {
     withAnim = true;
     resetAnim = true;
 
-    @ViewChild('myCarousel') myCarousel: NguCarousel<any>;
+    @ViewChild('roomsCarousel') roomsCarousel: NguCarousel<any>;
     carouselConfig: NguCarouselConfig = {
         grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
         load: 4,
@@ -69,6 +69,6 @@ export class ListRoomsComponent implements OnInit, AfterViewInit {
     }
 
     reset() {
-        this.myCarousel.reset(!this.resetAnim);
+        this.roomsCarousel.reset(!this.resetAnim);
     }
 }

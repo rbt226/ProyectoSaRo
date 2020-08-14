@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-services-area',
   templateUrl: './services-area.component.html',
-  styleUrls: ['./services-area.component.css']
+  styleUrls: ['./services-area.component.scss']
 })
 export class ServicesAreaComponent implements OnInit {
 

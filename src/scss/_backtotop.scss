@@ -5,7 +5,7 @@
     right: 40px;
     font-size: 20px;
     line-height: 40px;
-    width: 40px;
+    width: 4x0px;
     height: 40px;
     bottom: 40px;
     background-color: $primary;
@@ -15,12 +15,10 @@
     border-radius: 50%;
     @include box-shadow($box-shadow);
     z-index: 15962536;
-
     @media #{$breakpoint-xs} {
         right: 20px;
         bottom: 20px;
     }
-
     &:focus,
     &:hover {
         background-color: $dark;

@@ -1,5 +1,10 @@
 /* :: 16.0 Contact Area CSS */
 
+@import '_variables';
+@import '_responsive';
+@import '_colors';
+@import '_fonts';
+@import '_miscellaneous';
 .consultorio-contact-form {
     position: relative;
     z-index: 1;

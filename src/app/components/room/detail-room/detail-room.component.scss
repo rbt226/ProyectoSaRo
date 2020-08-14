@@ -1,3 +1,5 @@
+@import '_colors';
+@import '_carousel';
 .item {
     padding: 10px;
     box-sizing: border-box;
@@ -43,7 +45,7 @@ button:focus {
 }
 
 .service-title {
-    color: #1cc3b2;
+    color: $primary;
 }
 
 .service-list {
@@ -60,7 +62,7 @@ button:focus {
 }
 
 .service-item span {
-    color: #2a303b;
+    color: $heading;
     line-height: 17px;
     word-wrap: break-word;
     text-decoration: none;

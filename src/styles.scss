@@ -1,1 +1,97 @@
-/* You can add global styles to this file, and also import other style files */
+/* Import Fonts & All CSS */
+
+@import '_variables';
+@import '_responsive';
+@import '_colors';
+@import '_fonts';
+@import '_miscellaneous';
+@import '_flex';
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700');
+@import url(css/bootstrap.min.css);
+@import url(css/animate.css);
+@import url(css/default-assets/classy-nav.css);
+
+/* @import url(css/owl.carousel.min.css); */
+
+@import url(css/magnific-popup.css);
+@import url(css/nice-select.css);
+@import url(css/font-awesome.min.css);
+@import url(css/style.css);
+@import url(css/bootstrap-datepicker.min.css);
+@import url(css/jquery-ui.min.css);
+
+/* :: 01.0 Reboot Area CSS */
+
+@import '_reboot';
+
+/* :: 02.0 Spacing Area CSS */
+
+@import '_spacing';
+
+/* :: 3.0 Preloader Area CSS */
+
+@import '_preloader';
+
+/* :: 4.0 Heading Area CSS */
+
+@import '_heading';
+
+/* :: 5.0 Backtotop Area CSS */
+
+@import '_backtotop';
+
+/* :: 6.0 Buttons Area CSS */
+
+@import '_buttons';
+
+/* :: 7.0 Header Area CSS */
+
+@import '_header';
+
+/* :: 8.0 Hero Area CSS */
+
+@import '_hero';
+
+/* :: 9.0 Footer Area CSS */
+
+@import '_footer';
+
+/* :: 10.0 Partner Area CSS */
+
+@import '_partner';
+
+/* :: 11.0 Project Area CSS */
+
+@import '_project';
+
+/* :: 12.0 CTA CSS */
+
+@import '_cta';
+
+/* :: 13.0 Testimonial Area CSS */
+
+@import '_testimonial';
+
+/* :: 14.0 Room Area CSS */
+
+@import '_room';
+
+/* :: 15.0 About CSS */
+
+@import '_about';
+
+/* :: 16.0 Contact Area CSS */
+
+@import '_contact';
+
+/* :: 18.0 Breadcrumb Area CSS */
+
+@import '_breadcrumb';
+
+/* :: 19.0 Blog CSS */
+
+@import '_blog';
+
+/* :: 20.0 Validations CSS */
+
+@import '_validations';

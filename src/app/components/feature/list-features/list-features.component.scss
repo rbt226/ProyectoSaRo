@@ -1,0 +1,14 @@
+@import '_colors';
+h1 {
+    color: $primary;
+    letter-spacing: 2px;
+}
+
+.list-features {
+    padding: 80px;
+}
+
+html,
+body {
+    height: 100%;
+}

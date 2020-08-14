@@ -1,4 +1,5 @@
-.myCarousel {
+@import '_index';
+.roomsCarousel {
     padding-top: 100px;
     padding-bottom: 100px;
 }
@@ -34,16 +35,11 @@ button:focus {
     padding: 0 40px;
     text-align: center;
     text-transform: capitalize;
-    background-color: #1cc3b2;
+    background-color: $primary;
     color: #fff !important;
     border: none;
     border-radius: 2px;
-    -webkit-transition-duration: 500ms;
-    -o-transition-duration: 500ms;
-    transition-duration: 500ms;
-}
-
-.detailButton {
+    @include transition-duration(500ms);
     display: table;
     margin-left: auto;
     margin-right: auto;
@@ -52,214 +48,7 @@ button:focus {
 }
 
 .fa-check {
-    color: #1cc3b2;
-}
-
-@media only screen and (max-width: 767px) {
-    .description {
-        font-size: 11px;
-        margin-top: 15px;
-    }
-    .detailButton {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-}
-
-
-/* :: 14.0 Room Area CSS */
-
-.single-room-slide {
-    position: relative;
-    z-index: 1;
-    background-color: #0e2737;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-}
-
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-    .single-room-slide {
-        min-height: 600px;
-    }
-}
-
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-    .single-room-slide {
-        min-height: 600px;
-    }
-}
-
-@media only screen and (max-width: 767px) {
-    .single-room-slide {
-        min-height: 640px;
-        align-items: flex-start !important;
-    }
-    .owl-prev,
-    .owl-next {
-        font-size: 13px !important;
-    }
-    .rooms-btn {
-        font-size: 13px;
-    }
-}
-
-.single-room-slide .room-content {
-    background-color: #0e2737;
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 50%;
-    flex: 0 0 50%;
-    max-width: 50%;
-    width: 50%;
-    padding-left: 80px;
-    padding-right: 80px;
-}
-
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-    .single-room-slide .room-content {
-        padding-left: 50px;
-        padding-right: 50px;
-    }
-}
-
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-    .single-room-slide .room-content {
-        padding-left: 30px;
-        padding-right: 30px;
-    }
-}
-
-@media only screen and (max-width: 767px) {
-    .single-room-slide .room-content {
-        -webkit-box-flex: 0;
-        -ms-flex: 0 0 100%;
-        flex: 0 0 100%;
-        max-width: 100%;
-        width: 100%;
-        padding-left: 15px;
-        padding-right: 15px;
-        margin-bottom: 50px;
-    }
-}
-
-.single-room-slide .room-content h2 {
-    color: #ffffff;
-    font-size: 48px;
-    display: block;
-    margin-bottom: 15px;
-}
-
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-    .single-room-slide .room-content h2 {
-        font-size: 36px;
-    }
-}
-
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-    .single-room-slide .room-content h2 {
-        font-size: 30px;
-    }
-}
-
-@media only screen and (max-width: 767px) {
-    .single-room-slide .room-content h2 {
-        font-size: 24px;
-        display: table !important;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 0;
-    }
-}
-
-.single-room-slide .room-content h3 {
-    color: #1cc3b2;
-    font-size: 36px;
-    display: block;
-    margin-bottom: 25px;
-}
-
-@media only screen and (max-width: 767px) {
-    .single-room-slide .room-content h3 {
-        font-size: 30px;
-    }
-}
-
-.single-room-slide .room-content h3 span {
-    color: #ffffff;
-    font-size: 16px;
-}
-
-.single-room-slide .room-content .room-feature {
-    margin-bottom: 15px;
-}
-
-@media only screen and (max-width: 767px) {
-    .single-room-slide .room-content .room-feature {
-        margin-bottom: 0;
-    }
-}
-
-.single-room-slide .room-content .room-feature li {
-    color: #ffffff;
-    display: block;
-    margin-bottom: 15px;
-}
-
-.single-room-slide .room-content .room-feature li span {
-    min-width: 110px;
-    display: inline-block;
-}
-
-.single-room-slide .room-content span {
-    min-width: 110px;
-    display: inline-block;
-    color: #ffffff;
-}
-
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-    .single-room-slide .room-content .room-feature li {
-        font-size: 14px;
-    }
-}
-
-@media only screen and (max-width: 767px) {
-    .single-room-slide .room-content .room-feature li {
-        font-size: 11px;
-        margin-bottom: 5px;
-    }
-}
-
-.single-room-slide .room-content .room-feature li:last-child {
-    margin-bottom: 0;
-}
-
-.owl-prev,
-.owl-next {
-    cursor: pointer;
-    -webkit-transition-duration: 500ms;
-    -o-transition-duration: 500ms;
-    transition-duration: 500ms;
-    width: 130px;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: 600;
-    position: absolute;
-    bottom: 0;
-    z-index: 100;
-    background-image: none !important;
-    background-color: #ffffff !important;
-    border: none;
-}
-
-.owl-prev {
-    right: 50%;
-}
-
-.owl-next {
-    background-color: #1cc3b2 !important;
-    left: 50%;
-    color: #ffffff;
+    color: $primary;
 }
 
 .flexdiv {
@@ -268,4 +57,43 @@ button:focus {
     flex-direction: column;
     height: 180px;
     align-content: stretch;
+}
+
+.description {
+    @media #{$breakpoint-mobile} {
+        font-size: 14px;
+    }
+}
+
+.rooms-slides {
+    position: relative;
+    z-index: 1;
+    .owl-prev,
+    .owl-next {
+        @include transition-duration(500ms);
+        cursor: pointer;
+        border: none;
+        width: 130px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 600;
+        position: absolute;
+        bottom: 0;
+        z-index: 100;
+        background-image: none !important;
+        background-color: $white !important;
+        @media #{$breakpoint-mobile} {
+            font-size: 14px !important;
+        }
+    }
+    .owl-prev {
+        right: 50%;
+    }
+    .owl-next {
+        background-color: $primary !important;
+        left: 50%;
+        color: $white;
+    }
 }
