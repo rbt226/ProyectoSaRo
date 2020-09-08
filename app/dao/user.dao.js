@@ -127,9 +127,9 @@ exports.signIn = (email, password, next, result) => {
         .then((us) => {
             if (us && us.password === password) {
                 const user = createResponseUser(us);
-                result(null, utils.createSuccessResponse(response, '', user));
+                result(utils.createSuccessResponse(response, '', user));
             } else {
-                result(null, utils.createWarningResponse(response, 'Usuario o contraseña incorrecta'));
+                result(utils.createWarningResponse(response, 'Usuario o contraseña incorrecta'));
             }
         })
         .catch((error) => {

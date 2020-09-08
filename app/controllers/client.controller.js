@@ -7,7 +7,7 @@ const utils = require('../common/utils');
 exports.signUp = (req, res, next) => {
     const form = new IncomingForm();
     let file = null;
-    form.parse(req, async function(err, fields, files) {
+    form.parse(req, function(err, fields, files) {
         req.body = fields;
         const { body } = req;
         const { userName } = body;

@@ -1,10 +1,12 @@
 var createError = require('http-errors');
 var express = require('express');
+const bodyParser = require('body-parser');
+const cloudinary = require('./app/config/cloudinary');
+
 const cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var cloudinary = require('cloudinary').v2;
 var passport = require('passport');
 var flash = require('connect-flash');
 
@@ -25,6 +27,7 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -55,7 +58,7 @@ function logErrors(err, req, res, next) {
     console.log('-------------');
     console.log('Error: ', err.message);
     console.log('-------------');
-    console.log('Codigo Stack: ', err.stack.errors ? err.stack.errors[0].message : '');
+    console.log('Codigo Stack: ', err.stack.errors ? err.stack.errors[0].message : err);
     console.log('****************');
     console.log('.');
 
@@ -70,11 +73,11 @@ function errorHandler(err, req, res, next) {
     res.status(err.status || 500);
     res.json(err);
 }
-// cloudinary configuration
-cloudinary.config({
-    cloud_name: 'djbmfd9y6',
-    api_key: '771838748496195',
-    api_secret: 'yn9HS_biy7UuFGtTZVxhIytA7kg',
-});
+// // cloudinary configuration
+// cloudinary.config({
+//     cloud_name: 'djbmfd9y6',
+//     api_key: '771838748496195',
+//     api_secret: 'yn9HS_biy7UuFGtTZVxhIytA7kg',
+// });
 
 module.exports = app;
