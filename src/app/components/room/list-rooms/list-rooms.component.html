@@ -1,7 +1,8 @@
 <ngu-carousel #roomsCarousel [inputs]="carouselConfig" [dataSource]="rooms" class="roomsCarousel rooms-slides">
     <ngu-tile *nguCarouselDef="let room; let j = index" class="item">
         <div class="single-room-slide d-flex align-items-center">
-            <cl-image [public-id]="room.images[0]" class="room-thumbnail bg-img" format="jpg"></cl-image>
+            <cl-image *ngIf="room.room_images[0]" [public-id]="room.room_images[0].path_room_image" class="room-thumbnail bg-img" format="jpg">
+            </cl-image>
             <div class="room-content">
                 <h2 class="animate-plus" data-animations="fadeInUp" data-animation-delay="100ms" data-animation-when-visible="true" data-animation-reset-offscreen="true">
                     {{ room.name_room }}

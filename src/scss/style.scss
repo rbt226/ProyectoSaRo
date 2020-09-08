@@ -1,12 +1,4 @@
 /* ------------------------------------------
-[Master Stylesheet]
-
-Template Name: consultorio - Hotel & Resort HTML Template
-Template Author: Colorlib
-Template Author URL: http://colorlib.com
-Version: 1.0.0
-Last Update: Feb 9, 2019
----------------------------------------------
 
 ---------------------------------------------
 [Tables of CSS Content]
@@ -48,13 +40,7 @@ Last Update: Feb 9, 2019
 @import 'css/bootstrap-datepicker.min.css';
 @import 'css/jquery-ui.min.css';
 // Utilities
-@import "utilities/fonts";
-@import "utilities/variables";
-@import "utilities/responsive";
-@import "utilities/color";
-// Mixins
-@import "mixins/flex";
-@import "mixins/miscellaneous";
+@import 'index';
 // Stylesheet
 @import "reboot";
 @import "spacing";

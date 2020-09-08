@@ -8,6 +8,7 @@ import { SpinnerService } from 'src/app/services/spinner.service';
 import { UserService } from 'src/app/services/user.service';
 import { ConfirmedValidator } from 'src/app/validators/password.validator';
 import Utils from '../../utils/utils';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-sign-up',
@@ -18,6 +19,7 @@ export class SignUpComponent implements OnInit {
 
     constructor(
         private userService: UserService,
+        private authService: AuthService,
         private formBuilder: FormBuilder,
         private route: Router,
         private spinnerSevice: SpinnerService,
@@ -100,7 +102,7 @@ export class SignUpComponent implements OnInit {
         if (this.formCreateClient.valid) {
             this.spinnerSevice.showSpinner();
 
-            this.userService.signUp(formData).subscribe((res) => {
+            this.authService.signUp(formData).subscribe((res) => {
                 this.spinnerSevice.hideSpinner();
                 if (Utils.isOkResponse(res)) {
                     this.route.navigate(['/']);

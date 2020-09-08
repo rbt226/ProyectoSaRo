@@ -60,7 +60,11 @@ export class CreateRoomComponent implements OnInit {
         const name = this.formCreateRoom.get('name');
 
         formData.append('name', name.value);
-        formData.append('features', JSON.stringify(this.roomsFeatures));
+        const features = this.roomsFeatures.map((f) => {
+            return f.id_feature;
+
+        });
+        formData.append('features', JSON.stringify(features));
 
         formData.append('description', this.formCreateRoom.get('description').value);
         for (const fileImage of this.files) {
@@ -161,6 +165,8 @@ export class CreateRoomComponent implements OnInit {
         const index = this.urls.indexOf(url);
         if (index > -1) {
             this.urls.splice(index, 1);
+            this.files.splice(index, 1);
+
         }
     }
 }

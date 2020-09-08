@@ -9,18 +9,24 @@ import { Globals } from '../globals';
 })
 export class AuthService {
     private URL: string;
+    private URL_CLIENT: string;
     public userName: any;
 
     constructor(private http: HttpClient, private router: Router, private globals: Globals) {
         this.URL = globals.server_url + 'users/';
+        this.URL_CLIENT = globals.server_url + 'clients/';
     }
 
     signUp(user) {
-        return this.http.post<any>(this.URL + 'signUp', user);
+        return this.http.post<any>(this.URL_CLIENT + 'signUp', user);
     }
 
     signIn(user) {
         return this.http.post<any>(this.URL + 'signIn', user);
+    }
+
+    login() {
+        return this.http.get(this.URL + 'auth/google');
     }
 
     getUserName() {

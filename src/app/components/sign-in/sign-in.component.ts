@@ -24,7 +24,7 @@ export class SignInComponent implements OnInit {
 		private emailService: EmailService,
 		private notification: NotificationService,
 		private usrService: UserService
-	) {}
+	) { }
 
 	formSignIn: FormGroup;
 	formSubmitted = false;
@@ -39,6 +39,13 @@ export class SignInComponent implements OnInit {
 
 	get form() {
 		return this.formSignIn.controls;
+	}
+
+	login() {
+		this.autService.login().subscribe((res) => {
+			debugger;
+			console.log("la respuesta es ", res);
+		})
 	}
 
 	signIn(data) {
