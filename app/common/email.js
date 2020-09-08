@@ -3,8 +3,8 @@ Envío de Mails utilizando librería Nodemailer
  */
 
 var nodemailer = require('nodemailer');
-const utils = require('./utils');
-const userDao = require('../dao/user.dao');
+const Utils = require('./Utils');
+const UserDao = require('../dao/user.dao');
 
 var from = 'consultorios.del.parque2020@gmail.com';
 var to = null;
@@ -56,10 +56,10 @@ exports.sendEmail = (req, res) => {
 
     transporter.sendMail(mailOptions, function(error, info) {
         if (error)
-            return res.status(500).send(utils.createErrorResponse(response, 'Lo sentimos, el mensaje no fue enviado, por favor inténtelo más tarde'));
+            return res.status(500).send(Utils.createErrorResponse(response, 'Lo sentimos, el mensaje no fue enviado, por favor inténtelo más tarde'));
         if (req.body.action == 'forgot') {
-            userDao.changePassword(mailOptions.to.trim(), newPass, (resp) => {
-                if (!utils.isResponseOk(resp)) return res.status(404).send(resp); // 404????
+            UserDao.changePassword(mailOptions.to.trim(), newPass, (resp) => {
+                if (!Utils.isResponseOk(resp)) return res.status(404).send(resp); // 404????
                 res.send(resp);
             });
         }

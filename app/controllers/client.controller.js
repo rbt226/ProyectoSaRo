@@ -1,8 +1,8 @@
 const clientDao = require('../dao/client.dao');
-const userDao = require('../dao/user.dao');
+const UserDao = require('../dao/user.dao');
 const IncomingForm = require('formidable').IncomingForm;
 const FileReader = require('filereader');
-const utils = require('../common/utils');
+const Utils = require('../common/Utils');
 
 exports.signUp = (req, res, next) => {
     const form = new IncomingForm();
@@ -16,8 +16,8 @@ exports.signUp = (req, res, next) => {
             req.body.image = 'Usuarios/' + userName; //si viene una imagen el publicId de cloudinary es el userName
         }
         const userCreate = createUserModel(req.body);
-        userDao.create(userCreate, next, (resp) => {
-            if (utils.isResponseOk(resp)) {
+        UserDao.create(userCreate, next, (resp) => {
+            if (Utils.isResponseOk(resp)) {
                 const { id_user: idUser } = resp.data; // Me quedo con el id del nuevo usuario
                 req.body.idUser = idUser; //  Para pasarle al client
                 const clientCreate = createClientModel(req.body);
@@ -91,7 +91,7 @@ uploadImageCloudinary = (file, userName, idUser) => {
             uploader.upload(dataUri, { public_id: userName, tags: 'Usuarios', folder: 'Usuarios' }, function(err, res) {
                 if (err) {
                     console.log('Error en cloudinary al dar de alta la imagen :', err);
-                    userDao.updateImage(idUser, 'Site/defaultUser', (data) => {});
+                    UserDao.updateImage(idUser, 'Site/defaultUser', (data) => {});
                 }
             });
         }

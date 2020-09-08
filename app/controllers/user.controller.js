@@ -1,18 +1,18 @@
-const userDao = require('../dao/user.dao');
+const UserDao = require('../dao/user.dao');
 const cloudinary = require('cloudinary').v2;
 const jwt = require('jsonwebtoken');
-const utils = require('../common/utils');
+const Utils = require('../common/Utils');
 
 exports.create = (req, res, next) => {
     const userCreate = createUserModel(req.body);
-    userDao.create(userCreate, next, (data) => {
+    UserDao.create(userCreate, next, (data) => {
         res.send(data);
     });
 };
 
 exports.getUserById = (req, res, next) => {
     const { id } = req.params;
-    userDao.getUserById(id, next, (data) => {
+    UserDao.getUserById(id, next, (data) => {
         res.send(data);
     });
 };
@@ -21,14 +21,14 @@ exports.updateById = (req, res, next) => {
     const { id } = req.params;
     const userUpdate = createUserModel(req.body);
 
-    userDao.updateById(id, userUpdate, next, (data) => {
+    UserDao.updateById(id, userUpdate, next, (data) => {
         res.send(data);
     });
 };
 
 exports.deleteById = (req, res, next) => {
     const { id } = req.params;
-    userDao.deleteById(id, next, (data) => {
+    UserDao.deleteById(id, next, (data) => {
         const { dataValues } = data;
         const { user_name, image_user } = dataValues;
         if (image_user === user_name) {
@@ -44,13 +44,13 @@ exports.deleteById = (req, res, next) => {
 };
 
 exports.getAll = (req, res, next) => {
-    userDao.getAll(next, (data) => {
+    UserDao.getAll(next, (data) => {
         res.send(data);
     });
 };
 
 exports.deleteAll = (req, res, next) => {
-    userDao.deleteAll(next, (data) => {
+    UserDao.deleteAll(next, (data) => {
         res.send(data);
     });
 };
@@ -58,8 +58,8 @@ exports.deleteAll = (req, res, next) => {
 exports.signIn = (req, res, next) => {
     const { body } = req;
     const { email, password } = body;
-    userDao.signIn(email, password, next, (data) => {
-        if (!utils.isResponseOk(data)) {
+    UserDao.signIn(email, password, next, (data) => {
+        if (!Utils.isResponseOk(data)) {
             res.send(data);
         } else {
             const token = jwt.sign({ _id: data.id_user }, 'secretKey');
@@ -71,11 +71,10 @@ exports.signIn = (req, res, next) => {
 
 exports.getUserByEmail = (req, res, next) => {
     const { email } = req.body;
-    userDao.getUserByEmail(email, next, (data) => {
+    UserDao.getUserByEmail(email, next, (data) => {
         res.send(data);
     });
 };
-
 
 createUserModel = (body) => {
     return {
