@@ -5,27 +5,17 @@ const FileReader = require('filereader');
 const Utils = require('../common/Utils');
 
 exports.signUp = (req, res, next) => {
-    const form = new IncomingForm();
-    let file = null;
-    form.parse(req, function(err, fields, files) {
-        req.body = fields;
-        const { body } = req;
-        const { userName } = body;
-        if (files.file) {
-            file = files.file;
-            req.body.image = 'Usuarios/' + userName; //si viene una imagen el publicId de cloudinary es el userName
+    const { file } = req.file;
+    const userCreate = createUserModel(req.body);
+    UserDao.create(userCreate, next, (resp) => {
+        if (Utils.isResponseOk(resp)) {
+            const { id_user: idUser } = resp.data; // Me quedo con el id del nuevo usuario
+            req.body.idUser = idUser; //  Para pasarle al client
+            const clientCreate = createClientModel(req.body);
+            createClientSignUp(clientCreate, next, file, res, userName);
+        } else {
+            res.send(resp);
         }
-        const userCreate = createUserModel(req.body);
-        UserDao.create(userCreate, next, (resp) => {
-            if (Utils.isResponseOk(resp)) {
-                const { id_user: idUser } = resp.data; // Me quedo con el id del nuevo usuario
-                req.body.idUser = idUser; //  Para pasarle al client
-                const clientCreate = createClientModel(req.body);
-                createClientSignUp(clientCreate, next, file, res, userName);
-            } else {
-                res.send(resp);
-            }
-        });
     });
 };
 
@@ -71,31 +61,15 @@ exports.deleteByUserId = (req, res, next) => {
 };
 
 createClientSignUp = (clientCreate, next, file, res, userName) => {
-    const { id_user } = clientCreate;
+    const { user_name } = clientCreate;
     clientDao.create(clientCreate, next, (data) => {
-        // Si no eligio la imagen por defecto entonces hay un file
-        if (file) {
-            uploadImageCloudinary(file, userName, id_user);
+        const { path } = file;
+        if (path) {
+            const uploader = async(path) => await cloudinary.uploads(path, 'img', 'Usuarios', user_name);
+            await uploader(path);
         }
         return res.send(data);
     });
-};
-
-uploadImageCloudinary = (file, userName, idUser) => {
-    const reader = new FileReader();
-    const { uploader } = cloudinary;
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-        const dataUri = reader.result;
-        if (dataUri) {
-            uploader.upload(dataUri, { public_id: userName, tags: 'Usuarios', folder: 'Usuarios' }, function(err, res) {
-                if (err) {
-                    console.log('Error en cloudinary al dar de alta la imagen :', err);
-                    UserDao.updateImage(idUser, 'Site/defaultUser', (data) => {});
-                }
-            });
-        }
-    };
 };
 
 createUserModel = (body) => {

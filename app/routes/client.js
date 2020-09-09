@@ -4,7 +4,7 @@ var router = express.Router();
 var client = require('../controllers/client.controller');
 
 /* POST - Sign Up*/
-router.post('/signUp', client.signUp);
+router.post('/signUp', upload.single('file'), client.signUp);
 
 /* POST - Update the Client with the specific id */
 router.post('/:id', client.updateById);
