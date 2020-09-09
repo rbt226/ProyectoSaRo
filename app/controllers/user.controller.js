@@ -1,5 +1,5 @@
 const UserDao = require('../dao/user.dao');
-const cloudinary = require('cloudinary').v2;
+const cloudinary = require('../config/cloudinary');
 const jwt = require('jsonwebtoken');
 const Utils = require('../common/Utils');
 
@@ -28,18 +28,16 @@ exports.updateById = (req, res, next) => {
 
 exports.deleteById = (req, res, next) => {
     const { id } = req.params;
-    UserDao.deleteById(id, next, (data) => {
-        const { dataValues } = data;
-        const { user_name, image_user } = dataValues;
-        if (image_user === user_name) {
+    UserDao.deleteById(id, next, async(resp) => {
+        if (!Utils.isResponseOk(resp)) return res.send(resp);
+        const { data } = resp;
+        const { user_name, image_user } = data;
+        if (!image_user.includes('defaultUser')) {
+            console.log('entro?');
             // Se elimina la imagen de cloudinary si la imagen no es la default
-            cloudinary.api.delete_resources(user_name, { invalidate: true, resource_type: 'image' }, function(err, res) {
-                if (err) {
-                    console.log(`Error al eliminar la imagen del usuario con id : ${id} en cloudinary: `, err);
-                }
-            });
+            await cloudinary.deleteImages(image_user);
         }
-        res.send(data);
+        res.send(resp);
     });
 };
 

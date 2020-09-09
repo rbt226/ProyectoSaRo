@@ -1,5 +1,4 @@
 const RoomDao = require('../dao/room.dao');
-const FeatureRoomDao = require('../dao/feature_room.dao');
 const cloudinary = require('../config/cloudinary');
 
 const Utils = require('../common/Utils');

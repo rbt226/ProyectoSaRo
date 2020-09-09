@@ -79,7 +79,7 @@ exports.deleteById = (id, next, result) => {
             }
             UserModel.destroy({ where: { id_user: id } })
                 .then(() => {
-                    return result(Utils.createSuccessResponse(response, 'Se ha eliminado el usuario correctamente'));
+                    return result(Utils.createSuccessResponse(response, 'Se ha eliminado el usuario correctamente', user));
                 })
                 .catch((error) => {
                     next(Utils.createErrorResponse(response, 'Error al eliminar usuario', error));
