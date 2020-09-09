@@ -28,8 +28,6 @@ exports.uploads = (file, index, folder, public_id) => {
     });
 };
 exports.deleteImages = (resources) => {
-    console.log('resources ', resources);
-
     return new Promise((resolve, reject) => {
         cloudinary.v2.api.delete_resources(resources, { invalidate: true, resource_type: 'image' }, (err, res) => {
             if (err) {

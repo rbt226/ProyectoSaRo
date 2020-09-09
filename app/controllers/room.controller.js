@@ -66,8 +66,17 @@ exports.getAll = (req, res, next) => {
 };
 
 exports.deleteAll = (req, res, next) => {
-    RoomDao.deleteAll(next, (data) => {
-        res.send(data);
+    RoomDao.getAll(next, async(resp) => {
+        const { data } = resp;
+        let images = [];
+        data.map((room) => {
+            const { room_images } = room;
+            room_images.map((path) => images.push(path.path_room_image));
+        });
+        await cloudinary.deleteImages(images);
+        RoomDao.deleteAll(next, (data) => {
+            res.send(data);
+        });
     });
 };
 
