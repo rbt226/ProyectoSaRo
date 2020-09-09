@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SpinnerService } from 'src/app/services/spinner.service';
 
 import { UserService } from '../../../services/user.service';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
 	selector: 'app-userstab',
@@ -11,7 +12,7 @@ import { UserService } from '../../../services/user.service';
 export class UserstabComponent implements OnInit {
 	items = [];
 
-	constructor(private userService: UserService, private spinnerService: SpinnerService) {}
+	constructor(private userService: UserService, private spinnerService: SpinnerService, private modalService: ModalService) {}
 
 	ngOnInit() {
 		this.spinnerService.showSpinner();
@@ -21,5 +22,8 @@ export class UserstabComponent implements OnInit {
 			this.items = res.data;
 			console.log(res.data);
 		});
+	}
+	ngShow(type, data) {
+		this.modalService.showModal(type, data);
 	}
 }

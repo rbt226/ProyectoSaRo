@@ -12,9 +12,9 @@
             </div>
             <ul class="list-group">
                 <li *ngFor="let item of items" class="list-group-item d-flex justify-content-between align-items-center">
-                    <input class="activo" type="checkbox" [(ngModel)]="item.active_user" />
-                    <label class="nombre"> {{item.user_name}} - ({{item.email}}) </label>
-                    <span class="fa fa-trash"></span>
+                    <input class="activo" type="checkbox" [(ngModel)]="item.active_user" onclick="return false" />
+                    <a (click)="ngShow('createUser', item)" class="nombre"><span style="cursor: pointer;"> {{item.user_name}} - ({{item.email}}) </span> </a>
+                    <span class="fa fa-trash" style="cursor: pointer;"></span>
                 </li>
             </ul>
         </div>

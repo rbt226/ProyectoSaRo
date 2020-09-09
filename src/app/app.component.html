@@ -1,15 +1,12 @@
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
-<ngx-spinner zIndex="99999999" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-clip-rotate-multiple"
-    [fullScreen]="true"></ngx-spinner>
+<ngx-spinner zIndex="99999999" bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-clip-rotate-multiple" [fullScreen]="true"></ngx-spinner>
 
-<a class="float" target="_blank"
-    href="https://api.whatsapp.com/send?phone=59897186081&text=Hola!%20Quiero%20mas%20info%20sobre%20los%20consultorios">
+<a class="float" target="_blank" href="https://api.whatsapp.com/send?phone=59897186081&text=Hola!%20Quiero%20mas%20info%20sobre%20los%20consultorios">
     <img src="assets/images/whastapp_logo.png" alt="" />
 </a>
 
-<div [style.display]="modalService.getShow() ? 'block' : 'none'" class="modal modal-back" id="imagemodal" tabindex="-1"
-    role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div [style.display]="modalService.getShow() ? 'block' : 'none'" class="modal modal-back" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -24,6 +21,9 @@
                 </div>
                 <div *ngSwitchCase="'signUp'">
                     <app-sign-up></app-sign-up>
+                </div>
+                <div *ngSwitchCase="'createUser'">
+                    <app-sign-up [data]="modalService.getData()"></app-sign-up>
                 </div>
                 <div *ngSwitchCase="'roomDetail'">
                     <app-detail-room [data]="modalService.getData()"></app-detail-room>
