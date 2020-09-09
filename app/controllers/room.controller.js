@@ -11,8 +11,9 @@ exports.create = async(req, res, next) => {
     const roomCreate = createRoomModel(body);
     RoomDao.create(roomCreate, JSON.parse(features), next, async(resp) => {
         if (!Utils.isResponseOk(resp)) return res.send(resp); // Ya existe un consultorio con el nombre indicado
-        const { id_room } = resp.data.dataValues;
-
+        const { data } = resp;
+        const { dataValues } = data;
+        const { id_room } = dataValues;
         const uploader = async(path, index) => await cloudinary.uploads(path, index, 'Consultorios', id_room);
         let images = [];
         const files = req.files;
@@ -31,22 +32,9 @@ exports.create = async(req, res, next) => {
 };
 
 exports.getRoomById = (req, res, next) => {
-    RoomDao.getRoomById(req.params.id, (error, resp) => {
-        if (error) return res.status(500).send(error);
-        if (!Utils.isResponseOk(resp)) return res.send(resp);
-        let data = resp.data;
-        const roomId = data.id_room;
-        const images = data.image_room.split('|');
-        data.images = images;
-        resp.data = data;
-        FeatureRoomDao.getFeatureRoomById(roomId, (errorF, respF) => {
-            if (errorF) return res.status(500).send(errorF);
-            if (Utils.isResponseOk(respF)) {
-                data.features = respF.data;
-                resp.data = data;
-            }
-            res.send(resp);
-        });
+    const { id } = req.params;
+    RoomDao.getRoomById(id, next, (data) => {
+        res.send(data);
     });
 };
 
@@ -59,20 +47,14 @@ exports.updateById = (req, res, next) => {
 };
 
 exports.deleteById = (req, res, next) => {
-    RoomDao.deleteById(req.params.id, (error, resp) => {
-        if (error) return res.status(500).send(error);
-        if (!Utils.isResponseOk(resp)) return res.send(resp);
+    const { id } = req.params;
 
-        const images = resp.data.image_room.split('|');
-        // Se elimina la imagen de cloudinary si la imagen no es la default
-        images.map((image) => {
-            cloudinary.api.delete_resources(image, { invalidate: true, resource_type: 'image' }, function(err, res) {
-                if (err) {
-                    console.log('Error en cloudinary :', err);
-                }
-                console.log('Respuesta De cloudinary: ', res);
-            });
-        });
+    RoomDao.deleteById(id, next, async(resp) => {
+        if (!Utils.isResponseOk(resp)) return res.send(resp);
+        const { data } = resp;
+        const { room_images } = data;
+        const publicIds = room_images.map((id) => id.path_room_image);
+        await cloudinary.deleteImages(publicIds);
         res.send(resp);
     });
 };

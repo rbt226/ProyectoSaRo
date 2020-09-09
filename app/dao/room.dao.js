@@ -26,32 +26,46 @@ exports.create = async(roomCreate, featuresId, next, result) => {
         }
     }
 };
+
 exports.addImages = async(images, result) => {
     const response = 'R09';
     RoomImageModel.bulkCreate(images)
         .then(() => {
             return result(Utils.createSuccessResponse(response, 'Se ha creado el consultorio correctamente'));
         })
-        .catch(() => {
+        .catch((error) => {
+            const defaultImage = {
+                path_room_image: 'Site/noImage',
+            };
+            RoomImageModel.create(defaultImage).then();
             return result(
                 Utils.createWarningResponse(response, 'Se ha creado exitosamente el consultorio pero hubo un problema al cargar las images')
             );
         });
 };
 
-exports.getRoomById = (id, result) => {
+exports.getRoomById = (id, next, result) => {
     const response = 'R02';
-    RoomModel.findOne({ where: { id_room: id } })
+    RoomModel.findOne({
+            where: { id_room: id },
+            include: [{
+                    model: RoomImageModel,
+                    attributes: ['path_room_image'],
+                },
+                {
+                    model: FeatureModel, // many to many
+                    through: { attributes: [] }, // Esto es para no traer los elementos de la tabla de relacion (featureRoom)
+                },
+            ],
+        })
         .then((room) => {
             if (!room) {
-                console.log('El consultorio que intenta obtener no existe, con id: ', id);
                 return result(Utils.createWarningResponse(response, 'El consultorio que intenta obtener no existe'));
             }
             result(Utils.createSuccessResponse(response, '', room.dataValues));
         })
         .catch((error) => {
-            console.log('Error al obtener el consultorio con id: ', id, ' : ', error);
-            next(Utils.createErrorResponse(response, 'Error al obtener el consultorio'));
+            next(Utils.createErrorResponse(response, 'Error al obtener consultorio', error));
         });
 };
 
@@ -69,27 +83,29 @@ exports.updateById = (id, roomUpdate, next, result) => {
         });
 };
 
-exports.deleteById = (id, result) => {
+exports.deleteById = (id, next, result) => {
     const response = 'R04';
-    RoomModel.findOne({ where: { id_room: id } })
+    RoomModel.findOne({
+            where: { id_room: id },
+            include: [{
+                model: RoomImageModel,
+                attributes: ['path_room_image'],
+            }, ],
+        })
         .then((room) => {
             if (!room) {
-                console.log('El consultorio que intenta eliminar no existe, consultorio id: ', id);
                 return result(Utils.createWarningResponse(response, 'El consultorio que intenta eliminar no existe'));
             }
             RoomModel.destroy({ where: { id_room: id } })
                 .then(() => {
-                    console.log('Se elimino correctamente el consultorio con id: ' + id);
-                    result(Utils.createSuccessResponse(response, 'Se ha eliminado el consultorio correctamente', room.dataValues));
+                    return result(Utils.createSuccessResponse(response, 'Se ha eliminado el consultorio correctamente', room));
                 })
                 .catch((error) => {
-                    console.log('Error al eliminar el consultorio con id: ', id, ' : ', error);
-                    next(Utils.createErrorResponse(response, 'Error al eliminar el consultorio'));
+                    next(Utils.createErrorResponse(response, 'Error al eliminar consultorio', error));
                 });
         })
         .catch((error) => {
-            console.log('Error al eliminar el consultorio con id: ', id, ' : ', error);
-            next(Utils.createErrorResponse(response, 'Error al eliminar el consultorio'));
+            next(Utils.createErrorResponse(response, 'Error al eliminar consultorio', error));
         });
 };
 
@@ -114,69 +130,13 @@ exports.getAll = (next, result) => {
         });
 };
 
-exports.deleteAll = (result) => {
+exports.deleteAll = (next, result) => {
     const response = 'R06';
     RoomModel.destroy({ where: {} })
-        .then((rooms) => {
-            console.log('Se eliminaron todas las consultorios correctamente');
-            result(Utils.createSuccessResponse(response, 'Se eliminaron todas las consultorios correctamente'));
+        .then((users) => {
+            return result(Utils.createSuccessResponse(response, 'Se eliminaron todos los consultorios correctamente', users));
         })
         .catch((error) => {
-            Utils.handleError(error, result);
-            console.log('Error al eliminar todas las consultorios : ', error);
-            next(Utils.createErrorResponse(response, 'Error al eliminar todas las consultorios'));
+            next(Utils.createErrorResponse(response, 'Error al eliminar todos los consultorios', error));
         });
-};
-
-exports.getRoomByName = (name, result) => {
-    const response = 'R07';
-    RoomModel.findOne({ where: { name_room: name } })
-        .then((room) => {
-            if (!room) {
-                console.log('El consultorio que intenta obtener no existe, con nombre: ', name);
-                return result(Utils.createWarningResponse(response, 'El consultorio que intenta obtener no existe'));
-            }
-            result(Utils.createSuccessResponse(response, '', room.dataValues));
-        })
-        .catch((error) => {
-            console.log('Error al obtener el consultorio con nombre: ', name, ' : ', error);
-            next(Utils.createErrorResponse(response, 'Error al obtener el consultorio'));
-        });
-};
-
-exports.updateImages = (id, image_room) =>
-    new Promise((resolve, reject) => {
-        const response = 'R08';
-        console.log('2 - updateImages');
-
-        RoomModel.update({ image_room }, { where: { id_room: id } })
-            .then((room) => {
-                console.log('2.1 - updateImages ', room);
-                if (room[0] == 0) {
-                    return resolve(Utils.createWarningResponse(response, 'El consultorio que intenta actualizar no existe'));
-                }
-                resolve(Utils.createSuccessResponse(response, 'Se ha actualizado el consultorio correctamente'));
-            })
-            .catch((error) => {
-                console.log('2.2 - updateImages error ', error);
-                return resolve(Utils.createWarningResponse(response, 'Error al cargar las imagenes'));
-            });
-    });
-
-createRoomModel = (req) => {
-    const images = req.body.images;
-    let image = '';
-    images.forEach((im) => {
-        if (!image) {
-            image = im;
-        } else {
-            image = image + '|' + im;
-        }
-    });
-    return {
-        name_room: req.body.name,
-        active_room: req.body.active,
-        image_room: image,
-        description: req.body.description,
-    };
 };
