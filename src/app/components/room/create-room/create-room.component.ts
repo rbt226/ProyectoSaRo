@@ -17,7 +17,7 @@ import { FeatureService } from 'src/app/services/feature.service';
 export class CreateRoomComponent implements OnInit {
     formCreateRoom: FormGroup;
     maxSize = 5 * 1024 * 1024; // 5MB
-    allowedFileType = ['image'];
+    allowedFileType = ['image/jpg'];
     public errorImagen = '';
     imgURL: any = 'assets/images/default.jpg';
     maxImages = 5;
@@ -124,7 +124,6 @@ export class CreateRoomComponent implements OnInit {
 
         if (this.urls.length >= this.maxImages) {
             this.errorImagen = 'Ha superado el máximo de imagenes permitidas';
-            console.log('Ha superado el máximo de imagenes permitidas');
             return;
         }
 
@@ -133,12 +132,11 @@ export class CreateRoomComponent implements OnInit {
 
         if (size > this.maxSize) {
             this.errorImagen = 'Se excede el máximo permitido';
-            console.log('Se excede el máximo permitido');
             return;
         }
-        if (mimeType.match(/image\/*/) == null) {
-            console.log('Solo se soportan imagenes');
-            this.errorImagen = 'Solo se soportan imagenes.';
+
+        if (mimeType !== 'image/jpeg' && mimeType !== 'image/jpg' && mimeType !== 'image/png') {
+            this.errorImagen = 'Solo se soportan imagenes del tipo png o jpg, jpeg';
             return;
         }
 
@@ -150,7 +148,6 @@ export class CreateRoomComponent implements OnInit {
             reader.onload = () => {
                 if (this.urls.length >= this.maxImages) {
                     this.errorImagen = 'Ha superado el máximo de imagenes permitidas';
-                    console.log('Ha superado el máximo de imagenes permitidas');
                     return;
                 }
                 this.urls.push(reader.result);

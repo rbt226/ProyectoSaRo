@@ -4,7 +4,7 @@
             <div class="room-thumbnail">
                 <ngu-carousel #detailCarousel [inputs]="carouselConfig" [dataSource]="room.room_images">
                     <ngu-tile *nguCarouselDef="let item; let j = index" class="tile">
-                        <cl-image [public-id]="item" [style.width]="getWidthImg()" loading="lazy">
+                        <cl-image [public-id]="item.path_room_image" [style.width]="getWidthImg()" loading="lazy">
                             <cl-placeholder type="blur">
                             </cl-placeholder>
                             <cl-transformation width="400" height="225" crop="thumb">

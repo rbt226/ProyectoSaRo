@@ -28,7 +28,7 @@
                                     <legend class="w-auto">Imagenes:</legend>
                                     <div class="col-lg-6 col-md-12 col-xs-12">
                                         <div class="custom-file">
-                                            <input #file type="file" multiple class="custom-file-input " id="customFileLang" lang="es" formControlName="images" accept='image/*' (change)="preview($event)" />
+                                            <input #file accept="image/png,image/jpg,image/jpeg" type="file" multiple class="custom-file-input " id="customFileLang" lang="es" formControlName="images" accept='image/*' (change)="preview($event)" />
                                             <label class="custom-file-label" for="customFileLang">Seleccionar
                                                 Imagen</label>
                                         </div>
