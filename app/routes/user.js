@@ -2,8 +2,14 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 const jwt = require('jsonwebtoken');
+const upload = require('../config/multer');
 
 var user = require('../controllers/user.controller');
+var client = require('../controllers/client.controller');
+
+
+/* POST - Sign Up*/
+router.post('/signUp', upload.single('file'), client.signUp);
 
 /* POST - Get a User By Email */
 router.post('/byEmail', user.getUserByEmail);

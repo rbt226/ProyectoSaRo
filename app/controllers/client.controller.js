@@ -1,18 +1,19 @@
 const clientDao = require('../dao/client.dao');
 const UserDao = require('../dao/user.dao');
-const IncomingForm = require('formidable').IncomingForm;
-const FileReader = require('filereader');
 const Utils = require('../common/Utils');
+const cloudinary = require('../config/cloudinary');
 
 exports.signUp = (req, res, next) => {
-    const { file } = req.file;
-    const userCreate = createUserModel(req.body);
+    const { file, body } = req;
+    const { userName } = body;
+    console.log("userName-------", userName);
+    const userCreate = createUserModel(body);
     UserDao.create(userCreate, next, (resp) => {
         if (Utils.isResponseOk(resp)) {
             const { id_user: idUser } = resp.data; // Me quedo con el id del nuevo usuario
             req.body.idUser = idUser; //  Para pasarle al client
             const clientCreate = createClientModel(req.body);
-            createClientSignUp(clientCreate, next, file, res);
+            createClientSignUp(clientCreate, userName, next, file, res);
         } else {
             res.send(resp);
         }
@@ -60,8 +61,7 @@ exports.deleteByUserId = (req, res, next) => {
     });
 };
 
-createClientSignUp = (clientCreate, next, file, res) => {
-    const { user_name } = clientCreate;
+createClientSignUp = (clientCreate, user_name, next, file, res) => {
     clientDao.create(clientCreate, next, async(data) => {
         const { path } = file;
         if (path) {
