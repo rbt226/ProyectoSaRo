@@ -12,7 +12,7 @@ exports.signUp = (req, res, next) => {
             const { id_user: idUser } = resp.data; // Me quedo con el id del nuevo usuario
             req.body.idUser = idUser; //  Para pasarle al client
             const clientCreate = createClientModel(req.body);
-            createClientSignUp(clientCreate, next, file, res, userName);
+            createClientSignUp(clientCreate, next, file, res);
         } else {
             res.send(resp);
         }
@@ -60,13 +60,12 @@ exports.deleteByUserId = (req, res, next) => {
     });
 };
 
-createClientSignUp = (clientCreate, next, file, res, userName) => {
+createClientSignUp = (clientCreate, next, file, res) => {
     const { user_name } = clientCreate;
-    clientDao.create(clientCreate, next, (data) => {
+    clientDao.create(clientCreate, next, async(data) => {
         const { path } = file;
         if (path) {
-            const uploader = async(path) => await cloudinary.uploads(path, 'img', 'Usuarios', user_name);
-            await uploader(path);
+            await cloudinary.uploads(path, 'img', 'Usuarios', user_name);
         }
         return res.send(data);
     });

@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const upload = require('../config/multer');
 
 var client = require('../controllers/client.controller');
 
