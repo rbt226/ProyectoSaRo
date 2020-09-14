@@ -50,6 +50,6 @@
     margin-bottom: 10px;
 }
 
-.email-component.ng-valid {
+.email-component:not(.ng-invalid) {
     margin-bottom: 1rem;
 }
