@@ -1,4 +1,55 @@
+@import 'index';
 .container {
     padding-left: 0px;
     padding-right: 0px;
+}
+
+.btn-outline-dark {
+    //  width: 400px;
+    &:hover {
+        background: none;
+    }
+}
+
+.facebook {
+    background-color: #3a5a97;
+    color: white !important;
+    &:hover {
+        background-color: #314a86;
+    }
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: stretch;
+    align-content: center;
+}
+
+.flex-item {
+    flex-basis: 50%;
+    flex-grow: 0;
+    margin: 10px;
+    a,
+    input,
+    button,
+    small {
+        width: 100%;
+        max-width: 300px;
+        @media #{$breakpoint-md} {
+            min-width: 350px;
+        }
+    }
+    small>div {
+        max-width: 350px;
+    }
+}
+
+.text-danger>div {
+    margin-bottom: 10px;
+}
+
+.email-component.ng-valid {
+    margin-bottom: 1rem;
 }

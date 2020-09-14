@@ -1,47 +1,59 @@
 <div class="section-padding-50-50">
     <div class="col-md-12 mx-auto container">
-        <div>
-            <div class="row">
-                <div class="col-12">
-                		<a (click)="login()" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
-
-                    <div class="animate-plus section-heading text-center" data-animation-delay="200ms " data-animation-when-visible="true ">
-                        <h6>Usuario</h6>
-                        <div *ngIf="!forgotPass; else forgotTitle">
-                            <h3>Iniciar Sesión</h3>
-                        </div>
-                        <ng-template #forgotTitle>
-                            <h3>Resetear Contraseña</h3>
-                        </ng-template>
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="animate-plus section-heading text-center" data-animation-delay="200ms" data-animation-when-visible="true">
+                    <h6>Usuario</h6>
+                    <div *ngIf="!forgotPass; else forgotTitle">
+                        <h3>Iniciar Sesión</h3>
                     </div>
+                    <ng-template #forgotTitle>
+                        <h3>Resetear Contraseña</h3>
+                    </ng-template>
                 </div>
             </div>
-            <div class="card-body">
-                <form [formGroup]="formSignIn" (ngSubmit)="signIn(formSignIn.value)" novalidate class="col-md-10 mx-auto">
-                    <div class="form-group">
-                        <input formControlName="email" class="form-control" placeholder="Email" autofocus [ngClass]="{'is-required': form.email.errors?.required}" />
-                        <small *ngIf="form.email.touched && form.email.invalid" class="text-danger">
-                            <div *ngIf="form.email.errors?.pattern">Por favor ingrese una direccion de email correcta</div>
-                        </small>
+        </div>
+        <div class="flex-container">
+            <div class="flex-item" *ngIf="!forgotPass">
+                <a class=" btn btn-outline-dark" href="/users/googleauth" role="button" style="text-transform:none">
+                    <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" /> Login with Google
+                </a>
+            </div>
+            <div class="flex-item" *ngIf="!forgotPass">
+                <a class="btn btn-outline-dark facebook" href="/users/googleauth" role="button" style="text-transform:none">
+                    <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Facebook sign-in" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/F_icon_reversed.svg" /> Login with Facebook
+                </a>
+            </div>
+            <div class="flex-item">
+                <form [formGroup]="formSignIn" (ngSubmit)="signIn(formSignIn.value)" novalidate class="">
+                    <div>
+                        <input formControlName="email" class="form-control email-component" placeholder="Email" autofocus [ngClass]="{ 'is-required': form.email.errors?.required}" />
                     </div>
+                    <small *ngIf="form.email.touched && form.email.invalid" class="text-danger">
+                        <div *ngIf="form.email.errors?.pattern">Por favor ingrese una direccion de email
+                            correcta
+                        </div>
+                    </small>
                     <div *ngIf="!forgotPass; else forgotBtn">
                         <div class="form-group">
-                            <input type="password" formControlName="password" placeholder="Contraseña" class="form-control"
-                                [ngClass]="{'is-required': form.password.errors?.required}" />
+                            <input type="password" formControlName="password" placeholder="Contraseña" class="form-control" [ngClass]="{ 'is-required': form.password.errors?.required}" />
                         </div>
-                        <button type="submit " class="form-control btn consultorio-btn w-100 ">
+                        <button type="submit" class="form-control btn consultorio-btn w-100">
                             Iniciar Sesión
                         </button>
                     </div>
-                    <ng-template #forgotBtn>
-                        <button type="submit " class="form-control btn consultorio-btn w-100 ">
-                            Enviar correo
-                        </button>
-                        <small>Se le enviará un correo con la nueva contraseña, por favor modifíquela lo antes posible.</small>
-                    </ng-template>
-                    <div class="mt-40">
+                    <div *ngIf="!forgotPass" class="mt-40">
                         <a (click)="forgotPass=true" style="cursor: pointer;">¿Olvidaste tu Contraseña?</a>
                     </div>
+                    <ng-template #forgotBtn>
+                        <button type="submit" class="mt-10 form-control btn consultorio-btn w-100">
+                            Enviar correo
+                        </button>
+                        <small>
+                            <div class="mt-10">Se le enviará un correo con la nueva contraseña, por favor modifíquela lo
+                                antes posible.</div>
+                        </small>
+                    </ng-template>
                 </form>
             </div>
         </div>
