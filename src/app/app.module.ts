@@ -36,6 +36,13 @@ import { PickListModule } from 'primeng/picklist';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { AdminComponent } from './components/admin/admin.component';
 import { UserstabComponent } from './components/admin/userstab/userstab.component';
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import {
+	GoogleLoginProvider,
+	FacebookLoginProvider,
+} from 'angularx-social-login';
+
+
 
 @NgModule({
 	declarations: [
@@ -80,6 +87,7 @@ import { UserstabComponent } from './components/admin/userstab/userstab.componen
 		NgbModule,
 		PickListModule,
 		TabMenuModule,
+		SocialLoginModule
 	],
 	providers: [
 		{ provide: ErrorHandler, useClass: GlobalErrorHandler },
@@ -94,8 +102,28 @@ import { UserstabComponent } from './components/admin/userstab/userstab.componen
 			useClass: ServerErrorInterceptor,
 			multi: true,
 		},
+
 		Globals,
+		{
+			provide: 'SocialAuthServiceConfig',
+			useValue: {
+				autoLogin: false,
+				providers: [
+					{
+						id: GoogleLoginProvider.PROVIDER_ID,
+						provider: new GoogleLoginProvider(
+							'71811384167-nlu32imurejp4vr205vvjbr80t0aiok8.apps.googleusercontent.com'
+						)
+
+					},
+					{
+						id: FacebookLoginProvider.PROVIDER_ID,
+						provider: new FacebookLoginProvider('399162584413731'),
+					},
+				],
+			} as SocialAuthServiceConfig,
+		}
 	],
 	bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

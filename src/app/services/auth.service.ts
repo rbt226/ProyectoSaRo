@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { Globals } from '../globals';
+import { SocialAuthService } from "angularx-social-login";
+
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +14,7 @@ export class AuthService {
     private URL_CLIENT: string;
     public userName: any;
 
-    constructor(private http: HttpClient, private router: Router, private globals: Globals) {
+    constructor(private http: HttpClient, private router: Router, private globals: Globals, private socialAuthService: SocialAuthService) {
         this.URL = globals.server_url + 'users/';
         this.URL_CLIENT = globals.server_url + 'clients/';
     }
@@ -40,6 +42,7 @@ export class AuthService {
         return !!localStorage.getItem('token');
     }
 
+
     getToken() {
         return localStorage.getItem('token');
     }
@@ -48,7 +51,9 @@ export class AuthService {
         return null;
     }
 
-    logout() {
+
+    signOut() {
+        this.socialAuthService.signOut();
         localStorage.removeItem('token');
         localStorage.removeItem('userName');
         localStorage.removeItem('userImg');

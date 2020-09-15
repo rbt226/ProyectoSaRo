@@ -8,7 +8,9 @@ import { NotificationService } from 'src/app/services/notifications.service';
 import { SpinnerService } from 'src/app/services/spinner.service';
 import { UserService } from 'src/app/services/user.service';
 import Utils from '../../utils/utils';
-
+import { SocialAuthService } from "angularx-social-login";
+import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
+import { SocialUser } from "angularx-social-login";
 @Component({
 	selector: 'app-sign-in',
 	templateUrl: './sign-in.component.html',
@@ -16,18 +18,21 @@ import Utils from '../../utils/utils';
 })
 export class SignInComponent implements OnInit {
 	constructor(
-		private autService: AuthService,
 		private formBuilder: FormBuilder,
 		private router: Router,
 		private spinnerService: SpinnerService,
 		public modalService: ModalService,
 		private emailService: EmailService,
 		private notification: NotificationService,
-		private usrService: UserService
+		private usrService: UserService,
+		private socialAuthService: SocialAuthService,
+		private authService: AuthService,
 	) { }
 
 	formSignIn: FormGroup;
 	formSubmitted = false;
+	user: SocialUser;
+	loggedIn: boolean;
 	forgotPass = false;
 
 	ngOnInit() {
@@ -35,60 +40,83 @@ export class SignInComponent implements OnInit {
 			email: ['', [Validators.pattern('^[^@]+@[^@]+\\.[a-zA-Z]{2,}$')]],
 			password: ['', Validators.required],
 		});
+		this.socialAuthService.authState.subscribe((user) => {
+			console.log("user", JSON.stringify(user));
+			this.user = user;
+			this.loggedIn = (user != null);
+		});
 	}
 
 	get form() {
 		return this.formSignIn.controls;
 	}
 
-	login() {
-		this.autService.login().subscribe((res) => {
-			debugger;
-			console.log("la respuesta es ", res);
-		})
+	signInWithGoogle(): void {
+		this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
 	}
+
+	signInWithFB(): void {
+		debugger;
+		this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+	}
+
+	signOut(): void {
+		this.socialAuthService.signOut();
+	}
+
+
+
 
 	signIn(data) {
 		event.preventDefault();
 		this.formSubmitted = true;
-		if (!this.forgotPass) {
-			if (this.formSignIn.valid) {
-				this.spinnerService.showSpinner();
+		if (this.formSignIn.valid) {
+			this.spinnerService.showSpinner();
+			if (this.forgotPass) {
+				return this.forgotPassword(data)
+			}
+			this.login(data);
+		}
 
-				this.autService.signIn(data).subscribe((res) => {
-					this.spinnerService.hideSpinner();
-					if (Utils.isOkResponse(res)) {
-						this.usrService.setUserData(res.data.user_name, res.data.image_user);
-						localStorage.setItem('token', res.token);
+	}
+
+	login(data) {
+		this.authService.signIn(data).subscribe((res) => {
+			this.spinnerService.hideSpinner();
+			if (Utils.isOkResponse(res)) {
+				this.usrService.setUserData(res.data.user_name, res.data.image_user);
+				localStorage.setItem('token', res.token);
+				this.router.navigate(['/']);
+				this.formSignIn.reset();
+				this.modalService.hideModal();
+			} else {
+				this.notification.showError(res.message);
+			}
+		});
+	}
+
+	forgotPassword(data) {
+		this.usrService.getUserByEmail(data).subscribe((res) => {
+			if (Utils.isOkResponse(res)) {
+				this.emailService
+					.sendEmail({
+						action: 'forgot',
+						to: data.email,
+					})
+					.subscribe((resEmail) => {
+						this.spinnerService.hideSpinner();
+						this.notification.showSuccess(resEmail.message);
 						this.router.navigate(['/']);
 						this.formSignIn.reset();
 						this.modalService.hideModal();
-					} else {
-						this.notification.showError(res.message);
-					}
-				});
+					});
+			} else {
+				this.spinnerService.hideSpinner();
+				this.notification.showError(res.message);
 			}
-		} else {
-			this.spinnerService.showSpinner();
-			this.usrService.getUserByEmail(data).subscribe((res) => {
-				if (Utils.isOkResponse(res)) {
-					this.emailService
-						.sendEmail({
-							action: 'forgot',
-							to: data.email,
-						})
-						.subscribe((resEmail) => {
-							this.spinnerService.hideSpinner();
-							this.notification.showSuccess(resEmail.message);
-							this.router.navigate(['/']);
-							this.formSignIn.reset();
-							this.modalService.hideModal();
-						});
-				} else {
-					this.spinnerService.hideSpinner();
-					this.notification.showError(res.message);
-				}
-			});
-		}
+		});
+	}
+	loginService() {
+
 	}
 }

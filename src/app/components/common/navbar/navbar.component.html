@@ -1,6 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="nav-brand" href="index.html"><img src="./assets/img/core-img/logo.png"
-            alt="" />Consultorios<span>Del</span>Parque</a>
+    <a class="nav-brand" href="index.html"><img src="./assets/img/core-img/logo.png" alt="" />Consultorios<span>Del</span>Parque</a>
 
     <!-- Step 3: Toggle the value of the property when the toggler button is clicked. -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" (click)="isMenuCollapsed = !isMenuCollapsed">
@@ -33,17 +32,15 @@
                     </li>
                 </ul>
             </li>
-            <ng-container *ngIf="!authService.loggedIn(); else logOut">
+            <ng-container *ngIf="!authService.loggedIn(); else signOut">
                 <li class="nav-item mt-13">
-                    <a class="nav-link" (click)="ngShow('signIn')" style="cursor: pointer;"
-                        routerLinkActive="active">Iniciar Sesión</a>
+                    <a class="nav-link" (click)="ngShow('signIn')" style="cursor: pointer;" routerLinkActive="active">Iniciar Sesión</a>
                 </li>
                 <li class="nav-item mt-13">
-                    <a class="nav-link" (click)="ngShow('signUp')" style="cursor: pointer;"
-                        routerLinkActive="active ">Registrarse</a>
+                    <a class="nav-link" (click)="ngShow('signUp')" style="cursor: pointer;" routerLinkActive="active ">Registrarse</a>
                 </li>
             </ng-container>
-            <ng-template #logOut>
+            <ng-template #signOut>
                 <li class="nav-item dropdown ml-50" *ngIf="authService.loggedIn()">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                         <cl-image [public-id]="authService.getUserImg()" class="mr-05">
@@ -54,7 +51,7 @@
                     </a>
                     <ul class="dropdown-menu fade-up">
                         <li>
-                            <a class="dropdown-item" style="cursor: pointer;" (click)="authService.logout()">Logout</a>
+                            <a class="dropdown-item" style="cursor: pointer;" (click)="authService.signOut()">signOut</a>
                         </li>
                     </ul>
                 </li>

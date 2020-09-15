@@ -15,12 +15,12 @@
         </div>
         <div class="flex-container">
             <div class="flex-item" *ngIf="!forgotPass">
-                <a class=" btn btn-outline-dark" href="/users/googleauth" role="button" style="text-transform:none">
+                <a (click)="signInWithFB()" class="btn btn-outline-dark" role="button" style="text-transform:none">
                     <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" /> Login with Google
                 </a>
             </div>
             <div class="flex-item" *ngIf="!forgotPass">
-                <a class="btn btn-outline-dark facebook" href="/users/googleauth" role="button" style="text-transform:none">
+                <a (click)="signInWithFB()" class="btn btn-outline-dark facebook" role="button" style="text-transform:none">
                     <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Facebook sign-in" src="https://upload.wikimedia.org/wikipedia/commons/4/4d/F_icon_reversed.svg" /> Login with Facebook
                 </a>
             </div>
@@ -56,6 +56,21 @@
                     </ng-template>
                 </form>
             </div>
+        </div>
+    </div>
+
+    <div *ngIf="user" class="card text-center">
+        <h6 class="card-header">
+            Social Login Demo
+        </h6>
+        <div class="card-block"></div>
+        <img class="card-img-top img-responsive photo" src="{{ user.photoUrl }}">
+        <div class="card-block">
+            <h4 class="card-title">{{ user.name }}</h4>
+            <p class="card-text">{{ user.email }}</p>
+        </div>
+        <div class="card-block">
+            <button class="btn btn-danger" (click)="signOut()">Sign out</button>
         </div>
     </div>
 </div>
