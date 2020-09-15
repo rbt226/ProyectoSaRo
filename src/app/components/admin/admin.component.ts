@@ -13,19 +13,8 @@ export class AdminComponent implements OnInit {
 		this.activeItem = [
 			{ label: 'Usuarios', icon: 'pi pi-fw pi-users ', routerLink: 'userstab' },
 			{ label: 'Consultorios', icon: 'pi pi-fw pi-home' },
-			{ label: 'Prestaciones', icon: 'pi pi-fw pi-check' },
+			{ label: 'Prestaciones', icon: 'pi pi-fw pi-check', routerLink: 'featurestab' },
 			{ label: 'Reservas', icon: 'pi pi-fw pi-calendar' },
 		];
 	}
 }
-
-// @Component({
-// 	selector: 'app-userstab',
-// 	template: `
-// 		<h3>Inline Message CSS</h3>
-// 		<p>p-message component is used to display inline messages mostly within forms.</p>
-// 	`,
-// })
-// export class UserstabComponent {
-
-// }

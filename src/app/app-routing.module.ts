@@ -67,6 +67,10 @@ const routes: Routes = [
 				path: 'userstab', // child route path
 				component: UserstabComponent, // child route component that the router renders
 			},
+			{
+				path: 'featurestab', // child route path
+				component: ListFeaturesComponent, // child route component that the router renders
+			},
 		],
 	},
 	{
