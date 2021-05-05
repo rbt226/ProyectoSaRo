@@ -37,7 +37,7 @@
     small {
         width: 100%;
         max-width: 300px;
-        @media #{$breakpoint-md} {
+        @media #{$breakpoint-web} {
             min-width: 350px;
         }
     }

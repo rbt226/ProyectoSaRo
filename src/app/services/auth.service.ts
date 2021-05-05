@@ -27,6 +27,12 @@ export class AuthService {
         return this.http.post<any>(this.URL + 'signIn', user);
     }
 
+    signInSocial(user) {
+        return this.http.post<any>(this.URL + 'signInSocial', user);
+    }
+
+
+
     login() {
         return this.http.get(this.URL + 'auth/google');
     }
@@ -34,6 +40,7 @@ export class AuthService {
     getUserName() {
         return localStorage.getItem('userName');
     }
+    
     getUserImg() {
         return localStorage.getItem('userImg');
     }

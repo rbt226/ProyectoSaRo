@@ -44,6 +44,7 @@ export class SignInComponent implements OnInit {
 			console.log("user", JSON.stringify(user));
 			this.user = user;
 			this.loggedIn = (user != null);
+
 		});
 	}
 
@@ -52,11 +53,14 @@ export class SignInComponent implements OnInit {
 	}
 
 	signInWithGoogle(): void {
-		this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+		this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then((userData) => {
+			//on success
+			//this will return user data from google. What you need is a user token which you will send it to the server
+			this.loginSocial(userData);
+		});
 	}
 
 	signInWithFB(): void {
-		debugger;
 		this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
 	}
 
@@ -78,6 +82,21 @@ export class SignInComponent implements OnInit {
 			this.login(data);
 		}
 
+	}
+
+	loginSocial(user) {
+		this.authService.signInSocial(user).subscribe((res) => {
+			this.spinnerService.hideSpinner();
+			if (Utils.isOkResponse(res)) {
+				this.usrService.setUserData(res.data.user_name, res.data.image_user);
+				localStorage.setItem('token', res.token);
+				this.router.navigate(['/']);
+				this.formSignIn.reset();
+				this.modalService.hideModal();
+			} else {
+				this.notification.showError(res.message);
+			}
+		});
 	}
 
 	login(data) {
