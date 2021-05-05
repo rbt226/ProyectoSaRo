@@ -7,9 +7,12 @@ const upload = require('../config/multer');
 var user = require('../controllers/user.controller');
 var client = require('../controllers/client.controller');
 
-
 /* POST - Sign Up*/
 router.post('/signUp', upload.single('file'), client.signUp);
+
+/* POST - Sign In Social*/
+
+router.post('/signInSocial', user.signInSocial);
 
 /* POST - Get a User By Email */
 router.post('/byEmail', user.getUserByEmail);
@@ -52,9 +55,9 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
         console.log('------------------SET TOKEN-------', req.user.dataValues.id_user);
 
         // const { returnTo } = JSON.parse(new Buffer(state, 'base64').toString());
-        const returnTo = "http://localhost:4200/";
+        const returnTo = 'http://localhost:4200/';
         if (typeof returnTo === 'string') {
-            res.data = jwt.sign({ _id: req.user.dataValues.id_user }, "secretKey");
+            res.data = jwt.sign({ _id: req.user.dataValues.id_user }, 'secretKey');
             console.log('------------------REQ-------', res.data);
             return res.redirect(returnTo);
         }

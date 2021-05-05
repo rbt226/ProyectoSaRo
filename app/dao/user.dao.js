@@ -42,6 +42,47 @@ exports.create = (userCreate, next, result) => {
         });
 };
 
+exports.create = (userCreate, next, result) => {
+    const response = 'U01';
+    const { email, user_name } = userCreate;
+    UserModel.findAll({
+            where: {
+                [UserModel.operator.or]: [{ email }, { user_name }],
+            },
+        })
+        .then((users) => {
+            if (users.length == 0) {
+                // Si no existe usuario, lo crea
+                UserModel.create(userCreate)
+                    .then((newUser) => {
+                        return result(Utils.createSuccessResponse(response, 'Se ha registrado el usuario correctamente', newUser.dataValues));
+                    })
+                    .catch((error) => {
+                        next(Utils.createErrorResponse(response, 'Error al registrar usuario', error));
+                    });
+            } else {
+                let data = {
+                    email: false,
+                    userName: false,
+                };
+                users.forEach((user) => {
+                    const { dataValues } = user;
+                    // Recorro todos los usuarios para verificar si lo que esta repetido es el email o el userName
+                    if (dataValues.user_name === user_name) {
+                        data.userName = true;
+                    }
+                    if (dataValues.email === email) {
+                        data.email = true;
+                    }
+                    return result(Utils.createWarningResponse(response, 'Error de validación al registrar usuario', data));
+                });
+            }
+        })
+        .catch((error) => {
+            next(Utils.createErrorResponse(response, 'Error al registrar usuario', error));
+        });
+};
+
 exports.getUserById = (id, next, result) => {
     const response = 'U02';
     UserModel.findOne({ where: { id_user: id } })
@@ -116,12 +157,11 @@ exports.signIn = (email, password, next, result) => {
     const response = 'U07';
     UserModel.findOne({ where: { email: email } })
         .then((us) => {
-            if (us && us.password === password) {
-                const user = createResponseUser(us);
-                result(Utils.createSuccessResponse(response, '', user));
-            } else {
-                result(Utils.createWarningResponse(response, 'Usuario o contraseña incorrecta'));
+            if (!us.validPassword(password)) {
+                return result(Utils.createWarningResponse(response, 'Usuario o contraseña incorrecta'));
             }
+            const user = createResponseUser(us);
+            result(Utils.createSuccessResponse(response, '', user));
         })
         .catch((error) => {
             next(Utils.createErrorResponse(response, 'Error iniciar sesion', error));
@@ -183,7 +223,7 @@ exports.getUserByEmail = (email, next, result) => {
 };
 
 exports.changePassword = (email, password, next, result) => {
-    const response = 'U11';
+    const response = 'U10';
     UserModel.update({ password }, { where: { email } })
         .then((user) => {
             if (user[0] == 0) {
@@ -193,6 +233,35 @@ exports.changePassword = (email, password, next, result) => {
         })
         .catch((error) => {
             return next(Utils.createErrorResponse(response, 'Error al actualizar usuario', error));
+        });
+};
+
+exports.signInSocial = (user, next, result) => {
+    const { email, provider_token, provider_id, provider } = user;
+    const response = 'U11';
+    UserModel.findOne({ where: { email } })
+        .then((us) => {
+            if (us) {
+                // Si existe el usuario con ese email
+                if (!us.validProvider(provider, provider_id, provider_token)) {
+                    return result(Utils.createWarningResponse(response, 'Usuario o contraseña incorrecta'));
+                } else {
+                    const user = createResponseUser(us);
+                    return result(Utils.createSuccessResponse(response, '', user));
+                }
+            } else {
+                UserModel.create(user)
+                    .then((newUser) => {
+                        const user = createResponseUser(newUser.dataValues);
+                        return result(Utils.createErrorResponse(response, '', user));
+                    })
+                    .catch((error) => {
+                        next(Utils.createErrorResponse(response, 'Error al hacer login', error));
+                    });
+            }
+        })
+        .catch((error) => {
+            next(Utils.createErrorResponse(response, 'Error iniciar sesion', error));
         });
 };
 
@@ -210,6 +279,7 @@ exports.updateImage = (id_user, image_user) => {
 
 createResponseUser = (user) => {
     return {
+        id_user: user.id_user,
         user_name: user.user_name,
         image_user: user.image_user,
         active_user: user.active_user,

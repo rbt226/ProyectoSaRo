@@ -1,4 +1,4 @@
-const clientDao = require('../dao/client.dao');
+const ClientDao = require('../dao/client.dao');
 const UserDao = require('../dao/user.dao');
 const Utils = require('../common/Utils');
 const cloudinary = require('../config/cloudinary');
@@ -6,7 +6,6 @@ const cloudinary = require('../config/cloudinary');
 exports.signUp = (req, res, next) => {
     const { file, body } = req;
     const { userName } = body;
-    console.log("userName-------", userName);
     const userCreate = createUserModel(body);
     UserDao.create(userCreate, next, (resp) => {
         if (Utils.isResponseOk(resp)) {
@@ -22,7 +21,7 @@ exports.signUp = (req, res, next) => {
 
 exports.getClientById = (req, res, next) => {
     const { id } = req.params;
-    clientDao.getClientById(id, next, (data) => {
+    ClientDao.getClientById(id, next, (data) => {
         res.send(data);
     });
 };
@@ -30,39 +29,39 @@ exports.getClientById = (req, res, next) => {
 exports.updateById = (req, res, next) => {
     const { id } = req.params;
     const clientCreate = createClientModel(req.body);
-    clientDao.updateById(id, clientCreate, next, (data) => {
+    ClientDao.updateById(id, clientCreate, next, (data) => {
         res.send(data);
     });
 };
 
 exports.deleteById = (req, res, next) => {
     const { id } = req.params;
-    clientDao.deleteById(id, next, (data) => {
+    ClientDao.deleteById(id, next, (data) => {
         res.send(data);
     });
 };
 
 exports.getAll = (req, res, next) => {
-    clientDao.getAll(next, (data) => {
+    ClientDao.getAll(next, (data) => {
         res.send(data);
     });
 };
 
 exports.deleteAll = (req, res, next) => {
-    clientDao.deleteAll(next, (data) => {
+    ClientDao.deleteAll(next, (data) => {
         res.send(data);
     });
 };
 
 exports.deleteByUserId = (req, res, next) => {
     const { id } = req.params;
-    clientDao.deleteByUserId(id, next, (data) => {
+    ClientDao.deleteByUserId(id, next, (data) => {
         res.send(data);
     });
 };
 
 createClientSignUp = (clientCreate, user_name, next, file, res) => {
-    clientDao.create(clientCreate, next, async(data) => {
+    ClientDao.create(clientCreate, next, async(data) => {
         const { path } = file;
         if (path) {
             await cloudinary.uploads(path, 'img', 'Usuarios', user_name);

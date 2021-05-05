@@ -24,6 +24,13 @@ exports.isResponseOk = (data) => {
     return true;
 };
 
+exports.isError = (data) => {
+    if (data.code.indexOf('E') !== -1) {
+        return false; // Si el codigo contiene un error
+    }
+    return true;
+};
+
 exports.handleError = (err, result, errorType) => {
     let error = err;
     if (err instanceof Sequelize.UniqueConstraintError) {
