@@ -35,7 +35,7 @@ import { ListFeaturesComponent } from './components/feature/list-features/list-f
 import { PickListModule } from 'primeng/picklist';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { AdminComponent } from './components/admin/admin.component';
-import { UserstabComponent } from './components/admin/userstab/userstab.component';
+import { UserstabComponent } from './components/user/userstab/userstab.component';
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import {
 	GoogleLoginProvider,

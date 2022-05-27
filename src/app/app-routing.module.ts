@@ -13,7 +13,7 @@ import { CreateRoomComponent } from './components/room/create-room/create-room.c
 import { ContactComponent } from './components/contact/contact.component';
 import { ListFeaturesComponent } from './components/feature/list-features/list-features.component';
 import { AdminComponent } from './components/admin/admin.component';
-import { UserstabComponent } from './components/admin/userstab/userstab.component';
+import { UserstabComponent } from './components/user/userstab/userstab.component';
 
 const routes: Routes = [
 	{
